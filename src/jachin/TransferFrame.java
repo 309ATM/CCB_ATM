@@ -10,10 +10,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 public class TransferFrame {
 
 	private JFrame frameTransfer;
+	private JTextField textField_money;
 
 	/**
 	 * Launch the application.
@@ -47,7 +49,7 @@ public class TransferFrame {
 		frameTransfer.setIconImage(
 				Toolkit.getDefaultToolkit().getImage("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\CCB.png"));
 		frameTransfer.setResizable(false);
-		frameTransfer.setBounds(100, 100, 1095, 750);
+		frameTransfer.setBounds(360, 150, 1095, 750);
 		frameTransfer.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frameTransfer.getContentPane().setLayout(null);
 
@@ -61,11 +63,32 @@ public class TransferFrame {
 		button_1.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 18));
 		button_1.setBounds(875, 550, 200, 80);
 		frameTransfer.getContentPane().add(button_1);
+		
+		textField_money = new JTextField();
+		textField_money.setFont(new Font("Î¢ÈíÑÅºÚ Light", Font.PLAIN, 40));
+		textField_money.setBounds(282, 335, 451, 53);
+		frameTransfer.getContentPane().add(textField_money);
+		textField_money.setColumns(10);
 
+		JButton button = new JButton("");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				TransferMoney();
+			}
+		});
+		button.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\btn_confirm.png"));
+		button.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 18));
+		button.setBounds(14, 550, 200, 80);
+		frameTransfer.getContentPane().add(button);
+		
 		JLabel lblBg = new JLabel("");
 		lblBg.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\ATM_bg.png"));
-		lblBg.setBounds(3, 0, 1086, 715);
+		lblBg.setBounds(0, 0, 1086, 715);
 		frameTransfer.getContentPane().add(lblBg);
+	}
+	
+	public void TransferMoney(){
+		
 	}
 	
 	public void Back(){

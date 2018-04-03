@@ -20,10 +20,6 @@ public class ATM {
 	private JFrame frmatm;
 	 private JPanel panelMain;
 	 private JPanel panelTake;
-	 private JPanel panelSave;
-	 private JPanel panelTransfor;
-	 private JPanel panelQuery;
-	 private JPanel panelHistory;
 
 	/**
 	 * Launch the application.

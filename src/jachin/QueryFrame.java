@@ -47,7 +47,7 @@ public class QueryFrame {
 		frameQuery.setIconImage(
 				Toolkit.getDefaultToolkit().getImage("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\CCB.png"));
 		frameQuery.setResizable(false);
-		frameQuery.setBounds(100, 100, 1095, 750);
+		frameQuery.setBounds(360, 150, 1095, 750);
 		frameQuery.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frameQuery.getContentPane().setLayout(null);
 
