@@ -48,7 +48,7 @@ public class MainFrame {
 	private void initialize() {
 		frameMain = new JFrame();
 		frameMain.setTitle("\u5EFA\u8BBE\u94F6\u884CATM");
-		frameMain.setIconImage(Toolkit.getDefaultToolkit().getImage("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\CCB.png"));
+		frameMain.setIconImage(Toolkit.getDefaultToolkit().getImage(".\\img\\CCB.png"));
 		frameMain.setResizable(false);
 		frameMain.setBounds(360, 150, 1095, 750);
 		frameMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -61,7 +61,7 @@ public class MainFrame {
 				ToTake();
 			}
 		});
-		btnQu.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\btn_qu.png"));
+		btnQu.setIcon(new ImageIcon(".\\img\\btn_qu.png"));
 		btnQu.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 18));
 		btnQu.setBounds(10, 250, 200, 80);
 		frameMain.getContentPane().add(btnQu);
@@ -72,7 +72,7 @@ public class MainFrame {
 				ToSave();
 			}
 		});
-		btnSave.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\btn_save.png"));
+		btnSave.setIcon(new ImageIcon(".\\img\\btn_save.png"));
 		btnSave.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 18));
 		btnSave.setBounds(10, 400, 200, 80);
 		frameMain.getContentPane().add(btnSave);
@@ -83,7 +83,7 @@ public class MainFrame {
 				ToTransfer();
 			}
 		});
-		btnZhuan.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\btn_zhuan.png"));
+		btnZhuan.setIcon(new ImageIcon(".\\img\\btn_zhuan.png"));
 		btnZhuan.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 18));
 		btnZhuan.setBounds(10, 550, 200, 80);
 		frameMain.getContentPane().add(btnZhuan);
@@ -94,7 +94,7 @@ public class MainFrame {
 				ToQuery();
 			}
 		});
-		button.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\btn_query.png"));
+		button.setIcon(new ImageIcon(".\\img\\btn_query.png"));
 		button.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 18));
 		button.setBounds(875, 250, 200, 80);
 		frameMain.getContentPane().add(button);
@@ -105,7 +105,7 @@ public class MainFrame {
 				ToHistory();
 			}
 		});
-		button_1.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\btn_history.png"));
+		button_1.setIcon(new ImageIcon(".\\img\\btn_history.png"));
 		button_1.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 18));
 		button_1.setBounds(875, 400, 200, 80);
 		frameMain.getContentPane().add(button_1);
@@ -116,13 +116,13 @@ public class MainFrame {
 				Exit();
 			}
 		});
-		button_2.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\btnExit.png"));
+		button_2.setIcon(new ImageIcon(".\\img\\btnExit.png"));
 		button_2.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 18));
 		button_2.setBounds(875, 550, 200, 80);
 		frameMain.getContentPane().add(button_2);
 		
 		JLabel lblBg = new JLabel("");
-		lblBg.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\ATM_bg.png"));
+		lblBg.setIcon(new ImageIcon(".\\img\\ATM_bg.png"));
 		lblBg.setBounds(3, 0, 1086, 715);
 		frameMain.getContentPane().add(lblBg);
 	}

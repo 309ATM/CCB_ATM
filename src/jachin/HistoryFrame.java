@@ -45,7 +45,7 @@ public class HistoryFrame {
 		frameHistory = new JFrame();
 		frameHistory.setTitle("\u5EFA\u8BBE\u94F6\u884CATM");
 		frameHistory.setIconImage(
-				Toolkit.getDefaultToolkit().getImage("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\CCB.png"));
+				Toolkit.getDefaultToolkit().getImage(".\\img\\CCB.png"));
 		frameHistory.setResizable(false);
 		frameHistory.setBounds(360, 150, 1095, 750);
 		frameHistory.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -57,13 +57,13 @@ public class HistoryFrame {
 				Back();
 			}
 		});
-		button_1.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\btnExit.png"));
+		button_1.setIcon(new ImageIcon(".\\img\\btnExit.png"));
 		button_1.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 18));
 		button_1.setBounds(875, 550, 200, 80);
 		frameHistory.add(button_1);
 		
 		JLabel lblBg = new JLabel("");
-		lblBg.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\ATM_bg.png"));
+		lblBg.setIcon(new ImageIcon(".\\img\\ATM_bg.png"));
 		lblBg.setBounds(3, 0, 1086, 715);
 		frameHistory.add(lblBg);
 	}

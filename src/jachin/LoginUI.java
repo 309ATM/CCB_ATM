@@ -31,7 +31,7 @@ public class LoginUI {
 	private JTextField textAdminPswd;
 	private JButton buttonLogin;
 	private JLabel labelMainBG;
-	private String File = "E:\\Code\\java\\Eclipse-ATM\\CCB_ATM";
+	private String File = ".";
 	private JTabbedPane tabbedPane;
 	private JPanel panelUser;
 	private JPanel panelAdmin;

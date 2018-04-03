@@ -51,7 +51,7 @@ public class ATM {
 	public void initialize() {
 		frmatm = new JFrame();
 		frmatm.setTitle("\u5EFA\u8BBE\u94F6\u884CATM");
-		frmatm.setIconImage(Toolkit.getDefaultToolkit().getImage("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\CCB.png"));
+		frmatm.setIconImage(Toolkit.getDefaultToolkit().getImage(".\\img\\CCB.png"));
 		frmatm.setResizable(false);
 		frmatm.setBounds(100, 100, 1095, 750);
 		frmatm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -69,37 +69,37 @@ public class ATM {
 				ToTake();
 			}
 		});
-		btnQu.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\btn_qu.png"));
+		btnQu.setIcon(new ImageIcon(".\\img\\btn_qu.png"));
 		btnQu.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 18));
 		btnQu.setBounds(10, 350, 200, 80);
 		panelMain.add(btnQu);
 
 		JButton btnSave = new JButton("");
-		btnSave.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\btn_save.png"));
+		btnSave.setIcon(new ImageIcon(".\\img\\btn_save.png"));
 		btnSave.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 18));
 		btnSave.setBounds(10, 500, 200, 80);
 		panelMain.add(btnSave);
 
 		JButton btnZhuan = new JButton("");
-		btnZhuan.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\btn_zhuan.png"));
+		btnZhuan.setIcon(new ImageIcon(".\\img\\btn_zhuan.png"));
 		btnZhuan.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 18));
 		btnZhuan.setBounds(875, 250, 200, 80);
 		panelMain.add(btnZhuan);
 
 		JButton button = new JButton("");
-		button.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\btn_query.png"));
+		button.setIcon(new ImageIcon(".\\img\\btn_query.png"));
 		button.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 18));
 		button.setBounds(875, 400, 200, 80);
 		panelMain.add(button);
 
 		JButton button_1 = new JButton("");
-		button_1.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\btn_history.png"));
+		button_1.setIcon(new ImageIcon(".\\img\\btn_history.png"));
 		button_1.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 18));
 		button_1.setBounds(875, 550, 200, 80);
 		panelMain.add(button_1);
 		
 		JLabel lblBg = new JLabel("");
-		lblBg.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\ATM_bg.png"));
+		lblBg.setIcon(new ImageIcon(".\\img\\ATM_bg.png"));
 		lblBg.setBounds(3, 0, 1086, 715);
 		panelMain.add(lblBg);
 
@@ -132,7 +132,7 @@ public class ATM {
 		
 		JLabel lblBg2 = new JLabel("");
 		lblBg2.setBounds(3, 0, 1086, 716);
-		lblBg2.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\ATM_bg.png"));
+		lblBg2.setIcon(new ImageIcon(".\\img\\ATM_bg.png"));
 		panelTake.add(lblBg2);
 
 		

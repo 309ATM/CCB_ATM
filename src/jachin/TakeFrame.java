@@ -46,7 +46,7 @@ public class TakeFrame {
 	 */
 	private void initialize() {
 		frameTake = new JFrame();
-		frameTake.setIconImage(Toolkit.getDefaultToolkit().getImage("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\CCB.png"));
+		frameTake.setIconImage(Toolkit.getDefaultToolkit().getImage(".\\img\\CCB.png"));
 		frameTake.setTitle("中国建设银行ATM");
 		frameTake.setResizable(false);
 		frameTake.setBounds(360, 150, 1095, 750);
@@ -59,7 +59,7 @@ public class TakeFrame {
 				withdrawal("100");
 			}
 		});
-		btnFlash.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\btn_100.png"));
+		btnFlash.setIcon(new ImageIcon(".\\img\\btn_100.png"));
 		btnFlash.setBounds(14, 250, 200, 80);
 		frameTake.getContentPane().add(btnFlash);
 
@@ -69,12 +69,12 @@ public class TakeFrame {
 				withdrawal("300");
 			}
 		});
-		btnStable.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\btn_300.png"));
+		btnStable.setIcon(new ImageIcon(".\\img\\btn_300.png"));
 		btnStable.setBounds(14, 402, 200, 80);
 		frameTake.getContentPane().add(btnStable);
 
 		JButton btnTou = new JButton("");
-		btnTou.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\btn_500.png"));
+		btnTou.setIcon(new ImageIcon(".\\img\\btn_500.png"));
 		btnTou.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				withdrawal("500");
@@ -84,7 +84,7 @@ public class TakeFrame {
 		frameTake.getContentPane().add(btnTou);
 
 		JButton btnBack = new JButton("");
-		btnBack.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\btnExit.png"));
+		btnBack.setIcon(new ImageIcon(".\\img\\btnExit.png"));
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Back();
@@ -99,7 +99,7 @@ public class TakeFrame {
 				withdrawal("1000");
 			}
 		});
-		button.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\btn_1000.png"));
+		button.setIcon(new ImageIcon(".\\img\\btn_1000.png"));
 		button.setBounds(875, 250, 200, 80);
 		frameTake.getContentPane().add(button);
 		
@@ -109,13 +109,13 @@ public class TakeFrame {
 				withdrawal("2000");
 			}
 		});
-		button_1.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\btn_2000.png"));
+		button_1.setIcon(new ImageIcon(".\\img\\btn_2000.png"));
 		button_1.setBounds(875, 402, 200, 80);
 		frameTake.getContentPane().add(button_1);
 
 		JLabel lblBg2 = new JLabel("");
 		lblBg2.setBounds(3, 0, 1086, 716);
-		lblBg2.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\ATM_bg.png"));
+		lblBg2.setIcon(new ImageIcon(".\\img\\ATM_bg.png"));
 		frameTake.getContentPane().add(lblBg2);
 
 	}

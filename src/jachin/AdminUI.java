@@ -29,7 +29,7 @@ public class AdminUI {
 	private JTextField textField_idcard;
 	private JTextField textField_carNum;
 	private JTextField textField_phone;
-	private String File = "E:\\Code\\java\\CCB_ATM";
+	private String File = ".";
 	private JTextField textField_lock;
 	private JTextField textField_loss;
 	private JTextField textField_yue;

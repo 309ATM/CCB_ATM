@@ -47,7 +47,7 @@ public class TransferFrame {
 		frameTransfer = new JFrame();
 		frameTransfer.setTitle("\u5EFA\u8BBE\u94F6\u884CATM");
 		frameTransfer.setIconImage(
-				Toolkit.getDefaultToolkit().getImage("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\CCB.png"));
+				Toolkit.getDefaultToolkit().getImage(".\\img\\CCB.png"));
 		frameTransfer.setResizable(false);
 		frameTransfer.setBounds(360, 150, 1095, 750);
 		frameTransfer.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -59,7 +59,7 @@ public class TransferFrame {
 				Back();
 			}
 		});
-		button_1.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\btnExit.png"));
+		button_1.setIcon(new ImageIcon(".\\img\\btnExit.png"));
 		button_1.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 18));
 		button_1.setBounds(875, 550, 200, 80);
 		frameTransfer.getContentPane().add(button_1);
@@ -76,13 +76,13 @@ public class TransferFrame {
 				TransferMoney();
 			}
 		});
-		button.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\btn_confirm.png"));
+		button.setIcon(new ImageIcon(".\\img\\btn_confirm.png"));
 		button.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 18));
 		button.setBounds(14, 550, 200, 80);
 		frameTransfer.getContentPane().add(button);
 		
 		JLabel lblBg = new JLabel("");
-		lblBg.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\ATM_bg.png"));
+		lblBg.setIcon(new ImageIcon(".\\img\\ATM_bg.png"));
 		lblBg.setBounds(0, 0, 1086, 715);
 		frameTransfer.getContentPane().add(lblBg);
 	}
