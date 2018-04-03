@@ -29,7 +29,7 @@ public class AdminUI {
 	private JTextField textField_idcard;
 	private JTextField textField_carNum;
 	private JTextField textField_phone;
-	private String File = "E:\\Code\\java\\Eclipse-ATM\\CCB_ATM";
+	private String File = "E:\\Code\\java\\CCB_ATM";
 	private JTextField textField_lock;
 	private JTextField textField_loss;
 	private JTextField textField_yue;
@@ -260,7 +260,7 @@ public class AdminUI {
 		panel_Loss.add(btn_loss);
 
 		JLabel label_1 = new JLabel("");
-		label_1.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\bg.jpg"));
+		label_1.setIcon(new ImageIcon(File + "\\img\\bg.jpg"));
 		label_1.setBounds(0, 0, 1065, 502);
 		panel_Loss.add(label_1);
 
@@ -290,7 +290,7 @@ public class AdminUI {
 		panel_lock.add(btn_lock);
 
 		JLabel label = new JLabel("");
-		label.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\bg.jpg"));
+		label.setIcon(new ImageIcon(File + "\\img\\bg.jpg"));
 		label.setBounds(0, 0, 1065, 502);
 		panel_lock.add(label);
 
@@ -299,7 +299,7 @@ public class AdminUI {
 		panel_queryHistory.setLayout(null);
 
 		JLabel label_3 = new JLabel("");
-		label_3.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\bg.jpg"));
+		label_3.setIcon(new ImageIcon(File + "\\img\\bg.jpg"));
 		label_3.setBounds(0, 0, 1068, 504);
 		panel_queryHistory.add(label_3);
 
@@ -327,7 +327,7 @@ public class AdminUI {
 		panel_changePasswd.add(btn_yue);
 
 		JLabel label_4 = new JLabel("");
-		label_4.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\bg.jpg"));
+		label_4.setIcon(new ImageIcon(File + "\\img\\bg.jpg"));
 		label_4.setBounds(0, 0, 1068, 504);
 		panel_changePasswd.add(label_4);
 	}
