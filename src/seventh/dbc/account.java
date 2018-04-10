@@ -1,6 +1,6 @@
 package seventh.dbc;
 
-
+import javax.persistence.criteria.CriteriaQuery;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -22,6 +22,8 @@ public class account {
 	private String bank;
 	private float balance;
 	private float overdraft;
+	private float depositLimit;
+	private float withdrawalsLimit;
 	
 
 	public long getCardnum() {
@@ -74,14 +76,28 @@ public class account {
 		this.overdraft = overdraft;
 	}
 	
+	public float getDepositLimit() {
+		return depositLimit;
+	}
+	public void setDepositLimit(float depositLimit) {
+		this.depositLimit = depositLimit;
+	}
+	public float getWithdrawalsLimit() {
+		return withdrawalsLimit;
+	}
+	public void setWithdrawalsLimit(float withdrawalsLimit) {
+		this.withdrawalsLimit = withdrawalsLimit;
+	}
+	
+	
 	
 	@Override
 	public String toString() {
 		return "account [cardnum=" + cardnum + ", id=" + id + ", passwd=" + passwd + ", stat=" + stat + ", accType="
-				+ accType + ", bank=" + bank + ", balance=" + balance + ", overdraft=" + overdraft + "]";
+				+ accType + ", bank=" + bank + ", balance=" + balance + ", overdraft=" + overdraft + ", depositLimit="
+				+ depositLimit + ", withdrawalsLimit=" + withdrawalsLimit + "]";
 	}
-	
-	
+	@Test
 	public boolean checkPawd(long card,long pawd){
 		//验证卡号密码匹配
 		Session session = HibernateUtils.getCurrentSession();
@@ -89,12 +105,10 @@ public class account {
 		
 		//String card = "656885452136697452";
 		//long pawd = 123456L;
-		String stcard = String.valueOf(card);
-		String stpasswd = String.valueOf(pawd);
 		String hql = "from account a where cardnum = ? and passwd = ?";
 		Query query = session.createQuery(hql);
-		query.setParameter(0, stcard);
-		query.setParameter(1, stpasswd);
+		query.setParameter(0, card);
+		query.setParameter(1, pawd);
 		java.util.List<account> list = query.list();
 		for(account a : list){
 			System.out.println(a.getCardnum()+":"+a.getPasswd());
@@ -134,13 +148,12 @@ public class account {
 	public boolean banks(long Card){
 		//判断所属银行
 	    //String Card = "656885452136697452";
-				 String stcard = String.valueOf(Card);
 				 Session session = HibernateUtils.getCurrentSession();
 				 Transaction tr = session.beginTransaction();
 				 String BANK = "";
 				 String hql = "from account a where cardnum = ?";
 				 Query query = session.createQuery(hql);
-				 query.setParameter(0, stcard);
+				 query.setParameter(0, Card);
 				 java.util.List<account> list = query.list();
 				 for(account a : list){
 					BANK = a.getBank();
@@ -161,54 +174,4 @@ public class account {
 		//return bank;
 	}
 	
-//	private long cardnum;
-//	private int id;
-//	private long passwd;
-//	private String stat;
-//	private String accType;
-//	private String bank;
-//	private float balance;
-//	private float overdraft;
-	//插入数据
-	public boolean inserMess(long CARDNUM,int ID,long PASSWD,String STAT,String ACCTYPE,String BANK,float BALANCE,float OVERDRAFT){
-		Session session = HibernateUtils.getCurrentSession();
-		Transaction tr = session.beginTransaction();
-		account a = new account();
-		a.setCardnum(CARDNUM);
-		a.setId(ID);
-		a.setPasswd(PASSWD);
-		a.setStat(STAT);
-		a.setAccType(ACCTYPE);
-		a.setBank(BANK);
-		a.setBalance(BALANCE);
-		a.setOverdraft(OVERDRAFT);
-		session.save(a);
-		tr.commit();
-		return true;
-	}
-	
-	//设置用户状态为"销户"
-	@Test
-	public boolean setcloseAc(long CARDNUM){
-		//long CARDNUM = 656885452136697452L;
-		String sr = String.valueOf(CARDNUM);
-		Session session = HibernateUtils.getCurrentSession();
-		Transaction tr = session.beginTransaction();
-		//account a = (account)session.get(account.class,CARDNUM);
-		String hql = "update account a set a.stat = ? where a.cardnum = ?";
-		Query query = session.createQuery(hql);
-		query.setParameter(0, "销户");
-		query.setParameter(1, sr);
-		int n = query.executeUpdate();
-		tr.commit();
-		
-		if(n != 0){
-			return true;
-		}else{
-			return false;
-		}
-		
-		
-		
-	}
 }
