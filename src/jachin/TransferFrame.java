@@ -1,4 +1,4 @@
-package seventh.user;
+package jachin;
 
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -15,7 +16,6 @@ public class TransferFrame {
 
 	private JFrame frameTransfer;
 	private JTextField textField_money;
-	// private MainFrame mainFrame = new MainFrame();
 
 	/**
 	 * Launch the application.
@@ -40,10 +40,6 @@ public class TransferFrame {
 		initialize();
 	}
 
-	public JFrame getFrameTransfer() {
-		return frameTransfer;
-	}
-
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -57,47 +53,47 @@ public class TransferFrame {
 		frameTransfer.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frameTransfer.getContentPane().setLayout(null);
 
-		ATMButton btn_exit = new ATMButton("<html><center>ÍË³ö<br>Confirm</center></html>");
-		btn_exit.addActionListener(new Back());
-		btn_exit.setBounds(875, 550, 200, 80);
-		frameTransfer.getContentPane().add(btn_exit);
-
+		JButton button_1 = new JButton("");
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Back();
+			}
+		});
+		button_1.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\btnExit.png"));
+		button_1.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 18));
+		button_1.setBounds(875, 550, 200, 80);
+		frameTransfer.getContentPane().add(button_1);
+		
 		textField_money = new JTextField();
 		textField_money.setFont(new Font("Î¢ÈíÑÅºÚ Light", Font.PLAIN, 40));
-		textField_money.setBounds(300, 335, 451, 53);
+		textField_money.setBounds(282, 335, 451, 53);
 		frameTransfer.getContentPane().add(textField_money);
 		textField_money.setColumns(10);
 
-		ATMButton button = new ATMButton("<html><center>×ªÕË<br>Transfer</center></html>");
-		button.addActionListener(new TransferMoney());
+		JButton button = new JButton("");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				TransferMoney();
+			}
+		});
+		button.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\btn_confirm.png"));
+		button.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 18));
 		button.setBounds(14, 550, 200, 80);
 		frameTransfer.getContentPane().add(button);
-
+		
 		JLabel lblBg = new JLabel("");
-		lblBg.setIcon(new ImageIcon("E:\\Code\\java\\CCB_ATM\\img\\ATM_bg.png"));
-		lblBg.setBounds(3, 0, 1086, 715);
+		lblBg.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\ATM_bg.png"));
+		lblBg.setBounds(0, 0, 1086, 715);
 		frameTransfer.getContentPane().add(lblBg);
 	}
-
-	class TransferMoney implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO ×ªÕË²Ù×÷
-
-		}
-
+	
+	public void TransferMoney(){
+		
 	}
-
-	class Back implements ActionListener {
-		
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			MainFrame.frameMain.setVisible(true);
-			frameTransfer.dispose();
-
-		}
-		
+	
+	public void Back(){
+		MainFrame.main(null);
+		frameTransfer.dispose();
 	}
 
 }
