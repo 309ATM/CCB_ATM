@@ -18,10 +18,16 @@ import javax.swing.UIManager;
 
 import seventh.accout.BlankAccout;
 
+/**
+ * ´æ¿î
+ *
+ */
 public class SaveFrame {
 
 	private JFrame frameSave;
 	private JTextField textField_money;
+	private String File = "E:\\Code\\java\\CCB_ATM";
+	// private String File = ".";
 
 	public JFrame getFrameSave() {
 		return frameSave;
@@ -58,7 +64,7 @@ public class SaveFrame {
 		frameSave = new JFrame();
 		frameSave.setTitle("\u5EFA\u8BBE\u94F6\u884CATM");
 		frameSave.setIconImage(
-				Toolkit.getDefaultToolkit().getImage("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\CCB.png"));
+				Toolkit.getDefaultToolkit().getImage(File + "\\img\\CCB.png"));
 		frameSave.setResizable(false);
 		frameSave.setBounds(360, 150, 1095, 750);
 		frameSave.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -89,7 +95,7 @@ public class SaveFrame {
 
 		JLabel lblBg = new JLabel("");
 		lblBg.setFont(new Font("Î¢ÈíÑÅºÚ Light", Font.PLAIN, 36));
-		lblBg.setIcon(new ImageIcon("E:\\Code\\java\\CCB_ATM\\img\\ATM_bg.png"));
+		lblBg.setIcon(new ImageIcon(File + "\\img\\ATM_bg.png"));
 		lblBg.setBounds(3, 0, 1086, 715);
 		frameSave.getContentPane().add(lblBg);
 	}

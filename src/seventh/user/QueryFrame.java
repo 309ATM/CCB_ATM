@@ -11,9 +11,15 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.Color;
 
+/**
+ * ≤È—Ø”‡∂Ó
+ *
+ */
 public class QueryFrame {
 
 	private JFrame frameQuery;
+	private String File = "E:\\Code\\java\\CCB_ATM";
+	// private String File = ".";
 
 	/**
 	 * Launch the application.
@@ -47,7 +53,7 @@ public class QueryFrame {
 	private void initialize() {
 		frameQuery = new JFrame();
 		frameQuery.setTitle("\u5EFA\u8BBE\u94F6\u884CATM");
-		frameQuery.setIconImage(Toolkit.getDefaultToolkit().getImage("E:\\Code\\java\\CCB_ATM\\img\\CCB.png"));
+		frameQuery.setIconImage(Toolkit.getDefaultToolkit().getImage(File + "\\img\\CCB.png"));
 		frameQuery.setResizable(false);
 		frameQuery.setBounds(360, 150, 1095, 750);
 		frameQuery.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -65,7 +71,7 @@ public class QueryFrame {
 		frameQuery.getContentPane().add(label);
 
 		JLabel lblBg = new JLabel("");
-		lblBg.setIcon(new ImageIcon("E:\\Code\\java\\CCB_ATM\\img\\ATM_bg.png"));
+		lblBg.setIcon(new ImageIcon(File + "\\img\\ATM_bg.png"));
 		lblBg.setBounds(3, 0, 1086, 715);
 		frameQuery.getContentPane().add(lblBg);
 	}
