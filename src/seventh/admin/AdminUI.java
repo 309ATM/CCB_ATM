@@ -34,11 +34,14 @@ public class AdminUI {
 	private JTextField textField_idcard;
 	private JTextField textField_carNum;
 	private JTextField textField_phone;
-	private String File = "E:\\Code\\java\\Eclipse-ATM\\CCB_ATM";
 	private JTextField textField_lock;
 	private JTextField textField_loss;
 	private JTextField textField_yue;
 	private JTextArea textArea_address;
+<<<<<<< HEAD:src/seventh/admin/AdminUI.java
+=======
+	private String File = "E:\\Code\\java\\Eclipse-ATM\\CCB_ATM";
+>>>>>>> Jachin:src/seventh/admin/AdminUI.java
 	// private String File = ".";
 
 	/**

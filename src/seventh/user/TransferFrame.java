@@ -11,11 +11,20 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+/**
+ * в╙ук
+ *
+ */
 public class TransferFrame {
 
 	private JFrame frameTransfer;
 	private JTextField textField_money;
 	// private MainFrame mainFrame = new MainFrame();
+<<<<<<< HEAD:src/seventh/user/TransferFrame.java
+=======
+	private String File = "E:\\Code\\java\\CCB_ATM";
+	// private String File = ".";
+>>>>>>> Jachin:src/seventh/user/TransferFrame.java
 
 	/**
 	 * Launch the application.
@@ -51,7 +60,7 @@ public class TransferFrame {
 		frameTransfer = new JFrame();
 		frameTransfer.setTitle("\u5EFA\u8BBE\u94F6\u884CATM");
 		frameTransfer.setIconImage(
-				Toolkit.getDefaultToolkit().getImage("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\CCB.png"));
+				Toolkit.getDefaultToolkit().getImage(File + "\\img\\CCB.png"));
 		frameTransfer.setResizable(false);
 		frameTransfer.setBounds(360, 150, 1095, 750);
 		frameTransfer.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -74,7 +83,11 @@ public class TransferFrame {
 		frameTransfer.getContentPane().add(button);
 
 		JLabel lblBg = new JLabel("");
+<<<<<<< HEAD:src/seventh/user/TransferFrame.java
 		lblBg.setIcon(new ImageIcon("E:\\Code\\java\\CCB_ATM\\img\\ATM_bg.png"));
+=======
+		lblBg.setIcon(new ImageIcon(File + "\\img\\ATM_bg.png"));
+>>>>>>> Jachin:src/seventh/user/TransferFrame.java
 		lblBg.setBounds(3, 0, 1086, 715);
 		frameTransfer.getContentPane().add(lblBg);
 	}

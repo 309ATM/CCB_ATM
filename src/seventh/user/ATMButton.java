@@ -13,12 +13,21 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
 import javax.swing.JButton;
+<<<<<<< HEAD
 import javax.swing.JFrame;
 
+=======
+
+/**
+ * 自定义Button类
+ *
+ */
+>>>>>>> Jachin
 @SuppressWarnings("serial")
 public class ATMButton extends JButton {
 	/* 决定圆角的弧度 */
 	public static int radius = 30;
+<<<<<<< HEAD
 	public static Color COLOR1, COLOR2;
 	public static int pink = 3, ashen = 2, sky = 1, stone = 0;
 	/* 粉红 */
@@ -62,6 +71,17 @@ public class ATMButton extends JButton {
 			COLOR1 = sky1;
 			COLOR2 = sky2;
 		}
+=======
+	/* 灰白 */
+	public static Color COLOR1 = new Color(250, 250, 250);
+	public static Color COLOR2 = new Color(197, 197, 197);
+
+	/* 光标进入按钮判断 */
+	private boolean hover;
+
+	public ATMButton(String name) {
+		super.setText(name);
+>>>>>>> Jachin
 		paintcolor(COLOR1, COLOR2);
 	}
 
@@ -123,6 +143,7 @@ public class ATMButton extends JButton {
 		g2d.dispose();
 		super.paintComponent(g);
 	}
+<<<<<<< HEAD
 
 	public static void main(String args[]) {
 		JFrame frm = new JFrame();
@@ -134,4 +155,6 @@ public class ATMButton extends JButton {
 		frm.setDefaultCloseOperation(3);
 		frm.setVisible(true);
 	}
+=======
+>>>>>>> Jachin
 }

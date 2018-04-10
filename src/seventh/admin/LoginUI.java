@@ -28,7 +28,11 @@ public class LoginUI {
 	private JTextField textAdminPswd;
 	private JButton buttonLogin;
 	private JLabel labelMainBG;
+<<<<<<< HEAD:src/seventh/admin/LoginUI.java
 	private String File = "E:\\Code\\java\\Eclipse-ATM\\CCB_ATM";
+=======
+	private String File = "E:\\Code\\java\\CCB_ATM";
+>>>>>>> Jachin:src/seventh/admin/LoginUI.java
 	// private String File = ".";
 
 	/**

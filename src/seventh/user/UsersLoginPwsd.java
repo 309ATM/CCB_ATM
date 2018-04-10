@@ -16,19 +16,34 @@ import seventh.accout.BlankAccout;
 
 import java.awt.Color;
 
+<<<<<<< HEAD
+=======
+/**
+ * 用户输入密码
+ *
+ */
+>>>>>>> Jachin
 public class UsersLoginPwsd {
 
 	private JFrame frameUserLoginPwsd;
 	private JPasswordField textUserPswd;
 	public static String CardNumber; // TODO 单例模式获取卡号
+<<<<<<< HEAD
+=======
+	private String File = "E:\\Code\\java\\CCB_ATM";
+	// private String File = ".";
+>>>>>>> Jachin
 
 	public JFrame getFrameUserLoginPwsd() {
 		return frameUserLoginPwsd;
 	}
 
+<<<<<<< HEAD
 	/**
 	 * Launch the application.
 	 */
+=======
+>>>>>>> Jachin
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -42,19 +57,28 @@ public class UsersLoginPwsd {
 		});
 	}
 
+<<<<<<< HEAD
 	/**
 	 * Create the application.
 	 */
+=======
+>>>>>>> Jachin
 	public UsersLoginPwsd() {
 		initialize();
 	}
 
+<<<<<<< HEAD
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
 		frameUserLoginPwsd = new JFrame();
 		frameUserLoginPwsd.setIconImage(Toolkit.getDefaultToolkit().getImage("E:\\Code\\java\\CCB_ATM\\img\\CCB.png"));
+=======
+	private void initialize() {
+		frameUserLoginPwsd = new JFrame();
+		frameUserLoginPwsd.setIconImage(Toolkit.getDefaultToolkit().getImage(File + "\\img\\CCB.png"));
+>>>>>>> Jachin
 		frameUserLoginPwsd.setTitle("中国建设银行ATM");
 		frameUserLoginPwsd.setResizable(false);
 		frameUserLoginPwsd.setBounds(360, 150, 1095, 750);
@@ -78,7 +102,11 @@ public class UsersLoginPwsd {
 		frameUserLoginPwsd.getContentPane().add(lblInputcardnum);
 
 		JLabel lblBg = new JLabel("");
+<<<<<<< HEAD
 		lblBg.setIcon(new ImageIcon("E:\\Code\\java\\CCB_ATM\\img\\ATM_bg.png"));
+=======
+		lblBg.setIcon(new ImageIcon(File + "\\img\\ATM_bg.png"));
+>>>>>>> Jachin
 		lblBg.setBounds(3, 0, 1086, 715);
 		frameUserLoginPwsd.getContentPane().add(lblBg);
 	}

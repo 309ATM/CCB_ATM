@@ -15,10 +15,22 @@ import javax.swing.UIManager;
 import javax.swing.SwingConstants;
 import java.awt.Color;
 
+<<<<<<< HEAD
+=======
+/**
+ * 取款
+ *
+ */
+>>>>>>> Jachin
 public class TakeFrame {
 
 	public JFrame frameTake;
 	private JTextField textField_money;
+<<<<<<< HEAD
+=======
+	private String File = "E:\\Code\\java\\CCB_ATM";
+	// private String File = ".";
+>>>>>>> Jachin
 
 	/**
 	 * Launch the application.
@@ -54,7 +66,11 @@ public class TakeFrame {
 	private void initialize() {
 		frameTake = new JFrame();
 		frameTake.setIconImage(
+<<<<<<< HEAD
 				Toolkit.getDefaultToolkit().getImage("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\CCB.png"));
+=======
+				Toolkit.getDefaultToolkit().getImage(File + "\\img\\CCB.png"));
+>>>>>>> Jachin
 		frameTake.setTitle("中国建设银行ATM");
 		frameTake.setResizable(false);
 		frameTake.setBounds(360, 150, 1095, 750);
@@ -111,7 +127,11 @@ public class TakeFrame {
 
 		JLabel lblBg2 = new JLabel("");
 		lblBg2.setBounds(3, 0, 1086, 716);
+<<<<<<< HEAD
 		lblBg2.setIcon(new ImageIcon("E:\\Code\\java\\CCB_ATM\\img\\ATM_bg.png"));
+=======
+		lblBg2.setIcon(new ImageIcon(File + "\\img\\ATM_bg.png"));
+>>>>>>> Jachin
 		frameTake.getContentPane().add(lblBg2);
 	}
 
