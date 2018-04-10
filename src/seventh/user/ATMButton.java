@@ -13,65 +13,15 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
 import javax.swing.JButton;
-<<<<<<< HEAD
-import javax.swing.JFrame;
-
-=======
 
 /**
  * 自定义Button类
  *
  */
->>>>>>> Jachin
 @SuppressWarnings("serial")
 public class ATMButton extends JButton {
 	/* 决定圆角的弧度 */
 	public static int radius = 30;
-<<<<<<< HEAD
-	public static Color COLOR1, COLOR2;
-	public static int pink = 3, ashen = 2, sky = 1, stone = 0;
-	/* 粉红 */
-	public static Color pink1 = new Color(240, 240, 240);
-	public static Color pink2 = new Color(254, 173, 240);
-	/* 灰白 */
-	public static Color ashen1 = new Color(250, 250, 250);
-	public static Color ashen2 = new Color(197, 197, 197);
-	/* 深宝石蓝 */
-	public static Color stone1 = new Color(79, 125, 184);
-	public static Color stone2 = new Color(89, 200, 240);
-	/* 淡天蓝色 */
-	public static Color sky1 = new Color(240, 240, 240);
-	public static Color sky2 = new Color(121, 230, 230);
-	/* 光标进入按钮判断 */
-	private boolean hover;
-
-	public ATMButton() {
-		this("", stone);
-	}
-
-	public ATMButton(String name) {
-		this(name, ashen);
-	}
-
-	public ATMButton(String name, int style) {
-		super.setText(name);
-		if (style == pink) {
-			COLOR1 = pink1;
-			COLOR2 = pink2;
-		}
-		if (style == ashen) {
-			COLOR1 = ashen1;
-			COLOR2 = ashen2;
-		}
-		if (style == stone) {
-			COLOR1 = stone1;
-			COLOR2 = stone2;
-		}
-		if (style == sky) {
-			COLOR1 = sky1;
-			COLOR2 = sky2;
-		}
-=======
 	/* 灰白 */
 	public static Color COLOR1 = new Color(250, 250, 250);
 	public static Color COLOR2 = new Color(197, 197, 197);
@@ -81,7 +31,6 @@ public class ATMButton extends JButton {
 
 	public ATMButton(String name) {
 		super.setText(name);
->>>>>>> Jachin
 		paintcolor(COLOR1, COLOR2);
 	}
 
@@ -143,18 +92,4 @@ public class ATMButton extends JButton {
 		g2d.dispose();
 		super.paintComponent(g);
 	}
-<<<<<<< HEAD
-
-	public static void main(String args[]) {
-		JFrame frm = new JFrame();
-		ATMButton but = new ATMButton("圆角JButton",2);
-		frm.setLayout(null);
-		frm.setBounds(800, 400, 300, 300);
-		but.setBounds(30, 30, 150, 80);
-		frm.add(but);
-		frm.setDefaultCloseOperation(3);
-		frm.setVisible(true);
-	}
-=======
->>>>>>> Jachin
 }

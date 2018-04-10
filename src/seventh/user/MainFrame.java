@@ -11,13 +11,10 @@ import javax.swing.JLabel;
 import javax.swing.UIManager;
 import java.awt.Color;
 
-<<<<<<< HEAD
-=======
 /**
  * ATMÖ÷²Ëµ¥
  *
  */
->>>>>>> Jachin
 public class MainFrame {
 
 	public static String card;
@@ -27,11 +24,8 @@ public class MainFrame {
 	private TransferFrame transferFrame = new TransferFrame();
 	private QueryFrame queryFrame = new QueryFrame();
 	private HistoryFrame historyFrame = new HistoryFrame();
-<<<<<<< HEAD
-=======
 	private String File = "E:\\Code\\java\\CCB_ATM";
 	// private String File = ".";
->>>>>>> Jachin
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -61,11 +55,7 @@ public class MainFrame {
 		frameMain = new JFrame();
 		frameMain.setTitle("\u5EFA\u8BBE\u94F6\u884CATM");
 		frameMain.setIconImage(
-<<<<<<< HEAD
-				Toolkit.getDefaultToolkit().getImage("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\CCB.png"));
-=======
 				Toolkit.getDefaultToolkit().getImage(File + "\\img\\CCB.png"));
->>>>>>> Jachin
 		frameMain.setResizable(false);
 		frameMain.setBounds(360, 150, 1095, 750);
 		frameMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -103,11 +93,7 @@ public class MainFrame {
 		frameMain.getContentPane().add(button_2);
 
 		JLabel lblBg = new JLabel("");
-<<<<<<< HEAD
-		lblBg.setIcon(new ImageIcon("E:\\Code\\java\\CCB_ATM\\img\\ATM_bg.png"));
-=======
 		lblBg.setIcon(new ImageIcon(File + "\\img\\ATM_bg.png"));
->>>>>>> Jachin
 		lblBg.setBounds(3, 0, 1086, 715);
 		frameMain.getContentPane().add(lblBg);
 	}

@@ -20,11 +20,8 @@ public class TransferFrame {
 	private JFrame frameTransfer;
 	private JTextField textField_money;
 	// private MainFrame mainFrame = new MainFrame();
-<<<<<<< HEAD:src/seventh/user/TransferFrame.java
-=======
 	private String File = "E:\\Code\\java\\CCB_ATM";
 	// private String File = ".";
->>>>>>> Jachin:src/seventh/user/TransferFrame.java
 
 	/**
 	 * Launch the application.
@@ -83,11 +80,7 @@ public class TransferFrame {
 		frameTransfer.getContentPane().add(button);
 
 		JLabel lblBg = new JLabel("");
-<<<<<<< HEAD:src/seventh/user/TransferFrame.java
-		lblBg.setIcon(new ImageIcon("E:\\Code\\java\\CCB_ATM\\img\\ATM_bg.png"));
-=======
 		lblBg.setIcon(new ImageIcon(File + "\\img\\ATM_bg.png"));
->>>>>>> Jachin:src/seventh/user/TransferFrame.java
 		lblBg.setBounds(3, 0, 1086, 715);
 		frameTransfer.getContentPane().add(lblBg);
 	}

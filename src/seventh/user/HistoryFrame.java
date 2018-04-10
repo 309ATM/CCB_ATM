@@ -15,22 +15,16 @@ import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JPanel;
 
-<<<<<<< HEAD
-=======
 /**
  * 查询历史记录
  *
  */
->>>>>>> Jachin
 public class HistoryFrame {
 
 	private JFrame frameHistory;
 	private JTable table;
-<<<<<<< HEAD
-=======
 	private String File = "E:\\Code\\java\\CCB_ATM";
 	// private String File = ".";
->>>>>>> Jachin
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -57,11 +51,7 @@ public class HistoryFrame {
 		frameHistory = new JFrame();
 		frameHistory.setTitle("\u5EFA\u8BBE\u94F6\u884CATM");
 		frameHistory.setIconImage(
-<<<<<<< HEAD
-				Toolkit.getDefaultToolkit().getImage("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\CCB.png"));
-=======
 				Toolkit.getDefaultToolkit().getImage(File + "\\img\\CCB.png"));
->>>>>>> Jachin
 		frameHistory.setResizable(false);
 		frameHistory.setBounds(360, 150, 1095, 750);
 		frameHistory.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -118,11 +108,7 @@ public class HistoryFrame {
 				table.setBounds(171, 236, 700, 700);
 		
 		JLabel lblBg = new JLabel("");
-<<<<<<< HEAD
-		lblBg.setIcon(new ImageIcon("E:\\Code\\java\\CCB_ATM\\img\\ATM_bg.png"));
-=======
 		lblBg.setIcon(new ImageIcon(File + "\\img\\ATM_bg.png"));
->>>>>>> Jachin
 		lblBg.setBounds(3, 0, 1086, 715);
 		frameHistory.getContentPane().add(lblBg);
 		

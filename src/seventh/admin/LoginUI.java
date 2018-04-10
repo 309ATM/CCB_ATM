@@ -21,6 +21,10 @@ import javax.swing.ImageIcon;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+/**
+ * 管理员登陆界面
+ *
+ */
 public class LoginUI {
 
 	private JFrame frameAdmin;
@@ -29,7 +33,6 @@ public class LoginUI {
 	private JButton buttonLogin;
 	private JLabel labelMainBG;
 	private String File = "E:\\Code\\java\\CCB_ATM";
-
 	// private String File = ".";
 
 	/**

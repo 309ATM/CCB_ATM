@@ -26,6 +26,10 @@ import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import javax.swing.JList;
 
+/**
+ * 管理员功能
+ *
+ */
 public class AdminUI {
 
 	private JFrame frame;
@@ -38,10 +42,7 @@ public class AdminUI {
 	private JTextField textField_loss;
 	private JTextField textField_yue;
 	private JTextArea textArea_address;
-<<<<<<< HEAD:src/seventh/admin/AdminUI.java
-=======
-	private String File = "E:\\Code\\java\\Eclipse-ATM\\CCB_ATM";
->>>>>>> Jachin:src/seventh/admin/AdminUI.java
+	private String File = "E:\\Code\\java\\CCB_ATM";
 	// private String File = ".";
 
 	/**

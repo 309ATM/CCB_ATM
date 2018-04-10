@@ -10,23 +10,17 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-<<<<<<< HEAD
-=======
 /**
  * È¡¿îÑ¡Ôñ
  *
  */
->>>>>>> Jachin
 public class TakeChoseFrame {
 
 	private JFrame frameChose;
 	private TakeFrame takeFrame = new TakeFrame();
-<<<<<<< HEAD
-=======
 	private String File = "E:\\Code\\java\\CCB_ATM";
 	// private String File = ".";
 	
->>>>>>> Jachin
 	/**
 	 * Launch the application.
 	 */
@@ -61,11 +55,7 @@ public class TakeChoseFrame {
 	private void initialize() {
 		frameChose = new JFrame();
 		frameChose.setTitle("\u5EFA\u8BBE\u94F6\u884CATM");
-<<<<<<< HEAD
-		frameChose.setIconImage(Toolkit.getDefaultToolkit().getImage("E:\\Code\\java\\CCB_ATM\\img\\CCB.png"));
-=======
 		frameChose.setIconImage(Toolkit.getDefaultToolkit().getImage(File + "\\img\\CCB.png"));
->>>>>>> Jachin
 		frameChose.setResizable(false);
 		frameChose.setBounds(360, 150, 1095, 750);
 		frameChose.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -88,11 +78,7 @@ public class TakeChoseFrame {
 		frameChose.getContentPane().add(button_2);
 		
 		JLabel lblBg = new JLabel("");
-<<<<<<< HEAD
-		lblBg.setIcon(new ImageIcon("E:\\Code\\java\\CCB_ATM\\img\\ATM_bg.png"));
-=======
 		lblBg.setIcon(new ImageIcon(File + "\\img\\ATM_bg.png"));
->>>>>>> Jachin
 		lblBg.setBounds(3, 0, 1086, 715);
 		frameChose.getContentPane().add(lblBg);
 	}

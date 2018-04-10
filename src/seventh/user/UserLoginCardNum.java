@@ -17,24 +17,18 @@ import seventh.accout.BlankAccout;
 import javax.swing.SwingConstants;
 import java.awt.Color;
 
-<<<<<<< HEAD
-=======
 /**
  * 用户输入卡号
  *
  */
->>>>>>> Jachin
 public class UserLoginCardNum {
 
 	private JFrame frameUserLoginCard;
 	private JTextField textField_CardNumber;
 	private UsersLoginPwsd usersLoginPwsd = new UsersLoginPwsd();
 	private JLabel label;
-<<<<<<< HEAD
-=======
 	private String File = "E:\\Code\\java\\CCB_ATM";
 	// private String File = ".";
->>>>>>> Jachin
 
 	/**
 	 * Launch the application.
@@ -68,11 +62,7 @@ public class UserLoginCardNum {
 		frameUserLoginCard = new JFrame();
 		frameUserLoginCard.setTitle("中国建设银行ATM");
 		frameUserLoginCard.setIconImage(
-<<<<<<< HEAD
-				Toolkit.getDefaultToolkit().getImage("E:\\Code\\java\\CCB_ATM\\img\\CCB.png"));
-=======
 				Toolkit.getDefaultToolkit().getImage(File + "\\img\\CCB.png"));
->>>>>>> Jachin
 		frameUserLoginCard.setResizable(false);
 		frameUserLoginCard.setBounds(360, 150, 1095, 750);
 		frameUserLoginCard.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -105,11 +95,7 @@ public class UserLoginCardNum {
 		frameUserLoginCard.getContentPane().add(label);
 
 		JLabel lblBg = new JLabel("");
-<<<<<<< HEAD
-		lblBg.setIcon(new ImageIcon("E:\\Code\\java\\CCB_ATM\\img\\ATM_bg.png"));
-=======
 		lblBg.setIcon(new ImageIcon(File + "\\img\\ATM_bg.png"));
->>>>>>> Jachin
 		lblBg.setBounds(3, 0, 1086, 715);
 		frameUserLoginCard.getContentPane().add(lblBg);
 	}
