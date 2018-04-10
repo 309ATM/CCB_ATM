@@ -3,31 +3,31 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated 2018-4-3 23:42:29 by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping>
-    <class name="soft.table.account" table="ACCOUNT">
-        <id name="cardnum" type="java.lang.String">
-            <column name="CARDNUM" />
+    <class name="soft.table.account" table="account">
+        <id name="cardnum" type="long">
+            <column name="cardnum" />
             <generator class="native" />
         </id>
         <property name="id" type="int">
-            <column name="ID" />
+            <column name="id" />
         </property>
         <property name="passwd" type="long">
-            <column name="PASSWD" />
+            <column name="passwd" />
         </property>
         <property name="stat" type="java.lang.String">
-            <column name="STAT" />
+            <column name="stat" />
         </property>
         <property name="accType" type="java.lang.String">
-            <column name="ACCTYPE" />
+            <column name="accType" />
         </property>
         <property name="bank" type="java.lang.String">
-            <column name="BANK" />
+            <column name="bank" />
         </property>
         <property name="balance" type="float">
-            <column name="BALANCE" />
+            <column name="balance" />
         </property>
         <property name="overdraft" type="float">
-            <column name="OVERDRAFT" />
+            <column name="overdraft" />
         </property>
     </class>
 </hibernate-mapping>

@@ -8,6 +8,7 @@ import org.hibernate.Transaction;
 import org.hibernate.mapping.List;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
+import org.junit.Before;
 import org.junit.Test;
 
 
@@ -74,7 +75,13 @@ public class users {
 	//删除
 	public void delMess(){}
 	//全查
-	
+	private Session session;
+	private Transaction tr;
+	@Before
+	private void init() {
+		session = HibernateUtils.getCurrentSession();
+		tr = session.beginTransaction();
+	}
 	public void allMess(){
 		/*Session session = HibernateUtils.openSession();
 		session.beginTransaction();
@@ -96,8 +103,7 @@ public class users {
 		criteria.from(users.class);
 		session.createQuery("");*/
 		
-		Session session = HibernateUtils.getCurrentSession();
-		Transaction tr = session.beginTransaction();
+		
 		String hql = "from users";
 		Query query = session.createQuery(hql);
 		java.util.List<users> list = query.list();
@@ -105,15 +111,19 @@ public class users {
 			System.out.println(u.toString());
 		}   
 	}
+//	 int id,
+//	 String name,
+//	 String sex,
+//	 String idcard,
+//	 String phone,
+//	 String address
 	
+	//插入信息
 	@Test
-	public void idCardExit(){
+	public boolean idCardExit(int ID,String NAME,String SEX,String idCard,String PHONE,String ADDRESS){
 		//身份证号存在检查
 		 //创建查询(query)对象
-		     String idCard = "440682199812125634";
-			 Session session = HibernateUtils.getCurrentSession();
-			 Transaction tr = session.beginTransaction();
-			 
+		     //String idCard = "440682199812125634";
 			 String hql = "from users u where idcard = ?";
 			 Query query = session.createQuery(hql);
 			 query.setParameter(0, idCard);
@@ -121,14 +131,26 @@ public class users {
 			 for(users u : list){
 					System.out.println(u.toString());
 			 }
-			 /*if(list != null)
+			 if(list != null){
 				 //System.out.println("true");
+				 //return true;
+				 users u = new users();
+				 u.setId(ID);
+				 u.setName(NAME);
+				 u.setSex(SEX);
+				 u.setIdcard(idCard);
+				 u.setPhone(PHONE);
+				 u.setAddress(ADDRESS);
+				 session.save(u);
+				 tr.commit();
 				 return true;
+				 
+	}
 			 else
 				 //System.out.println("false");
 				 return false;
-			*/
 	}
+	
 	
 	
 }
