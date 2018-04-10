@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2018-4-3 23:42:29 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="soft.table.tradingrec" table="tradingrec">
+        <id name="tradeNum" type="int">
+            <column name="tradeNum" />
+            <generator class="native" />
+        </id>
+        <property name="cardnum" type="int">
+            <column name="cardnum" />
+        </property>
+        <property name="tradeDate" type="java.lang.String">
+            <column name="tradeDate" />
+        </property>
+        <property name="tradeMoney" type="float">
+            <column name="tradeMoney" />
+        </property>
+        <property name="tradeType" type="java.lang.String">
+            <column name="tradeType" />
+        </property>
+        <property name="tradeTarget" type="int">
+            <column name="tradeTarget" />
+        </property>
+        <property name="fee" type="float">
+            <column name="fee" />
+        </property>
+    </class>
+</hibernate-mapping>
