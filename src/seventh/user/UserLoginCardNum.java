@@ -111,8 +111,6 @@ public class UserLoginCardNum {
  
 	class CardNum implements ActionListener {
 
-		
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (!textField_CardNumber.getText().isEmpty()) {

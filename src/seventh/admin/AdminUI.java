@@ -5,18 +5,26 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 import seventh.accout.BlankAccout;
 
 import javax.swing.ImageIcon;
 import java.awt.Color;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
 import java.awt.Toolkit;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+
 import java.awt.Font;
+import java.awt.SystemColor;
+
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -24,7 +32,6 @@ import javax.swing.JSeparator;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
-import javax.swing.JList;
 
 /**
  * 管理员功能
@@ -42,6 +49,10 @@ public class AdminUI {
 	private JTextField textField_loss;
 	private JTextField textField_yue;
 	private JTextArea textArea_address;
+	private JButton btn_begin;
+	private JButton btn_end;
+	private JButton btn_confirm;
+	private JTable table;
 	private String File = "E:\\Code\\java\\CCB_ATM";
 	// private String File = ".";
 
@@ -255,7 +266,7 @@ public class AdminUI {
 		panel_Loss.add(btn_loss);
 
 		JLabel label_1 = new JLabel("");
-		label_1.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\bg.jpg"));
+		label_1.setIcon(new ImageIcon(File + "\\img\\bg.jpg"));
 		label_1.setBounds(0, 0, 1065, 502);
 		panel_Loss.add(label_1);
 
@@ -285,7 +296,7 @@ public class AdminUI {
 		panel_lock.add(btn_lock);
 
 		JLabel label = new JLabel("");
-		label.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\bg.jpg"));
+		label.setIcon(new ImageIcon(File + "\\img\\bg.jpg"));
 		label.setBounds(0, 0, 1065, 502);
 		panel_lock.add(label);
 
@@ -293,12 +304,68 @@ public class AdminUI {
 		tabbedPane.addTab(null, ico_queryHistory, panel_queryHistory, "查询交易历史");
 		panel_queryHistory.setLayout(null);
 
-		JList list = new JList();
-		list.setBounds(142, 121, 774, 330);
-		panel_queryHistory.add(list);
+		JLabel lblBegin = new JLabel("起始日期");
+		lblBegin.setFont(new Font("幼圆", Font.PLAIN, 18));
+		lblBegin.setBounds(180, 29, 72, 40);
+		panel_queryHistory.add(lblBegin);
+
+		JLabel lblEnd = new JLabel("结束日期");
+		lblEnd.setFont(new Font("幼圆", Font.PLAIN, 18));
+		lblEnd.setBounds(449, 29, 72, 40);
+		panel_queryHistory.add(lblEnd);
+
+		// TODO 按钮
+		btn_begin = new JButton("选择日期");
+		btn_begin.setFont(new Font("微软雅黑", Font.PLAIN, 18));
+		btn_begin.addActionListener(new getDate());
+		btn_begin.setBounds(261, 29, 155, 40);
+		panel_queryHistory.add(btn_begin);
+
+		btn_end = new JButton("选择日期");
+		btn_end.setFont(new Font("微软雅黑", Font.PLAIN, 18));
+		btn_end.addActionListener(new getDate());
+		btn_end.setBounds(528, 29, 160, 40);
+		panel_queryHistory.add(btn_end);
+
+		btn_confirm = new JButton("确定");
+		btn_confirm.setFont(new Font("幼圆", Font.PLAIN, 18));
+		btn_confirm.addActionListener(new getDate());
+		btn_confirm.setBounds(760, 29, 113, 41);
+		panel_queryHistory.add(btn_confirm);
+
+		// 表格
+		JPanel panel = new JPanel();
+		panel.setBounds(73, 100, 954, 365);
+		panel_queryHistory.add(panel);
+
+		table = new JTable();
+		// 设置表格的格式
+		table.setRowHeight(50); // 设置行高
+		table.getTableHeader().setFont(new Font("幼圆", Font.BOLD, 20)); // 设置表头字体
+		table.setFont(new Font("幼圆", Font.BOLD, 20)); // 设置表格字体
+		table.setRowMargin(5);// 设置相邻两行单元格的距离
+		table.setRowSelectionAllowed(true);// 设置可否被选择.默认为false
+		table.setSelectionBackground(Color.white);// 设置所选择行的背景色
+		table.setSelectionForeground(Color.blue);// 设置所选择行的前景色
+		table.setGridColor(Color.black);// 设置网格线的颜色
+		table.setDragEnabled(false);// 不懂这个
+		table.setShowGrid(false);// 是否显示网格线
+		table.setShowHorizontalLines(true);// 是否显示水平的网格线
+		table.setShowVerticalLines(true);// 是否显示垂直的网格线
+		table.getTableHeader().setResizingAllowed(false);// 设置表格不可整列移动
+		table.getTableHeader().setReorderingAllowed(false);// 设置表格列宽不可改
+
+		table.doLayout();
+		panel.setLayout(null);
+		table.setBackground(SystemColor.control);
+
+		JScrollPane JSP = new JScrollPane(table);
+		JSP.setBounds(0, 0, 954, 365);
+		panel.add(JSP);
+		table.setBounds(171, 236, 700, 700);
 
 		JLabel label_3 = new JLabel("");
-		label_3.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\bg.jpg"));
+		label_3.setIcon(new ImageIcon(File + "\\img\\bg.jpg"));
 		label_3.setBounds(0, 0, 1068, 504);
 		panel_queryHistory.add(label_3);
 
@@ -326,7 +393,7 @@ public class AdminUI {
 		panel_changePasswd.add(btn_yue);
 
 		JLabel label_4 = new JLabel("");
-		label_4.setIcon(new ImageIcon("E:\\Code\\java\\Eclipse-ATM\\CCB_ATM\\img\\bg.jpg"));
+		label_4.setIcon(new ImageIcon(File + "\\img\\bg.jpg"));
 		label_4.setBounds(0, 0, 1068, 504);
 		panel_changePasswd.add(label_4);
 	}
@@ -339,6 +406,71 @@ public class AdminUI {
 	public void yue() {
 		String card = textField_yue.getText();
 		// 调用数据库方法判断卡号是否存在
+	}
+
+	//TODO 获取填入表格的数据
+	public void WriteData(String[] month) {
+		final String[] columnNames = { "日期", "交易类型", "交易金额", "目标账户", "手续费" };
+		// 调用数据库方法获取记录
+		// function(BlankAccout.getInstance().getCardNum(),getDate(6));
+		// 这部分数据从数据库里获取
+		String[][] rowData = { { "2018.04.01 08:09:56", "转账", "￥1200", "62218858000005086", "￥0.00" },
+				{ "2018.04.01 14:04:38", "转账", "￥13000", "62218858000005086", "￥0.00" },
+				{ "2018.04.04 15:50:21", "转账", "￥100", "62218858000005086", "￥1.00" },
+				{ "2018.04.08 11:34:23", "转账", "￥200", "62218858000005086", "￥2.00" },
+				{ "2018.04.10 09:56:12", "透支取款", "￥400", "62218858000005086", "￥4.00" },
+				{ "2018.04.10 09:56:12", "透支取款", "￥400", "62218858000005086", "￥4.00" },
+				{ "2018.04.10 09:56:12", "透支取款", "￥400", "62218858000005086", "￥4.00" },
+				{ "2018.04.10 09:56:12", "透支取款", "￥400", "62218858000005086", "￥4.00" },
+				{ "2018.04.10 09:56:12", "透支取款", "￥400", "62218858000005086", "￥4.00" },
+				{ "2018.04.10 09:56:12", "透支取款", "￥400", "62218858000005086", "￥4.00" } };
+
+		table.setModel(new DefaultTableModel(rowData, columnNames));
+		// 设置文字居中
+		DefaultTableCellRenderer render = new DefaultTableCellRenderer();
+		render.setHorizontalAlignment(SwingConstants.CENTER);
+		table.getColumn("日期").setCellRenderer(render);
+		table.getColumn("交易类型").setCellRenderer(render);
+		table.getColumn("交易金额").setCellRenderer(render);
+		table.getColumn("目标账户").setCellRenderer(render);
+		table.getColumn("手续费").setCellRenderer(render);
+		// 设置列宽
+		table.getColumnModel().getColumn(0).setPreferredWidth(180);
+		table.getColumnModel().getColumn(1).setPreferredWidth(20);
+		table.getColumnModel().getColumn(2).setPreferredWidth(20);
+		table.getColumnModel().getColumn(3).setPreferredWidth(180);
+		table.getColumnModel().getColumn(4).setPreferredWidth(20);
+	}
+
+	String dateBefore;
+	String dateNow;
+
+	// TODO 获取日期监听器
+	class getDate implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JDateChooser dateChoose = new JDateChooser();
+
+			if (e.getSource() == btn_begin) {
+				dateChoose.showDateChooser();
+				dateBefore = dateChoose.getDateFormat("yyyy-MM-dd");
+				btn_begin.setText(dateBefore);
+			}
+			if (e.getSource() == btn_end) {
+				dateChoose.showDateChooser();
+				dateNow = dateChoose.getDateFormat("yyyy-MM-dd");
+				btn_end.setText(dateNow);
+			}
+			if (e.getSource() == btn_confirm) {
+				if (dateBefore.compareTo(dateNow) <= 0) {
+					// TODO 读取记录信息，插入信息到表格JTable中
+					String[] date = {dateBefore,dateNow};
+					WriteData(date);
+				} else {
+					JOptionPane.showMessageDialog(null, "请选择正确日期", "错误", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		}
 	}
 
 	// 录入用户信息的监听器
@@ -405,5 +537,4 @@ public class AdminUI {
 			}
 		}
 	}
-
 }

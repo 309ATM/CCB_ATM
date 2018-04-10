@@ -1,6 +1,6 @@
 package seventh.dbc;
 
-import javax.persistence.criteria.CriteriaQuery;
+//import javax.persistence.criteria.CriteriaQuery;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -11,7 +11,7 @@ import org.hibernate.query.Query;
 import org.junit.Test;
 
 
-import util.HibernateUtils;
+import seventh.dbc.ibernateUtils;
 
 public class account {
 	private long cardnum;

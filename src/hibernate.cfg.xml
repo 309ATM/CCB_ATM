@@ -9,7 +9,7 @@
     	<!-- 驱动 -->
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
         <!-- 连接数据库的名字 -->
-        <property name="hibernate.connection.url">jdbc:mysql:///ccb_atm</property>
+        <property name="hibernate.connection.url">jdbc:mysql://172.25.148.15:3306/ccb_atm</property>
         <!-- 连接数据库的账号 -->
         <property name="hibernate.connection.username">root</property>
         <!-- 连接数据库的账号的密码 -->
