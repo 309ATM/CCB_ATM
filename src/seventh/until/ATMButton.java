@@ -1,4 +1,4 @@
-package seventh.user;
+package seventh.until;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;

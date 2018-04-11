@@ -11,6 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import seventh.until.ATMButton;
+
 /**
  * в╙ук
  *

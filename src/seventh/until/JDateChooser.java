@@ -1,4 +1,4 @@
-package seventh.admin;
+package seventh.until;
 
 import java.awt.Color;
 import java.awt.GridLayout;
