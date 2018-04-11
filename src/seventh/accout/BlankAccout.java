@@ -6,8 +6,9 @@ public class BlankAccout {
 	private String accountType;
 	private String blank;
 	private float balance;
-	private float overdraft;//透支额
 	
+	//透支额度
+	private float overdraft;
 	// 每日存款限额
 	private float depositLimit;
 	// 每日取款限额

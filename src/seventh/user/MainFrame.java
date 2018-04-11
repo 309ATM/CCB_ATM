@@ -27,8 +27,8 @@ public class MainFrame {
 	private TransferFrame transferFrame = new TransferFrame();
 	private QueryFrame queryFrame = new QueryFrame();
 	private HistoryFrame historyFrame = new HistoryFrame();
-	private String File = "E:\\Code\\java\\CCB_ATM";
-	// private String File = ".";
+//	private String File = "E:\\Code\\java\\CCB_ATM";
+	private String File = ".";
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {

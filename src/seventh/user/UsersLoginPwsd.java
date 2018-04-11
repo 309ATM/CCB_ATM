@@ -25,9 +25,8 @@ public class UsersLoginPwsd {
 
 	private JFrame frameUserLoginPwsd;
 	private JPasswordField textUserPswd;
-	public static String CardNumber; // TODO 单例模式获取卡号
-	private String File = "E:\\Code\\java\\CCB_ATM";
-	// private String File = ".";
+//	private String File = "E:\\Code\\java\\CCB_ATM";
+	 private String File = ".";
 
 	public JFrame getFrameUserLoginPwsd() {
 		return frameUserLoginPwsd;
@@ -69,7 +68,7 @@ public class UsersLoginPwsd {
 		frameUserLoginPwsd.getContentPane().add(textUserPswd);
 		textUserPswd.setColumns(10);
 
-		JLabel lblInputcardnum = new JLabel("请输密码:");
+		JLabel lblInputcardnum = new JLabel("请输入6位密码:");
 		lblInputcardnum.setForeground(Color.WHITE);
 		lblInputcardnum.setFont(new Font("幼圆", Font.BOLD, 24));
 		lblInputcardnum.setBounds(380, 282, 288, 43);
@@ -85,23 +84,29 @@ public class UsersLoginPwsd {
 	class UserLogin implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			String cardNum = String.valueOf(BlankAccout.getInstance().getCardNum());
-			@SuppressWarnings("deprecation")
-			String psd = textUserPswd.getText().trim();
+			String psd = new String(textUserPswd.getPassword());
 			try {
-				if (cardNum.equals("6221") & psd.equals("123")) {
-					JOptionPane.showMessageDialog(null, "登陆成功", null, JOptionPane.INFORMATION_MESSAGE);
-					frameUserLoginPwsd.setVisible(false);
-					MainFrame.main(null);
-					
-					// 将用户账号保存下来
-					BlankAccout.getInstance().setCardNum(Long.parseLong(cardNum));
-					// 接下来这里调用数据库，将所有信息传入单例之中，如下
-					// BlankAccout.getInstance().setDepositLimit(4000);
-					// BlankAccout.getInstance().setBlank("中国银行");
-					// 这是什么？
-					frameUserLoginPwsd.dispose();
-				} else {
-					JOptionPane.showMessageDialog(null, "密码错误", null, JOptionPane.ERROR_MESSAGE);
+				if (psd.length() == 6) {
+					if (cardNum.equals("6221") & psd.equals("123456")) {
+						JOptionPane.showMessageDialog(null, "登陆成功", null, JOptionPane.INFORMATION_MESSAGE);
+						frameUserLoginPwsd.setVisible(false);
+						MainFrame.main(null);
+
+						// 将用户账号保存下来
+						BlankAccout.getInstance().setCardNum(Long.parseLong(cardNum));
+						// 接下来这里调用数据库，将所有信息传入单例之中，如下
+						//TODO 这里记得去除信息的设置
+						BlankAccout.getInstance().setWithdrawalsLimit(20000);
+						BlankAccout.getInstance().setDepositLimit(50000); 
+						BlankAccout.getInstance().setBalance(100000);
+						BlankAccout.getInstance().setBlank("中国银行");
+						
+						frameUserLoginPwsd.dispose();
+					} else {
+						JOptionPane.showMessageDialog(null, "密码错误", null, JOptionPane.ERROR_MESSAGE);
+					} 
+				}else {
+					JOptionPane.showMessageDialog(null, "密码长度不正确", null, JOptionPane.ERROR_MESSAGE);					
 				}
 			} catch (Exception e) {
 				System.err.println(e);
