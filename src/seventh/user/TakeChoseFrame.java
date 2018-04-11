@@ -10,6 +10,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import seventh.accout.BlankAccout;
+
 /**
  * È¡¿îÑ¡Ôñ
  *
@@ -18,8 +20,8 @@ public class TakeChoseFrame {
 
 	private JFrame frameChose;
 	private TakeFrame takeFrame = new TakeFrame();
-	private String File = "E:\\Code\\java\\CCB_ATM";
-	// private String File = ".";
+//	private String File = "E:\\Code\\java\\CCB_ATM";
+	private String File = ".";
 	
 	/**
 	 * Launch the application.

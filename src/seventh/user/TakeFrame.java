@@ -12,6 +12,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
+
+import seventh.accout.BlankAccout;
+
 import javax.swing.SwingConstants;
 import java.awt.Color;
 
@@ -23,8 +26,9 @@ public class TakeFrame {
 
 	public JFrame frameTake;
 	private JTextField textField_money;
-	private String File = "E:\\Code\\java\\CCB_ATM";
-	// private String File = ".";
+	Boolean isOverdeaft; //是不是透支取款
+	// private String File = "E:\\Code\\java\\CCB_ATM";
+	private String File = ".";
 
 	/**
 	 * Launch the application.
@@ -59,8 +63,7 @@ public class TakeFrame {
 	 */
 	private void initialize() {
 		frameTake = new JFrame();
-		frameTake.setIconImage(
-				Toolkit.getDefaultToolkit().getImage(File + "\\img\\CCB.png"));
+		frameTake.setIconImage(Toolkit.getDefaultToolkit().getImage(File + "\\img\\CCB.png"));
 		frameTake.setTitle("中国建设银行ATM");
 		frameTake.setResizable(false);
 		frameTake.setBounds(360, 150, 1095, 750);
@@ -82,7 +85,7 @@ public class TakeFrame {
 		btn_500.setBounds(14, 550, 200, 80);
 		frameTake.getContentPane().add(btn_500);
 
-		ATMButton btnBack = new ATMButton("<html>退出<br>Exit</html>");
+		ATMButton btnBack = new ATMButton("<html><center>退出<br>Exit</center></html>");
 		btnBack.addActionListener(new Back());
 		btnBack.setBounds(875, 550, 200, 80);
 		frameTake.getContentPane().add(btnBack);
@@ -103,8 +106,8 @@ public class TakeFrame {
 		frameTake.getContentPane().add(textField_money);
 		textField_money.setColumns(10);
 
-		ATMButton btn_confirm = new ATMButton("<html>确认<br>Confirm<html>");
-		btn_confirm.addActionListener(new withdrawal("2000"));
+		ATMButton btn_confirm = new ATMButton("<html><center>确认<br>Confirm</center><html>");
+		btn_confirm.addActionListener(new CustomWithdrawal());
 		btn_confirm.setBounds(425, 402, 200, 80);
 		frameTake.getContentPane().add(btn_confirm);
 
@@ -121,13 +124,10 @@ public class TakeFrame {
 		frameTake.getContentPane().add(lblBg2);
 	}
 
-	public String getMoney(){
-		String moneys = textField_money.getText();
-		
-		return moneys;
-		
-	}
-	
+	/**
+	 * 通过按钮取款时的监听器
+	 *
+	 */
 	class withdrawal implements ActionListener {
 		String money;
 
@@ -136,13 +136,35 @@ public class TakeFrame {
 			this.money = money;
 		}
 
-		public void take(String money) {
-			JOptionPane.showMessageDialog(null, "取款" + money, "提示", JOptionPane.INFORMATION_MESSAGE);
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(isOverdeaft)
+				Overdraft(money);
+			else
+				take(money);
 		}
+
+	}
+	
+	
+	/**
+	 * 用户输入数字取款时的监听器。
+	 *
+	 */
+	class CustomWithdrawal implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			take(money);
+			String moneys = textField_money.getText();
+			float money = Float.parseFloat(moneys);
+			if (money % 100 != 0)
+				JOptionPane.showMessageDialog(null, "金额数必须是100的整数倍", "错误", JOptionPane.ERROR_MESSAGE);
+			else if (money > 5000) {
+				JOptionPane.showMessageDialog(null, "取款数额大于单笔限额，单笔存款最多为5000元", "错误", JOptionPane.ERROR_MESSAGE);
+			} else {
+				take(moneys);
+			}
+			textField_money.setText("");
 		}
 
 	}
@@ -153,5 +175,33 @@ public class TakeFrame {
 			MainFrame.frameMain.setVisible(true);
 			frameTake.dispose();
 		}
+	}
+
+	/** 调用数据库方法写入数据，修改 BlankAccount
+	 * @param moneys
+	 */
+	public void take(String moneys) {
+		float money = Float.parseFloat(moneys);
+		// 手续费
+		float fees  = 0;
+		if (money > BlankAccout.getInstance().getWithdrawalsLimit()) {
+			JOptionPane.showMessageDialog(null, "取款数额大于今日限额", "错误", JOptionPane.ERROR_MESSAGE);
+		} else {
+			// TODO 调用数据库方法，交易记录表增加一项，修改数据库中的余额
+			if (BlankAccout.getInstance().getBlank() != "建设银行") {
+				fees = money* 1 / 100;
+			}
+			// 修改今日取款额度
+			BlankAccout.getInstance().setWithdrawalsLimit(BlankAccout.getInstance().getWithdrawalsLimit() - money);
+			// 修改余额
+			BlankAccout.getInstance().setBalance(BlankAccout.getInstance().getBalance() - money - fees);
+			System.out.println(BlankAccout.getInstance().getWithdrawalsLimit());
+			System.out.println(BlankAccout.getInstance().getBalance());
+			JOptionPane.showMessageDialog(null, "取款" + money, "提示", JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
+	
+	public void Overdraft(String money) {
+		//TODO 透支取款的方法
 	}
 }
