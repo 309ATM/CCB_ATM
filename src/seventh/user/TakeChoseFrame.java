@@ -61,20 +61,20 @@ public class TakeChoseFrame {
 		frameChose.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frameChose.getContentPane().setLayout(null);
 		
-		ATMButton button = new ATMButton("<html>取款<br>Cash</html>");
+		ATMButton button = new ATMButton("<html><center>取款<br>Cash</center></html>");
 		button.addActionListener(new ToTake());
-		button.setBounds(14, 400, 200, 80);
+		button.setBounds(14, 330, 160, 70);
 		frameChose.getContentPane().add(button);
 		
-		ATMButton button_1 = new ATMButton("<html>透支取款<br>Overdraft</html>");
+		ATMButton button_1 = new ATMButton("<html><center>透支取款<br>Overdraft</center></html>");
 		button_1.addActionListener(new ToTake());
-		button_1.setBounds(875, 400, 200, 80);
+		button_1.setBounds(915, 330, 160, 70);
 		frameChose.getContentPane().add(button_1);
 		
 		ATMButton button_2 = new ATMButton("<html>退出<br>Exit</html>");
 		button_2.setForeground(Color.RED);
 		button_2.addActionListener(new Back());
-		button_2.setBounds(875, 550, 200, 80);
+		button_2.setBounds(915, 550, 160, 70);
 		frameChose.getContentPane().add(button_2);
 		
 		JLabel lblBg = new JLabel("");

@@ -69,32 +69,33 @@ public class TakeFrame {
 
 		ATMButton btn_100 = new ATMButton("100");
 		btn_100.addActionListener(new withdrawal("100"));
-		btn_100.setBounds(14, 250, 200, 80);
+		btn_100.setBounds(14, 220, 160, 70);
 		frameTake.getContentPane().add(btn_100);
 
 		ATMButton btn_300 = new ATMButton("200");
 		btn_300.addActionListener(new withdrawal("200"));
-		btn_300.setBounds(14, 402, 200, 80);
+		btn_300.setBounds(14, 330, 160, 70);
 		frameTake.getContentPane().add(btn_300);
 
 		ATMButton btn_500 = new ATMButton("500");
 		btn_500.addActionListener(new withdrawal("500"));
-		btn_500.setBounds(14, 550, 200, 80);
+		btn_500.setBounds(14, 440, 160, 70);
 		frameTake.getContentPane().add(btn_500);
 
 		ATMButton btnBack = new ATMButton("<html>退出<br>Exit</html>");
+		btnBack.setForeground(Color.RED);
 		btnBack.addActionListener(new Back());
-		btnBack.setBounds(875, 550, 200, 80);
+		btnBack.setBounds(14, 550, 160, 70);
 		frameTake.getContentPane().add(btnBack);
 
 		ATMButton btn_1000 = new ATMButton("1000");
 		btn_1000.addActionListener(new withdrawal("1000"));
-		btn_1000.setBounds(875, 250, 200, 80);
+		btn_1000.setBounds(915, 220, 160, 70);
 		frameTake.getContentPane().add(btn_1000);
 
 		ATMButton btn_2000 = new ATMButton("2000");
 		btn_2000.addActionListener(new withdrawal("2000"));
-		btn_2000.setBounds(875, 402, 200, 80);
+		btn_2000.setBounds(915, 330, 160, 70);
 		frameTake.getContentPane().add(btn_2000);
 
 		textField_money = new JTextField();
@@ -103,9 +104,10 @@ public class TakeFrame {
 		frameTake.getContentPane().add(textField_money);
 		textField_money.setColumns(10);
 
-		ATMButton btn_confirm = new ATMButton("<html>确认<br>Confirm<html>");
+		ATMButton btn_confirm = new ATMButton("<html><center>确认<br>Confirm</center></html>");
+		btn_confirm.setForeground(new Color(0, 128, 0));
 		btn_confirm.addActionListener(new withdrawal("2000"));
-		btn_confirm.setBounds(425, 402, 200, 80);
+		btn_confirm.setBounds(915, 550, 160, 70);
 		frameTake.getContentPane().add(btn_confirm);
 
 		JLabel label = new JLabel("请输入金额");

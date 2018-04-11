@@ -36,7 +36,7 @@ public final class JDateChooser extends JDialog {
 	/**
 	 * 日期选择背景色
 	 */
-	private Color selectColor = Color.green;
+	private Color selectColor = new Color(135, 206, 250);
 	/**
 	 * 日期背景色
 	 */

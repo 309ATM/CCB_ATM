@@ -306,31 +306,31 @@ public class AdminUI {
 
 		JLabel lblBegin = new JLabel("起始日期");
 		lblBegin.setFont(new Font("幼圆", Font.PLAIN, 18));
-		lblBegin.setBounds(180, 29, 72, 40);
+		lblBegin.setBounds(363, 30, 72, 40);
 		panel_queryHistory.add(lblBegin);
 
 		JLabel lblEnd = new JLabel("结束日期");
 		lblEnd.setFont(new Font("幼圆", Font.PLAIN, 18));
-		lblEnd.setBounds(449, 29, 72, 40);
+		lblEnd.setBounds(632, 30, 72, 40);
 		panel_queryHistory.add(lblEnd);
 
 		// TODO 按钮
 		btn_begin = new JButton("选择日期");
 		btn_begin.setFont(new Font("微软雅黑", Font.PLAIN, 18));
 		btn_begin.addActionListener(new getDate());
-		btn_begin.setBounds(261, 29, 155, 40);
+		btn_begin.setBounds(444, 30, 155, 40);
 		panel_queryHistory.add(btn_begin);
 
 		btn_end = new JButton("选择日期");
 		btn_end.setFont(new Font("微软雅黑", Font.PLAIN, 18));
 		btn_end.addActionListener(new getDate());
-		btn_end.setBounds(528, 29, 160, 40);
+		btn_end.setBounds(711, 30, 160, 40);
 		panel_queryHistory.add(btn_end);
 
 		btn_confirm = new JButton("确定");
 		btn_confirm.setFont(new Font("幼圆", Font.PLAIN, 18));
 		btn_confirm.addActionListener(new getDate());
-		btn_confirm.setBounds(760, 29, 113, 41);
+		btn_confirm.setBounds(900, 30, 113, 41);
 		panel_queryHistory.add(btn_confirm);
 
 		// 表格
@@ -346,7 +346,7 @@ public class AdminUI {
 		table.setRowMargin(5);// 设置相邻两行单元格的距离
 		table.setRowSelectionAllowed(true);// 设置可否被选择.默认为false
 		table.setSelectionBackground(Color.white);// 设置所选择行的背景色
-		table.setSelectionForeground(Color.blue);// 设置所选择行的前景色
+		table.setSelectionForeground(new Color(135, 136, 250));// 设置所选择行的前景色
 		table.setGridColor(Color.black);// 设置网格线的颜色
 		table.setDragEnabled(false);// 不懂这个
 		table.setShowGrid(false);// 是否显示网格线
@@ -363,11 +363,22 @@ public class AdminUI {
 		JSP.setBounds(0, 0, 954, 365);
 		panel.add(JSP);
 		table.setBounds(171, 236, 700, 700);
-
-		JLabel label_3 = new JLabel("");
-		label_3.setIcon(new ImageIcon(File + "\\img\\bg.jpg"));
-		label_3.setBounds(0, 0, 1068, 504);
-		panel_queryHistory.add(label_3);
+		
+		textField = new JTextField();
+		textField.setFont(new Font("微软雅黑", Font.PLAIN, 18));
+		textField.setColumns(10);
+		textField.setBounds(120, 32, 223, 36);
+		panel_queryHistory.add(textField);
+		
+		JLabel label_6 = new JLabel("\u5361\u53F7");
+		label_6.setFont(new Font("幼圆", Font.PLAIN, 18));
+		label_6.setBounds(68, 32, 47, 40);
+		panel_queryHistory.add(label_6);
+		
+				JLabel label_3 = new JLabel("");
+				label_3.setIcon(new ImageIcon(File + "\\img\\bg.jpg"));
+				label_3.setBounds(0, 0, 1068, 504);
+				panel_queryHistory.add(label_3);
 
 		JPanel panel_changePasswd = new JPanel();
 		tabbedPane.addTab(null, ico_changePasswd, panel_changePasswd, "修改密码");
@@ -442,8 +453,9 @@ public class AdminUI {
 		table.getColumnModel().getColumn(4).setPreferredWidth(20);
 	}
 
-	String dateBefore;
-	String dateNow;
+	String dateBefore = "";
+	String dateNow = "";
+	private JTextField textField;
 
 	// TODO 获取日期监听器
 	class getDate implements ActionListener {
@@ -462,7 +474,10 @@ public class AdminUI {
 				btn_end.setText(dateNow);
 			}
 			if (e.getSource() == btn_confirm) {
-				if (dateBefore.compareTo(dateNow) <= 0) {
+				if(dateBefore.isEmpty()||dateNow.isEmpty()){
+					JOptionPane.showMessageDialog(null, "请选择正确日期", "错误", JOptionPane.ERROR_MESSAGE);
+				}
+				else if (dateBefore.compareTo(dateNow) <= 0) {
 					// TODO 读取记录信息，插入信息到表格JTable中
 					String[] date = {dateBefore,dateNow};
 					WriteData(date);
