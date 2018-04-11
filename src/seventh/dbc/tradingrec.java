@@ -71,7 +71,7 @@ public class tradingrec {
 				+ ", tradeMoney=" + tradeMoney + ", tradeType=" + tradeType + ", tradeTarget=" + tradeTarget + ", fee="
 				+ fee + "]";
 	}
-	
+	//添加信息
 	public void inserMess(int cardnum,String tradeDate,float tradeMoney,String tradeType,int tradeTarget,float fee){
 		Session session = HibernateUtils.getCurrentSession();
 		Transaction tr = session.beginTransaction();
@@ -85,7 +85,75 @@ public class tradingrec {
 		tra.setFee(fee);
 	}
 	
+	//删除信息
 	public void deleteMess(){
+		
+	}
+	
+	//获取存款限额
+	public float getdepositLimit(long card,String tradedate){
+		//连接数据库
+		Session session = HibernateUtils.getCurrentSession();
+		Transaction tr = session.beginTransaction();
+		//查找交易信息
+		float depositLimit = 40000;
+		float a[] = new float[10];
+		int i =0;
+		String hql = "select tradeMoney from tradingrec where cardnum = ? "
+				+ "and tradeData = ? and tradeType = ?";
+		Query query = session.createQuery(hql);
+		query.setParameter(0, card);
+		query.setParameter(1, tradedate);
+		query.setParameter(2, "存款");
+		
+		java.util.List<tradingrec> list = query.list();
+		//保存存款交易的数额
+		for(tradingrec tra : list){
+			a[i] = tra.getTradeMoney();
+			i+=1;
+		}
+		for(int j = 0;j <= i;j++){
+			depositLimit -= a[j];
+		}
+		return depositLimit;
+		
+	}
+	
+	//获取取款限额
+	public float getwithdrawalsLimit(long card,String tradedate){
+		//连接数据库
+		Session session = HibernateUtils.getCurrentSession();
+		Transaction tr = session.beginTransaction();
+		//查找交易信息
+		float depositLimit = 20000;
+		float a[] = new float[10];
+		int i =0;
+		String hql = "select tradeMoney from tradingrec where cardnum = ? "
+				+ "and tradeData = ? and tradeType = ?";
+		Query query = session.createQuery(hql);
+		query.setParameter(0, card);
+		query.setParameter(1, tradedate);
+		query.setParameter(2, "取款");
+		
+		java.util.List<tradingrec> list = query.list();
+		//保存存款交易的数额
+		for(tradingrec tra : list){
+			a[i] = tra.getTradeMoney();
+			i+=1;
+		}
+		for(int j = 0;j <= i;j++){
+			depositLimit -= a[j];
+		}
+		return depositLimit;
+	}
+	public void getlmdRec(Long cardNumber,String[] date){
+		Session session = HibernateUtils.getCurrentSession();
+		Transaction tr = session.beginTransaction();
+		
+		String srcard = String.valueOf(cardNumber);
+		String hql = "from tradingrec where cardnum = ? and tradeDate between ? and ?";
+		Query query = session.createQuery(hql);
+		
 		
 	}
 }
