@@ -125,7 +125,7 @@ public class UserLoginCardNum {
 					//卡号不存在
 					//TODO 提示卡号不存在错误,仿照下面else_block的写法
 				}else {
-					label.setText("提醒：卡号长度不对，请检查后重新输入");
+					label.setText("提醒：卡号长度不对");
 					label.setVisible(true);
 					//TODO 卡号长度不对
 				}
