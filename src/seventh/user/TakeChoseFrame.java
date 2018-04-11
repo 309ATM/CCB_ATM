@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.UIManager;
 
 import seventh.until.ATMButton;
 
@@ -30,6 +31,7 @@ public class TakeChoseFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 					TakeChoseFrame window = new TakeChoseFrame();
 					window.frameChose.setVisible(true);
 				} catch (Exception e) {

@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
+import javax.swing.UIManager;
 
 import seventh.accout.BlankAccout;
 import seventh.until.ATMButton;
@@ -36,6 +37,7 @@ public class UsersLoginPwsd {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 					UsersLoginPwsd window = new UsersLoginPwsd();
 					window.frameUserLoginPwsd.setVisible(true);
 				} catch (Exception e) {
@@ -88,7 +90,6 @@ public class UsersLoginPwsd {
 			try {
 				if (psd.length() == 6) {
 					if (cardNum.equals("6221") & psd.equals("123456")) {
-						JOptionPane.showMessageDialog(null, "µÇÂ½³É¹¦", null, JOptionPane.INFORMATION_MESSAGE);
 						frameUserLoginPwsd.setVisible(false);
 						MainFrame.main(null);
 
