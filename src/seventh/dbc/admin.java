@@ -4,7 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.junit.Test;
 
-import util.HibernateUtils;
+import seventh.dbc.HibernateUtils;
 
 public class admin {
 	private String adminId;

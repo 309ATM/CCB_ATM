@@ -1,13 +1,8 @@
 package seventh.dbc;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.junit.Test;
-
-import soft.table.admin;
-import util.HibernateUtils;
 
 public class caonidaye {
 	@Test

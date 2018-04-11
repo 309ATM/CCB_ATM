@@ -1,17 +1,12 @@
 package seventh.dbc;
 
-import javax.persistence.criteria.CriteriaQuery;
-
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.mapping.List;
-import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 import org.junit.Test;
 
 
-import util.HibernateUtils;
+import seventh.dbc.HibernateUtils;
 
 public class users {
 	private int id;
@@ -107,7 +102,7 @@ public class users {
 	}
 	
 	@Test
-	public void idCardExit(){
+	public static void idCardExit(){
 		//身份证号存在检查
 		 //创建查询(query)对象
 		     String idCard = "440682199812125634";

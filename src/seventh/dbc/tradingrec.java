@@ -1,18 +1,7 @@
 package seventh.dbc;
 
-import javax.persistence.criteria.CriteriaQuery;
-
-
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.mapping.List;
-import org.hibernate.query.NativeQuery;
-import org.hibernate.query.Query;
-import org.junit.Test;
-
-
-import util.HibernateUtils;
 public class tradingrec {
 	private int tradeNum;
 	private int cardnum;

@@ -11,7 +11,7 @@ import org.hibernate.query.Query;
 import org.junit.Test;
 
 
-import seventh.dbc.ibernateUtils;
+import seventh.dbc.HibernateUtils;
 
 public class account {
 	private long cardnum;

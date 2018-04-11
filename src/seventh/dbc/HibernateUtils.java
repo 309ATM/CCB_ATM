@@ -13,14 +13,14 @@ public class HibernateUtils {
 		CONFIG = new Configuration().configure();
 		FACTORY = CONFIG.buildSessionFactory(); 
 	}
-//	
-//	//从连接池中获取连接池
-//	public static Session openSession(){
-//		return FACTORY.openSession();		
-//	}
-//	
-//	//session绑定线程
-//	public static Session getCurrentSession(){
-//		return FACTORY.getCurrentSession();
-//	}
+	
+	//从连接池中获取连接池
+	public static Session openSession(){
+		return FACTORY.openSession();		
+	}
+	
+	//session绑定线程
+	public static Session getCurrentSession(){
+		return FACTORY.getCurrentSession();
+	}
 }

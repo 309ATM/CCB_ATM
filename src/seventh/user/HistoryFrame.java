@@ -109,7 +109,7 @@ public class HistoryFrame {
 		table.setRowMargin(5);// 设置相邻两行单元格的距离
 		table.setRowSelectionAllowed(true);// 设置可否被选择.默认为false
 		table.setSelectionBackground(Color.white);// 设置所选择行的背景色
-		table.setSelectionForeground(Color.blue);// 设置所选择行的前景色
+		table.setSelectionForeground(new Color(135, 136, 250));// 设置所选择行的前景色
 		table.setGridColor(Color.black);// 设置网格线的颜色
 		table.setDragEnabled(false);// 不懂这个
 		table.setShowGrid(false);// 是否显示网格线
