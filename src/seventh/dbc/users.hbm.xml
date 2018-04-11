@@ -1,27 +1,27 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 2018-4-3 23:42:29 by Hibernate Tools 3.5.0.Final -->
+<!-- Generated 2018-4-11 12:49:38 by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping>
-    <class name="soft.table.users" table="USERS">
+    <class name="seventh.dbc.users" table="USERS">
         <id name="id" type="int">
-            <column name="id" />
+            <column name="ID" />
             <generator class="assigned" />
         </id>
         <property name="name" type="java.lang.String">
-            <column name="name" />
+            <column name="NAME" />
         </property>
         <property name="sex" type="java.lang.String">
-            <column name="sex" />
+            <column name="SEX" />
         </property>
         <property name="idcard" type="java.lang.String">
-            <column name="idcard" />
+            <column name="IDCARD" />
         </property>
         <property name="phone" type="java.lang.String">
-            <column name="phone" />
+            <column name="PHONE" />
         </property>
         <property name="address" type="java.lang.String">
-            <column name="address" />
+            <column name="ADDRESS" />
         </property>
     </class>
 </hibernate-mapping>

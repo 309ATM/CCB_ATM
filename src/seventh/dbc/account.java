@@ -105,10 +105,13 @@ public class account {
 		
 		//String card = "656885452136697452";
 		//long pawd = 123456L;
+		//Long型转String型，用于setParameter
+		String stcard = String.valueOf(card);
+		String stpawd = String.valueOf(pawd);
 		String hql = "from account a where cardnum = ? and passwd = ?";
 		Query query = session.createQuery(hql);
-		query.setParameter(0, card);
-		query.setParameter(1, pawd);
+		query.setParameter(0, stcard);
+		query.setParameter(1, stpawd);
 		java.util.List<account> list = query.list();
 		for(account a : list){
 			System.out.println(a.getCardnum()+":"+a.getPasswd());
@@ -122,14 +125,15 @@ public class account {
 		
 	}
 	
-	public Boolean cardExit(long card){
+	public static boolean cardExit(long card){
 		//判断卡号是否存在
 		Session session = HibernateUtils.getCurrentSession();
 		Transaction tr = session.beginTransaction();
 		long CARD = 0;
+		String stcard = String.valueOf(card);
 		String hql = "from accunt where cardnum = ?";
 		Query query = session.createQuery(hql);
-		query.setParameter(0, card);
+		query.setParameter(0, stcard);
 		java.util.List<account> list = query.list();
 		for(account a : list){
 			System.out.println(a.getCardnum());
@@ -145,32 +149,31 @@ public class account {
 		
 	}
 	
-	public boolean banks(long Card){
+	public static boolean banks(long Card){
 		//判断所属银行
 	    //String Card = "656885452136697452";
-				 Session session = HibernateUtils.getCurrentSession();
-				 Transaction tr = session.beginTransaction();
-				 String BANK = "";
-				 String hql = "from account a where cardnum = ?";
-				 Query query = session.createQuery(hql);
-				 query.setParameter(0, Card);
-				 java.util.List<account> list = query.list();
-				 for(account a : list){
-					BANK = a.getBank();
-					System.out.println(BANK);
-				 }
-				 System.out.println(BANK);
-				 if(BANK.equals("建设银行")){
-					 return false;
-					 //System.out.println("true");
-					 }
-				 else{
-					 return true;
-					 //System.out.println("false");
-					 }
-	    
+		Session session = HibernateUtils.getCurrentSession();
+		Transaction tr = session.beginTransaction();
+		String BANK = "";
+		String stCard = String.valueOf(Card);
+		String hql = "from account a where cardnum = ?";
+		Query query = session.createQuery(hql);
+		query.setParameter(0, stCard);
+		java.util.List<account> list = query.list();
+		for(account a : list){
+			BANK = a.getBank();
+			System.out.println(BANK);
+		}
+		System.out.println(BANK);
+		if(BANK.equals("建设银行")){
+			return false;
+			//System.out.println("true");
+		}
+		else{
+			return true;
+			//System.out.println("false");
+		}
 		//System.out.print(query);
-		
 		//return bank;
 	}
 	

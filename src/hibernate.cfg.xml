@@ -9,7 +9,7 @@
     	<!-- 驱动 -->
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
         <!-- 连接数据库的名字 -->
-        <property name="hibernate.connection.url">jdbc:mysql://172.25.148.15:3306/ccb_atm</property>
+        <property name="hibernate.connection.url">jdbc:mysql:///ccb_atm</property>
         <!-- 连接数据库的账号 -->
         <property name="hibernate.connection.username">root</property>
         <!-- 连接数据库的账号的密码 -->
@@ -22,13 +22,15 @@
         
         <!-- 映射文件 -->
         <!-- admin的映射文件 -->
-          <mapping resource="soft/table/admin.hbm.xml"/>
+          <mapping resource="seventh/dbc/admin.hbm.xml"/>
         <!-- account的映射文件 -->
-          <mapping resource="soft/table/account.hbm.xml"/>
+          <mapping resource="seventh/dbc/account.hbm.xml"/>
         <!-- users的映射文件 -->
-          <mapping resource="soft/table/users.hbm.xml"/>
+          <mapping resource="seventh/dbc/users.hbm.xml"/>
         <!-- tradingrec的映射文件 -->
-          <mapping resource="soft/table/tradingrec.hbm.xml"/>
+          <mapping resource="seventh/dbc/tradingrec.hbm.xml"/>
+      
+        
         
     </session-factory>
     

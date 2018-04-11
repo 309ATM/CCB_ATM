@@ -2,6 +2,8 @@ package seventh.dbc;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+import org.junit.Before;
 import org.junit.Test;
 
 import seventh.dbc.HibernateUtils;
@@ -25,6 +27,15 @@ public class admin {
 	public String toString() {
 		return "admin [adminId=" + adminId + ", passwd=" + passwd + "]";
 	}
+	private static Session session;
+	private static Transaction tr;
+	
+	@Before
+	public void init(){
+		session = HibernateUtils.getCurrentSession();
+		tr = session.beginTransaction();
+	}
+	
 	//添加
 	@Test
 	public void insertMess(){
@@ -38,4 +49,26 @@ public class admin {
 		session.close();
 	}
 	
+	public static boolean checkadmin(String adminid,String passWd){
+		//检查账号和密码是否一致
+		String hql = "from admin where adminId = ? and passwd = ?";
+		Query query = session.createQuery(hql);
+		query.setParameter(0, adminid);
+		query.setParameter(1, passWd);
+		java.util.List<admin> list = query.list();
+		for(admin a : list){
+			System.out.println(a.toString());
+		}
+		
+		if(list != null){
+			return true;
+		}
+		else{
+		return false;
+		}
+	}
 }
+	
+	
+
+
