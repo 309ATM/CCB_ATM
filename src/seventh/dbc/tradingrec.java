@@ -2,6 +2,10 @@ package seventh.dbc;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+/** 
+ * ½»Ò×¼ÇÂ¼
+ *
+ */
 public class tradingrec {
 	private int tradeNum;
 	private int cardnum;

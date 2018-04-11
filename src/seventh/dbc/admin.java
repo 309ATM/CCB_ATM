@@ -49,8 +49,12 @@ public class admin {
 		session.close();
 	}
 	
+	/** 检查账号和密码是否一致
+	 * @param adminid
+	 * @param passWd
+	 * @return
+	 */
 	public static boolean checkadmin(String adminid,String passWd){
-		//检查账号和密码是否一致
 		String hql = "from admin where adminId = ? and passwd = ?";
 		Query query = session.createQuery(hql);
 		query.setParameter(0, adminid);
