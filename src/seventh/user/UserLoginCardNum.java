@@ -111,10 +111,6 @@ public class UserLoginCardNum {
 	}
  
 	class CardNum implements ActionListener {
-<<<<<<< HEAD
-
-=======
->>>>>>> Ins
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String cardNum = textField_CardNumber.getText().trim();
