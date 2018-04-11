@@ -138,8 +138,10 @@ public class TakeFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if(isOverdeaft)
+			//如果是透支取款，则调用透支取款的方法。
+			if(isOverdeaft) {
 				Overdraft(money);
+			}
 			else
 				take(money);
 		}
@@ -157,13 +159,25 @@ public class TakeFrame {
 		public void actionPerformed(ActionEvent e) {
 			String moneys = textField_money.getText();
 			float money = Float.parseFloat(moneys);
-			if (money % 100 != 0)
-				JOptionPane.showMessageDialog(null, "金额数必须是100的整数倍", "错误", JOptionPane.ERROR_MESSAGE);
-			else if (money > 5000) {
-				JOptionPane.showMessageDialog(null, "取款数额大于单笔限额，单笔存款最多为5000元", "错误", JOptionPane.ERROR_MESSAGE);
-			} else {
-				take(moneys);
+			
+			if (!isOverdeaft) {
+				if (money % 100 != 0)
+					JOptionPane.showMessageDialog(null, "金额数必须是100的整数倍", "错误", JOptionPane.ERROR_MESSAGE);
+				else if (money > 5000) {
+					JOptionPane.showMessageDialog(null, "取款数额大于单笔限额，单笔存款最多为5000元", "错误", JOptionPane.ERROR_MESSAGE);
+				} else {
+					take(moneys);
+				} 
+			}else {
+				if (money % 100 != 0)
+					JOptionPane.showMessageDialog(null, "金额数必须是100的整数倍", "错误", JOptionPane.ERROR_MESSAGE);
+				else if (money > 5000) {
+					JOptionPane.showMessageDialog(null, "透支数额大于透支额，透支最多为5000元", "错误", JOptionPane.ERROR_MESSAGE);
+				} else {
+					Overdraft(moneys);
+				} 
 			}
+			
 			textField_money.setText("");
 		}
 
@@ -201,7 +215,25 @@ public class TakeFrame {
 		}
 	}
 	
-	public void Overdraft(String money) {
+	public void Overdraft(String moneys) {
 		//TODO 透支取款的方法
+		float money = Float.parseFloat(moneys);
+		// 手续费
+		float fees  = 0;
+		if (money > BlankAccout.getInstance().getWithdrawalsLimit()) {
+			JOptionPane.showMessageDialog(null, "透支数额大于今日限额", "错误", JOptionPane.ERROR_MESSAGE);
+		} else {
+			// TODO 调用数据库方法，交易记录表增加一项，修改数据库中的余额
+			if (BlankAccout.getInstance().getBlank() != "建设银行") {
+				fees = money* 1 / 100;
+			}
+			// 修改今日取款额度
+			BlankAccout.getInstance().setWithdrawalsLimit(BlankAccout.getInstance().getWithdrawalsLimit() - money);
+			// 修改余额
+			BlankAccout.getInstance().setBalance(BlankAccout.getInstance().getBalance() - money - fees);
+			System.out.println(BlankAccout.getInstance().getWithdrawalsLimit());
+			System.out.println(BlankAccout.getInstance().getBalance());
+			JOptionPane.showMessageDialog(null, "取款" + money, "提示", JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
 }
