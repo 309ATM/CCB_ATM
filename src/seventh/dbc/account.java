@@ -149,22 +149,22 @@ public class account {
 	 * @param card
 	 * @return
 	 */
-	public static boolean cardExit(long card) {
+	public static boolean cardExit(String card) {
 		Session session = HibernateUtils.getCurrentSession();
 		Transaction tr = session.beginTransaction();
-		// 如果卡号不存在则为 0
+		// 查询结果卡号初始化为0
 		long CARD = 0;
-		String stcard = String.valueOf(card);
-		String hql = "from accunt where cardnum = ?";
+//		String stcard = String.valueOf(card);
+		String hql = "from account where cardnum = ?";
 		Query<account> query = session.createQuery(hql);
-		query.setParameter(0, stcard);
+		query.setParameter(0, card);
 
 		java.util.List<account> list = query.list();
 		for (account a : list) {
 			CARD = a.getCardnum();
 		}
-		// 如果卡号不存在则为空，返回 true，否则返回 false
-		if (card == CARD) {
+		// 判断卡号是否存在，卡号存在则为返回 true，否则返回 false
+		if (String.valueOf(CARD).equals(card) ) {
 			return true;
 		} else {
 			return false;

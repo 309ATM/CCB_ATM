@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 
 import seventh.accout.BlankAccout;
+import seventh.dbc.account;
 import seventh.until.ATMButton;
 
 import javax.swing.SwingConstants;
@@ -109,25 +110,27 @@ public class UserLoginCardNum {
 	class CardNum implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			label.setText("");
 			String cardNum = textField_CardNumber.getText().trim();
 			if (!cardNum.isEmpty()) {
 				//TODO 将卡号验证改回18位
-				if (cardNum.length() == 4) {
+				if (cardNum.length() == 18) {
 					// TODO 判断卡号是否存在
-					//存在
-					BlankAccout.getInstance().setCardNum(Long.parseLong(cardNum));
-					frameUserLoginCard.dispose();
-					usersLoginPwsd.getFrameUserLoginPwsd().setVisible(true);
-					//卡号不存在
-					//TODO 提示卡号不存在错误,仿照下面else_block的写法
+					if(account.cardExit(cardNum)) {
+						//存在
+						BlankAccout.getInstance().setCardNum(Long.parseLong(cardNum));
+						frameUserLoginCard.dispose();
+						usersLoginPwsd.getFrameUserLoginPwsd().setVisible(true);
+					}else {
+						//TODO 提示卡号不存在错误,仿照下面else_block的写法
+						label.setText("提醒：卡号不存在");
+					}
 				}else {
 					label.setText("提醒：卡号长度不对");
-					label.setVisible(true);
 					//TODO 卡号长度不对
 				}
 			} else {
 				label.setText("提醒：请输入卡号!");
-				label.setVisible(true);
 			}
 		}
 	}

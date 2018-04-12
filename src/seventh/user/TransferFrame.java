@@ -24,8 +24,8 @@ public class TransferFrame {
 	private JFrame frameTransfer;
 	private JTextField textField_money;
 	// private MainFrame mainFrame = new MainFrame();
-	private String File = "E:\\Code\\java\\CCB_ATM";
-	// private String File = ".";
+	//private String File = "E:\\Code\\java\\CCB_ATM";
+	private String File = ".";
 
 	/**
 	 * Launch the application.
@@ -102,8 +102,8 @@ public class TransferFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO 转账操作
-
+			// TODO 转账操作，判断目标账号，增加交易记录进数据库，修改余额
+			
 		}
 
 	}
