@@ -1,6 +1,6 @@
 package seventh.dbc;
 
-public class admin {
+public class Admin {
 		private String adminId;
 		private String passwd;
 		public String getAdminId() {

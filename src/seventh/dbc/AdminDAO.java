@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-public class adminDAO extends DAO<admin>{
+public class AdminDAO extends DAO<Admin>{
 	@Test
 	public void getAll(){
 		String sql = "select * from admin where adminId = ?";
