@@ -113,7 +113,7 @@ public class UsersLoginPwsd {
 							BlankAccout.getInstance().setDepositLimit(50000); 
 							BlankAccout.getInstance().setBalance(100000);
 							BlankAccout.getInstance().setBlank("中国银行");
-							
+							BlankAccout.getInstance().setOverdraft(5000);
 							frameUserLoginPwsd.dispose();
 						} else {
 							JOptionPane.showMessageDialog(null, "密码错误", null, JOptionPane.ERROR_MESSAGE);
