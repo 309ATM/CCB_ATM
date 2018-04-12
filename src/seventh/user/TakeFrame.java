@@ -26,7 +26,8 @@ public class TakeFrame {
 
 	public JFrame frameTake;
 	private JTextField textField_money;
-	Boolean isOverdeaft; // 是不是透支取款
+	// 是不是透支取款
+	Boolean isOverdeaft; 
 	// private String File = "E:\\Code\\java\\CCB_ATM";
 	private String File = ".";
 	private JLabel label_message;
@@ -212,7 +213,7 @@ public class TakeFrame {
 	}
 
 	/**
-	 * 调用数据库方法写入数据，修改 BlankAccount
+	 * 调用数据库方法写入数据，修改 BankAccount
 	 * 
 	 * @param moneys
 	 */
@@ -228,12 +229,12 @@ public class TakeFrame {
 			if (BlankAccout.getInstance().getBlank() != "建设银行") {
 				fees = money * 1 / 100;
 			}
+			// 设置目标账号为自己
+			BlankAccout.getInstance().setTargetCard(BlankAccout.getInstance().getCardNum());
 			// 修改今日取款额度
 			BlankAccout.getInstance().setWithdrawalsLimit(BlankAccout.getInstance().getWithdrawalsLimit() - money);
 			// 修改余额
 			BlankAccout.getInstance().setBalance(BlankAccout.getInstance().getBalance() - money - fees);
-			System.out.println(BlankAccout.getInstance().getWithdrawalsLimit());
-			System.out.println(BlankAccout.getInstance().getBalance());
 			label_message.setText("取款" + money + "元");
 			label_message.setVisible(true);
 		}
@@ -244,21 +245,19 @@ public class TakeFrame {
 		float money = Float.parseFloat(moneys);
 		// 手续费
 		float fees = 0;
-		if (money > BlankAccout.getInstance().getWithdrawalsLimit()) {
-			label_message.setText("透支数额大于今日限额");
+		if (money > BlankAccout.getInstance().getOverdraft()) {
+			label_message.setText("透支数额大于透支额");
 			label_message.setVisible(true);
 		} else {
-			// TODO 调用数据库方法，交易记录表增加一项，修改数据库中的余额
+			// TODO 调用数据库方法，交易记录表增加一项，修改数据库中的余额和透支额
 			if (BlankAccout.getInstance().getBlank() != "建设银行") {
 				fees = money * 1 / 100;
 			}
-			// 修改今日取款额度
-			BlankAccout.getInstance().setWithdrawalsLimit(BlankAccout.getInstance().getWithdrawalsLimit() - money);
-			// 修改余额
-			BlankAccout.getInstance().setBalance(BlankAccout.getInstance().getBalance() - money - fees);
-			System.out.println(BlankAccout.getInstance().getWithdrawalsLimit());
-			System.out.println(BlankAccout.getInstance().getBalance());
-			label_message.setText("取款" + money + "元");
+			// 设置目标账号为自己
+			BlankAccout.getInstance().setTargetCard(BlankAccout.getInstance().getCardNum());
+			// 修改透支额
+			BlankAccout.getInstance().setOverdraft(BlankAccout.getInstance().getOverdraft()- money - fees);
+			label_message.setText("透支取款" + money + "元");
 			label_message.setVisible(true);
 		}
 	}

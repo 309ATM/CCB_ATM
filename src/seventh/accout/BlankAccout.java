@@ -13,6 +13,9 @@ public class BlankAccout {
 	private float depositLimit;
 	// 每日取款限额
 	private float withdrawalsLimit;
+	// 目标账号
+	private long targetCard;
+
 
 	// 设置单例模式
 	private BlankAccout() {
@@ -26,6 +29,14 @@ public class BlankAccout {
 		return LazyHolder.INSTANCE;
 	}
 
+	
+	public long getTargetCard() {
+		return targetCard;
+	}
+	
+	public void setTargetCard(long targetCard) {
+		this.targetCard = targetCard;
+	}
 	public float getOverdraft() {
 		return overdraft;
 	}

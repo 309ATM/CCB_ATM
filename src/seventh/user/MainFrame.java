@@ -29,6 +29,8 @@ public class MainFrame {
 	private HistoryFrame historyFrame = new HistoryFrame();
 //	private String File = "E:\\Code\\java\\CCB_ATM";
 	private String File = ".";
+	private ATMButton btnQu;
+	private ATMButton btnZhuan;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -64,7 +66,7 @@ public class MainFrame {
 		frameMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frameMain.getContentPane().setLayout(null);
 
-		ATMButton btnQu = new ATMButton("<html><center>取款<br>Cash</center></html>");
+		btnQu = new ATMButton("<html><center>取款<br>Cash</center></html>");
 		btnQu.addActionListener(new ToTake());
 		btnQu.setBounds(10, 250, 200, 80);
 		frameMain.getContentPane().add(btnQu);
@@ -74,7 +76,7 @@ public class MainFrame {
 		btnSave.setBounds(10, 400, 200, 80);
 		frameMain.getContentPane().add(btnSave);
 
-		ATMButton btnZhuan = new ATMButton("<html><center>转账<br>Transfer</center></html>");
+		btnZhuan = new ATMButton("<html><center>转账<br>Transfer</center></html>");
 		btnZhuan.addActionListener(new ToTransfer());
 		btnZhuan.setBounds(10, 550, 200, 80);
 		frameMain.getContentPane().add(btnZhuan);
@@ -99,8 +101,23 @@ public class MainFrame {
 		lblBg.setIcon(new ImageIcon(File + "\\img\\ATM_bg.png"));
 		lblBg.setBounds(3, 0, 1086, 715);
 		frameMain.getContentPane().add(lblBg);
+		
+		cardLock();
 	}
 
+	public void cardLock() {
+		//这部分我写
+		String status = "冻结";//"正常","挂失","销户"
+		if(status.equals("冻结")) {
+			//调用MainFrame的方法，隐藏部分控件，实现功能消除
+			btnQu.setVisible(false);
+			btnZhuan.setVisible(false);
+			//label提示账户已冻结
+		}
+		
+	}
+	
+	
 	class ToTake implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {

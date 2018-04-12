@@ -133,8 +133,9 @@ public class SaveFrame {
 
 	public void deposit(Long card, int money) {
 		// 存款方法
-		
+		//TODO 调用数据库函数，存钱
 		BlankAccout.getInstance().setBalance(BlankAccout.getInstance().getBalance() + money);
+		BlankAccout.getInstance().setTargetCard(BlankAccout.getInstance().getCardNum());
 	}
 
 	// 存钱监听器
@@ -166,7 +167,7 @@ public class SaveFrame {
 						textField_money.setText("");
 						float balace = BlankAccout.getInstance().getBalance();
 						float overdraft = BlankAccout.getInstance().getOverdraft();
-						// 调用数据库函数，存钱
+						
 						label_success.setText("<html><center>存款成功<br>余额：" + balace + "<br>可透支额：" + overdraft + "</center></html>");
 					}
 				} catch (NumberFormatException e) {
