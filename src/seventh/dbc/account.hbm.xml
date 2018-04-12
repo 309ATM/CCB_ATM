@@ -29,11 +29,5 @@
         <property name="overdraft" type="float">
             <column name="OVERDRAFT" />
         </property>
-        <property name="depositLimit" type="float">
-            <column name="DEPOSITLIMIT" />
-        </property>
-        <property name="withdrawalsLimit" type="float">
-            <column name="WITHDRAWALSLIMIT" />
-        </property>
     </class>
 </hibernate-mapping>
