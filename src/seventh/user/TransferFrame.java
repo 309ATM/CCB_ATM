@@ -12,6 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import seventh.until.ATMButton;
+import java.awt.Color;
+import javax.swing.SwingConstants;
 
 /**
  * ×ªÕË
@@ -66,20 +68,29 @@ public class TransferFrame {
 		frameTransfer.getContentPane().setLayout(null);
 
 		ATMButton btn_exit = new ATMButton("<html><center>ÍË³ö<br>Confirm</center></html>");
+		btn_exit.setForeground(new Color(255, 0, 0));
 		btn_exit.addActionListener(new Back());
-		btn_exit.setBounds(875, 550, 200, 80);
+		btn_exit.setBounds(14, 550, 200, 80);
 		frameTransfer.getContentPane().add(btn_exit);
 
 		textField_money = new JTextField();
 		textField_money.setFont(new Font("Î¢ÈíÑÅºÚ Light", Font.PLAIN, 40));
-		textField_money.setBounds(300, 335, 451, 53);
+		textField_money.setBounds(320, 334, 451, 53);
 		frameTransfer.getContentPane().add(textField_money);
 		textField_money.setColumns(10);
 
-		ATMButton button = new ATMButton("<html><center>×ªÕË<br>Transfer</center></html>");
-		button.addActionListener(new TransferMoney());
-		button.setBounds(14, 550, 200, 80);
-		frameTransfer.getContentPane().add(button);
+		ATMButton btn_confirm = new ATMButton("<html><center>×ªÕË<br>Transfer</center></html>");
+		btn_confirm.setForeground(new Color(0, 128, 0));
+		btn_confirm.addActionListener(new TransferMoney());
+		btn_confirm.setBounds(875, 550, 200, 80);
+		frameTransfer.getContentPane().add(btn_confirm);
+		
+		JLabel label_tip = new JLabel("ÇëÊäÈë×ªÈëÕËºÅ");
+		label_tip.setHorizontalAlignment(SwingConstants.CENTER);
+		label_tip.setForeground(new Color(255, 255, 255));
+		label_tip.setFont(new Font("Ó×Ô²", Font.BOLD, 24));
+		label_tip.setBounds(391, 254, 311, 53);
+		frameTransfer.getContentPane().add(label_tip);
 
 		JLabel lblBg = new JLabel("");
 		lblBg.setIcon(new ImageIcon(File + "\\img\\ATM_bg.png"));
@@ -107,5 +118,4 @@ public class TransferFrame {
 		}
 		
 	}
-
 }
