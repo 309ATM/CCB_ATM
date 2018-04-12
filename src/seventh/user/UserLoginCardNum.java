@@ -105,10 +105,6 @@ public class UserLoginCardNum {
 		// 判断所属银行
 		return true;
 	}
-
-	public void deposit(String card, int money) {
-		// 存款方法
-	}
  
 	class CardNum implements ActionListener {
 		@Override
