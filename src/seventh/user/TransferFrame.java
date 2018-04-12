@@ -11,6 +11,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import seventh.until.ATMButton;
+import java.awt.Color;
+import javax.swing.SwingConstants;
+
 /**
  * 转账
  *
@@ -20,8 +24,8 @@ public class TransferFrame {
 	private JFrame frameTransfer;
 	private JTextField textField_money;
 	// private MainFrame mainFrame = new MainFrame();
-	private String File = "E:\\Code\\java\\CCB_ATM";
-	// private String File = ".";
+	//private String File = "E:\\Code\\java\\CCB_ATM";
+	private String File = ".";
 
 	/**
 	 * Launch the application.
@@ -64,20 +68,29 @@ public class TransferFrame {
 		frameTransfer.getContentPane().setLayout(null);
 
 		ATMButton btn_exit = new ATMButton("<html><center>退出<br>Confirm</center></html>");
+		btn_exit.setForeground(new Color(255, 0, 0));
 		btn_exit.addActionListener(new Back());
-		btn_exit.setBounds(875, 550, 200, 80);
+		btn_exit.setBounds(14, 550, 200, 80);
 		frameTransfer.getContentPane().add(btn_exit);
 
 		textField_money = new JTextField();
 		textField_money.setFont(new Font("微软雅黑 Light", Font.PLAIN, 40));
-		textField_money.setBounds(300, 335, 451, 53);
+		textField_money.setBounds(320, 334, 451, 53);
 		frameTransfer.getContentPane().add(textField_money);
 		textField_money.setColumns(10);
 
-		ATMButton button = new ATMButton("<html><center>转账<br>Transfer</center></html>");
-		button.addActionListener(new TransferMoney());
-		button.setBounds(14, 550, 200, 80);
-		frameTransfer.getContentPane().add(button);
+		ATMButton btn_confirm = new ATMButton("<html><center>转账<br>Transfer</center></html>");
+		btn_confirm.setForeground(new Color(0, 128, 0));
+		btn_confirm.addActionListener(new TransferMoney());
+		btn_confirm.setBounds(875, 550, 200, 80);
+		frameTransfer.getContentPane().add(btn_confirm);
+		
+		JLabel label_tip = new JLabel("请输入转入账号");
+		label_tip.setHorizontalAlignment(SwingConstants.CENTER);
+		label_tip.setForeground(new Color(255, 255, 255));
+		label_tip.setFont(new Font("幼圆", Font.BOLD, 24));
+		label_tip.setBounds(391, 254, 311, 53);
+		frameTransfer.getContentPane().add(label_tip);
 
 		JLabel lblBg = new JLabel("");
 		lblBg.setIcon(new ImageIcon(File + "\\img\\ATM_bg.png"));
@@ -89,8 +102,8 @@ public class TransferFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO 转账操作
-
+			// TODO 转账操作，判断目标账号，增加交易记录进数据库，修改余额
+			
 		}
 
 	}
@@ -105,5 +118,4 @@ public class TransferFrame {
 		}
 		
 	}
-
 }

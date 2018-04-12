@@ -21,6 +21,10 @@ import javax.swing.ImageIcon;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+/**
+ * 管理员登陆界面
+ *
+ */
 public class LoginUI {
 
 	private JFrame frameAdmin;

@@ -13,6 +13,8 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 
 import seventh.accout.BlankAccout;
+import seventh.dbc.account;
+import seventh.until.ATMButton;
 
 import javax.swing.SwingConstants;
 import java.awt.Color;
@@ -27,8 +29,8 @@ public class UserLoginCardNum {
 	private JTextField textField_CardNumber;
 	private UsersLoginPwsd usersLoginPwsd = new UsersLoginPwsd();
 	private JLabel label;
-	private String File = "E:\\Code\\java\\CCB_ATM";
-	// private String File = ".";
+//	private String File = "E:\\Code\\java\\CCB_ATM";
+	 private String File = ".";
 
 	/**
 	 * Launch the application.
@@ -68,7 +70,7 @@ public class UserLoginCardNum {
 		frameUserLoginCard.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frameUserLoginCard.getContentPane().setLayout(null);
 
-		ATMButton button_1 = new ATMButton("<html>确认<br>Confirm<html>");
+		ATMButton button_1 = new ATMButton("<html><center>确认<br>Confirm</center><html>");
 		button_1.addActionListener(new CardNum());
 		button_1.setBounds(875, 550, 200, 80);
 		frameUserLoginCard.getContentPane().add(button_1);
@@ -104,28 +106,32 @@ public class UserLoginCardNum {
 		// 判断所属银行
 		return true;
 	}
-
-	public void deposit(String card, int money) {
-		// 存款方法
-	}
  
 	class CardNum implements ActionListener {
-
-		
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (!textField_CardNumber.getText().isEmpty()) {
-				// TODO 判断卡号是否存在
-				//存在
-				BlankAccout.getInstance().setCardNum(Long.parseLong(textField_CardNumber.getText().trim()));
-				frameUserLoginCard.dispose();
-				usersLoginPwsd.getFrameUserLoginPwsd().setVisible(true);
-				//卡号不存在
-				//TODO 提示卡号不存在错误,仿照下面else_block的写法
+			label.setText("");
+			String cardNum = textField_CardNumber.getText().trim();
+			if (!cardNum.isEmpty()) {
+				//TODO 将卡号验证改回18位
+				if (cardNum.length() == 18) {
+					// TODO 判断卡号是否存在
+					if(account.cardExit(cardNum)) {
+						//存在
+						//TODO 获取银行卡账号的状态
+						BlankAccout.getInstance().setCardNum(Long.parseLong(cardNum));
+						frameUserLoginCard.dispose();
+						usersLoginPwsd.getFrameUserLoginPwsd().setVisible(true);
+					}else {
+						//TODO 提示卡号不存在错误,仿照下面else_block的写法
+						label.setText("提醒：卡号不存在");
+					}
+				}else {
+					label.setText("提醒：卡号长度不对");
+					//TODO 卡号长度不对
+				}
 			} else {
 				label.setText("提醒：请输入卡号!");
-				label.setVisible(true);
 			}
 		}
 	}
