@@ -21,8 +21,6 @@ public class account {
 	private String bank;
 	private float balance;
 	private float overdraft;
-	private float depositLimit;
-	private float withdrawalsLimit;
 
 	public long getCardnum() {
 		return cardnum;
@@ -88,28 +86,17 @@ public class account {
 		this.overdraft = overdraft;
 	}
 
-	public float getDepositLimit() {
-		return depositLimit;
-	}
 
-	public void setDepositLimit(float depositLimit) {
-		this.depositLimit = depositLimit;
-	}
-
-	public float getWithdrawalsLimit() {
-		return withdrawalsLimit;
-	}
-
-	public void setWithdrawalsLimit(float withdrawalsLimit) {
-		this.withdrawalsLimit = withdrawalsLimit;
-	}
+	
 
 	@Override
 	public String toString() {
 		return "account [cardnum=" + cardnum + ", id=" + id + ", passwd=" + passwd + ", stat=" + stat + ", accType="
-				+ accType + ", bank=" + bank + ", balance=" + balance + ", overdraft=" + overdraft + ", depositLimit="
-				+ depositLimit + ", withdrawalsLimit=" + withdrawalsLimit + "]";
+				+ accType + ", bank=" + bank + ", balance=" + balance + ", overdraft=" + overdraft + "]";
 	}
+	
+	private static Session session;
+	private static Transaction tr;
 
 	/**
 	 * 验证卡号密码匹配
@@ -119,17 +106,17 @@ public class account {
 	 * @return
 	 */
 	@Test
-	public boolean checkPawd(long card, long pawd) {
-		Session session = HibernateUtils.getCurrentSession();
-		Transaction tr = session.beginTransaction();
+	public static boolean checkPawd(long card, long pawd) {
+		session = HibernateUtils.getCurrentSession();
+		tr = session.beginTransaction();
 
 		// Long型转String型，用于setParameter
-		String stcard = String.valueOf(card);
-		String stpawd = String.valueOf(pawd);
-		String hql = "from account a where cardnum = ? and passwd = ?";
+		//String stcard = String.valueOf(card);
+		//String stpawd = String.valueOf(pawd);
+		String hql = "from account a where cardnum = ?0 and passwd = ?1";
 		Query query = session.createQuery(hql);
-		query.setParameter(0, stcard);
-		query.setParameter(1, stpawd);
+		query.setParameter("0", card);
+		query.setParameter("1", pawd);
 		java.util.List<account> list = query.list();
 		// for(account a : list){
 		// System.out.println(a.getCardnum()+":"+a.getPasswd());
@@ -149,22 +136,22 @@ public class account {
 	 * @param card
 	 * @return
 	 */
-	public static boolean cardExit(String card) {
-		Session session = HibernateUtils.getCurrentSession();
-		Transaction tr = session.beginTransaction();
+	public static boolean cardExit(Long card) {
+		session = HibernateUtils.getCurrentSession();
+		tr = session.beginTransaction();
 		// 查询结果卡号初始化为0
 		long CARD = 0;
 //		String stcard = String.valueOf(card);
-		String hql = "from account where cardnum = ?";
+		String hql = "from account where cardnum = ?0";
 		Query<account> query = session.createQuery(hql);
-		query.setParameter(0, card);
+		query.setParameter("0", card);
 
 		java.util.List<account> list = query.list();
 		for (account a : list) {
 			CARD = a.getCardnum();
 		}
 		// 判断卡号是否存在，卡号存在则为返回 true，否则返回 false
-		if (String.valueOf(CARD).equals(card) ) {
+		if (CARD == card ) {
 			return true;
 		} else {
 			return false;
@@ -178,21 +165,24 @@ public class account {
 	 * @param Card
 	 * @return
 	 */
-	public static String banks(long Card) {
+	public static boolean banks(long Card) {
 
 		// String Card = "656885452136697452";
-		Session session = HibernateUtils.getCurrentSession();
-		Transaction tr = session.beginTransaction();
+		session = HibernateUtils.getCurrentSession();
+		tr = session.beginTransaction();
 		String BANK = "";
-		String stCard = String.valueOf(Card);
-		String hql = "from account a where cardnum = ?";
+		//String stCard = String.valueOf(Card);
+		String hql = "from account a where cardnum = ?0";
 		Query query = session.createQuery(hql);
-		query.setParameter(0, stCard);
+		query.setParameter("0", Card);
 		java.util.List<account> list = query.list();
 		for (account a : list) {
 			BANK = a.getBank();
 		}
-		return BANK;
+		if(BANK.equals("建设银行"))
+			return true;
+		else
+			return false;
 	}
 
 }

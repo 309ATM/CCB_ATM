@@ -66,9 +66,12 @@ public class tradingrec {
 				+ fee + "]";
 	}
 	
+	private static Session session;
+	private static Transaction tr;
+	
 	public static boolean inserMess(int cardnum,String tradeDate,float tradeMoney,String tradeType,int tradeTarget,float fee){
-		Session session = HibernateUtils.getCurrentSession();
-		Transaction tr = session.beginTransaction();
+		session = HibernateUtils.getCurrentSession();
+		tr = session.beginTransaction();
 		
 		tradingrec tra = new tradingrec();
 		tra.setCardnum(cardnum);
@@ -87,7 +90,7 @@ public class tradingrec {
 	}
 	
 	//获取存款限额
-	public float getdepositLimit(long card,String tradedate){
+	public static float getdepositLimit(long card,String tradedate){
 		//连接数据库
 		Session session = HibernateUtils.getCurrentSession();
 		Transaction tr = session.beginTransaction();
@@ -116,7 +119,7 @@ public class tradingrec {
 	}
 	
 	//获取取款限额
-	public float getwithdrawalsLimit(long card,String tradedate){
+	public static float getwithdrawalsLimit(long card,String tradedate){
 		//连接数据库
 		Session session = HibernateUtils.getCurrentSession();
 		Transaction tr = session.beginTransaction();
@@ -142,14 +145,16 @@ public class tradingrec {
 		}
 		return depositLimit;
 	}
-	public void getlmdRec(Long cardNumber,String[] date){
-		Session session = HibernateUtils.getCurrentSession();
-		Transaction tr = session.beginTransaction();
+	public void getlmdRec(long cardNumber,String[] date){
+		session = HibernateUtils.getCurrentSession();
+		tr = session.beginTransaction();
 		
 		String srcard = String.valueOf(cardNumber);
 		String hql = "from tradingrec where cardnum = ? and tradeDate between ? and ?";
 		Query query = session.createQuery(hql);
 	}	
+	
+	
 	public static String[][] getTraRec(long cardNumber,String[] date){
 			//date[0]为起始日期，date[1]为结束时间
 			//获取这两个时间之间的交易记录
