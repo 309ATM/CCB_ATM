@@ -61,6 +61,7 @@ public class UsersLoginPwsd {
 
 		ATMButton button_1 = new ATMButton("<html><center>确认<br>Confirm<center></html>");
 		button_1.addActionListener(new UserLogin());
+		frameUserLoginPwsd.getContentPane().setLayout(null);
 		button_1.setBounds(875, 550, 200, 80);
 		frameUserLoginPwsd.getContentPane().add(button_1);
 
@@ -78,41 +79,57 @@ public class UsersLoginPwsd {
 
 		JLabel lblBg = new JLabel("");
 		lblBg.setIcon(new ImageIcon(File + "\\img\\ATM_bg.png"));
-		lblBg.setBounds(3, 0, 1086, 715);
+		lblBg.setBounds(0, 0, 1089, 715);
 		frameUserLoginPwsd.getContentPane().add(lblBg);
+		
+		JLabel label_message = new JLabel("");
+		label_message.setForeground(Color.RED);
+		label_message.setFont(new Font("幼圆", Font.BOLD, 24));
+		label_message.setBounds(380, 404, 288, 43);
+		frameUserLoginPwsd.getContentPane().add(label_message);
 	}
 
 	// 用户登陆监听器
 	class UserLogin implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
-			String cardNum = String.valueOf(BlankAccout.getInstance().getCardNum());
-			String psd = new String(textUserPswd.getPassword());
-			try {
-				if (psd.length() == 6) {
-					if (cardNum.equals("6221") & psd.equals("123456")) {
-						frameUserLoginPwsd.setVisible(false);
-						MainFrame.main(null);
-
-						// 将用户账号保存下来
-						BlankAccout.getInstance().setCardNum(Long.parseLong(cardNum));
-						// 接下来这里调用数据库，将所有信息传入单例之中，如下
-						//TODO 这里记得去除信息的设置
-						BlankAccout.getInstance().setWithdrawalsLimit(20000);
-						BlankAccout.getInstance().setDepositLimit(50000); 
-						BlankAccout.getInstance().setBalance(100000);
-						BlankAccout.getInstance().setBlank("中国银行");
-						
-						frameUserLoginPwsd.dispose();
-					} else {
-						JOptionPane.showMessageDialog(null, "密码错误", null, JOptionPane.ERROR_MESSAGE);
-					} 
-				}else {
-					JOptionPane.showMessageDialog(null, "密码长度不正确", null, JOptionPane.ERROR_MESSAGE);					
+			//调用数据库 查询账户状态方法
+			String status = "正常";//"挂失","销户"
+			if(status.equals("正常")) {
+				//正常登陆
+				String cardNum = String.valueOf(BlankAccout.getInstance().getCardNum());
+				String psd = new String(textUserPswd.getPassword());
+				try {
+					if (psd.length() == 6) {
+						if (cardNum.equals("6221") & psd.equals("123456")) {
+							frameUserLoginPwsd.setVisible(false);
+							MainFrame.main(null);
+							
+							// 将用户账号保存下来
+							BlankAccout.getInstance().setCardNum(Long.parseLong(cardNum));
+							// 接下来这里调用数据库，将所有信息传入单例之中，如下
+							//TODO 这里记得去除信息的设置
+							BlankAccout.getInstance().setWithdrawalsLimit(20000);
+							BlankAccout.getInstance().setDepositLimit(50000); 
+							BlankAccout.getInstance().setBalance(100000);
+							BlankAccout.getInstance().setBlank("中国银行");
+							
+							frameUserLoginPwsd.dispose();
+						} else {
+							JOptionPane.showMessageDialog(null, "密码错误", null, JOptionPane.ERROR_MESSAGE);
+						} 
+					}else {
+						JOptionPane.showMessageDialog(null, "密码长度不正确", null, JOptionPane.ERROR_MESSAGE);					
+					}
+				} catch (Exception e) {
+					System.err.println(e);
 				}
-			} catch (Exception e) {
-				System.err.println(e);
 			}
+			if(status.equals("挂失")) {
+				//提示挂失，无法登陆
+			}if(status.equals("销户")) {
+				//提示账户已销户
+			}
+			
 		}
 	}
-
 }
