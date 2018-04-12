@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 2018-4-3 23:42:29 by Hibernate Tools 3.5.0.Final -->
+<!-- Generated 2018-4-11 12:49:38 by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping>
-    <class name="soft.table.account" table="ACCOUNT">
-        <id name="cardnum" type="java.lang.String">
-            <column name="CARDNUM" />
-            <generator class="native" />
-        </id>
-        <property name="id" type="int">
+    <class name="seventh.dbc.account" table="ACCOUNT">
+        <id name="id" type="int">
             <column name="ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="cardnum" type="long">
+            <column name="CARDNUM" />
         </property>
         <property name="passwd" type="long">
             <column name="PASSWD" />
@@ -28,6 +28,12 @@
         </property>
         <property name="overdraft" type="float">
             <column name="OVERDRAFT" />
+        </property>
+        <property name="depositLimit" type="float">
+            <column name="DEPOSITLIMIT" />
+        </property>
+        <property name="withdrawalsLimit" type="float">
+            <column name="WITHDRAWALSLIMIT" />
         </property>
     </class>
 </hibernate-mapping>

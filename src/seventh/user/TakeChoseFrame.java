@@ -9,6 +9,9 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.UIManager;
+
+import seventh.until.ATMButton;
 
 /**
  * 取款选择
@@ -18,9 +21,9 @@ public class TakeChoseFrame {
 
 	private JFrame frameChose;
 	private TakeFrame takeFrame = new TakeFrame();
-	private String File = "E:\\Code\\java\\CCB_ATM";
-	// private String File = ".";
-	
+	// private String File = "E:\\Code\\java\\CCB_ATM";
+	private String File = ".";
+
 	/**
 	 * Launch the application.
 	 */
@@ -28,6 +31,7 @@ public class TakeChoseFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 					TakeChoseFrame window = new TakeChoseFrame();
 					window.frameChose.setVisible(true);
 				} catch (Exception e) {
@@ -61,37 +65,44 @@ public class TakeChoseFrame {
 		frameChose.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frameChose.getContentPane().setLayout(null);
 		
-		ATMButton button = new ATMButton("<html>取款<br>Cash</html>");
+		ATMButton button = new ATMButton("<html><center>取款<br>Cash</center></html>");
 		button.addActionListener(new ToTake());
-		button.setBounds(14, 400, 200, 80);
+		button.setBounds(14, 330, 160, 70);
 		frameChose.getContentPane().add(button);
 		
-		ATMButton button_1 = new ATMButton("<html>透支取款<br>Overdraft</html>");
-		button_1.addActionListener(new ToTake());
-		button_1.setBounds(875, 400, 200, 80);
-		frameChose.getContentPane().add(button_1);
+		ATMButton overdeaftButton = new ATMButton("<html><center>透支取款<br>Overdraft</center></html>");
+		overdeaftButton.setActionCommand("透支取款");
+		overdeaftButton.addActionListener(new ToTake());
+		overdeaftButton.setBounds(915, 330, 160, 70);
+		frameChose.getContentPane().add(overdeaftButton);
 		
 		ATMButton button_2 = new ATMButton("<html>退出<br>Exit</html>");
 		button_2.setForeground(Color.RED);
 		button_2.addActionListener(new Back());
-		button_2.setBounds(875, 550, 200, 80);
+		button_2.setBounds(915, 550, 160, 70);
 		frameChose.getContentPane().add(button_2);
-		
+
 		JLabel lblBg = new JLabel("");
 		lblBg.setIcon(new ImageIcon(File + "\\img\\ATM_bg.png"));
 		lblBg.setBounds(3, 0, 1086, 715);
 		frameChose.getContentPane().add(lblBg);
 	}
-	
-	class ToTake implements ActionListener{
+
+	class ToTake implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			//判断是否是透支取款
+			if (e.getActionCommand().equals("透支取款")) {
+				takeFrame.isOverdeaft = true;
+			} else {
+				takeFrame.isOverdeaft = false;
+			}
 			takeFrame.getFrameTake().setVisible(true);
 			frameChose.dispose();
 		}
 	}
-	
-	class Back implements ActionListener{
+
+	class Back implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			MainFrame.frameMain.setVisible(true);
