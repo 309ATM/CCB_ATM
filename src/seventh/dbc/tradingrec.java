@@ -2,6 +2,7 @@ package seventh.dbc;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 /** 
  * 交易记录
  *
@@ -64,13 +65,8 @@ public class tradingrec {
 				+ ", tradeMoney=" + tradeMoney + ", tradeType=" + tradeType + ", tradeTarget=" + tradeTarget + ", fee="
 				+ fee + "]";
 	}
-<<<<<<< HEAD
-	//添加信息
-	public void inserMess(int cardnum,String tradeDate,float tradeMoney,String tradeType,int tradeTarget,float fee){
-=======
 	
 	public static boolean inserMess(int cardnum,String tradeDate,float tradeMoney,String tradeType,int tradeTarget,float fee){
->>>>>>> master
 		Session session = HibernateUtils.getCurrentSession();
 		Transaction tr = session.beginTransaction();
 		
@@ -85,7 +81,6 @@ public class tradingrec {
 		return true;
 	}
 	
-<<<<<<< HEAD
 	//删除信息
 	public void deleteMess(){
 		
@@ -154,20 +149,13 @@ public class tradingrec {
 		String srcard = String.valueOf(cardNumber);
 		String hql = "from tradingrec where cardnum = ? and tradeDate between ? and ?";
 		Query query = session.createQuery(hql);
-		
-		
-=======
-	public static void deleteMess(){
-		
-	}
-	
+	}	
 	public static String[][] getTraRec(long cardNumber,String[] date){
-		//date[0]为起始日期，date[1]为结束时间
-		//获取这两个时间之间的交易记录
-		//返回一个String[][]
-		//看看能不能按照获取记录大小动态定义数组
+			//date[0]为起始日期，date[1]为结束时间
+			//获取这两个时间之间的交易记录
+			//返回一个String[][]
+			//看看能不能按照获取记录大小动态定义数组
 		String[][] s = new String[10][10];
 		return s;
->>>>>>> master
 	}
 }
