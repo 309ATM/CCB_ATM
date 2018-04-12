@@ -27,8 +27,6 @@ public class admin {
 	public String toString() {
 		return "admin [adminId=" + adminId + ", passwd=" + passwd + "]";
 	}
-	private static Session session;
-	private static Transaction tr;
 	
 	
 	//Ìí¼Ó
@@ -50,8 +48,8 @@ public class admin {
 	 * @return
 	 */
 	public static boolean checkadmin(String adminid,String passWd){
-		session = HibernateUtils.getCurrentSession();
-		tr = session.beginTransaction();
+		Session session = HibernateUtils.getCurrentSession();
+		Transaction tr = session.beginTransaction();
 		String hql = "from admin where adminId = ? and passwd = ?";
 		Query query = session.createQuery(hql);
 		query.setParameter(0, adminid);
@@ -65,7 +63,7 @@ public class admin {
 			return true;
 		}
 		else{
-		return false;
+			return false;
 		}
 	}
 }

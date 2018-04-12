@@ -6,9 +6,9 @@
     <class name="seventh.dbc.tradingrec" table="TRADINGREC">
         <id name="tradeNum" type="int">
             <column name="TRADENUM" />
-            <generator class="assigned" />
+            <generator class="native" />
         </id>
-        <property name="cardnum" type="int">
+        <property name="cardnum" type="long">
             <column name="CARDNUM" />
         </property>
         <property name="tradeDate" type="java.lang.String">

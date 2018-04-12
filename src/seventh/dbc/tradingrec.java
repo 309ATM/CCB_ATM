@@ -9,7 +9,7 @@ import org.hibernate.query.Query;
  */
 public class tradingrec {
 	private int tradeNum;
-	private int cardnum;
+	private long cardnum;
 	private String tradeDate;
 	private float tradeMoney;
 	private String tradeType;
@@ -22,10 +22,10 @@ public class tradingrec {
 	public void setTradeNum(int tradeNum) {
 		this.tradeNum = tradeNum;
 	}
-	public int getCardnum() {
+	public long getCardnum() {
 		return cardnum;
 	}
-	public void setCardnum(int cardnum) {
+	public void setCardnum(long cardnum) {
 		this.cardnum = cardnum;
 	}
 	public String getTradeDate() {
@@ -66,12 +66,11 @@ public class tradingrec {
 				+ fee + "]";
 	}
 	
-	private static Session session;
-	private static Transaction tr;
+
 	
 	public static boolean inserMess(int cardnum,String tradeDate,float tradeMoney,String tradeType,int tradeTarget,float fee){
-		session = HibernateUtils.getCurrentSession();
-		tr = session.beginTransaction();
+		Session session = HibernateUtils.getCurrentSession();
+		Transaction tr = session.beginTransaction();
 		
 		tradingrec tra = new tradingrec();
 		tra.setCardnum(cardnum);
@@ -145,22 +144,28 @@ public class tradingrec {
 		}
 		return depositLimit;
 	}
-	public void getlmdRec(long cardNumber,String[] date){
-		session = HibernateUtils.getCurrentSession();
-		tr = session.beginTransaction();
+	public static void getlmdRec(long cardNumber,String[] date){
+		Session session = HibernateUtils.getCurrentSession();
+		Transaction tr = session.beginTransaction();
 		
-		String srcard = String.valueOf(cardNumber);
-		String hql = "from tradingrec where cardnum = ? and tradeDate between ? and ?";
+		String[][] s = new String[20][7];
+		//String srcard = String.valueOf(cardNumber);
+		String hql = "from tradingrec where cardnum = :CARD and tradeDate between :dateA and :dateB";
 		Query query = session.createQuery(hql);
+		query.setParameter("CARD",cardNumber);
+		query.setParameter("dateA", date[0]);
+		query.setParameter("dateB", date[1]);
+		int j = 0;
+		java.util.List<Object[]> object = query.list();
+		for(Object[] b : object){
+			for(int i = 0;i < 7;i++){
+				s[j][i] = (String) b[i];
+			}
+			j += 1;
+		}
+		
+		System.out.println(s);
 	}	
 	
-	
-	public static String[][] getTraRec(long cardNumber,String[] date){
-			//date[0]为起始日期，date[1]为结束时间
-			//获取这两个时间之间的交易记录
-			//返回一个String[][]
-			//看看能不能按照获取记录大小动态定义数组
-		String[][] s = new String[10][10];
-		return s;
-	}
+
 }
