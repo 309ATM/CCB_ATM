@@ -42,7 +42,7 @@ public class AdminUI {
 	private JTextField textField_idcard;
 	private JTextField textField_carNum;
 	private JTextField textField_phone;
-	private JTextField textField_lock;
+	private JTextField textField_queryBalance;
 	private JTextField textField_loss;
 	private JTextField textField_yue;
 	private JTextArea textArea_address;
@@ -52,13 +52,13 @@ public class AdminUI {
 	private JButton btn_confirm;
 	private JComboBox comboBox_cardType;
 	private JComboBox comboBox;
-	private JButton btn_lock;
 	private JButton btn_loss;
 	private JTable table;
 	private String dateBefore = "";
 	private String dateNow = "";
 	
 	private String File = "E:\\Code\\java\\CCB_ATM";
+	private JTextField textField;
 	// private String File = ".";
 
 	/**
@@ -105,8 +105,8 @@ public class AdminUI {
 		tabbedPane.setOpaque(false);
 
 		ImageIcon ico_openAcc = new ImageIcon(File + "\\img\\OpenAccount.png");
-		ImageIcon ico_reportLoss = new ImageIcon(File + "\\img\\ReportLoss.png");
-		ImageIcon ico_lockAcc = new ImageIcon(File + "\\img\\LockAcc.png");
+		ImageIcon ico_statusOprea = new ImageIcon(File + "\\img\\StatusOperation.png");
+		ImageIcon ico_query = new ImageIcon(File + "\\img\\QueryBlance.png");
 		ImageIcon ico_queryHistory = new ImageIcon(File + "\\img\\QueryHistory.png");
 		ImageIcon ico_changePasswd = new ImageIcon(File + "\\img\\Admin.png");
 		ImageIcon ico_background = new ImageIcon(File + "\\img\\bg.jpg");
@@ -251,28 +251,44 @@ public class AdminUI {
 		panel_DelAcc.add(label_bg12);
 
 		JPanel panel_Loss = new JPanel();
-		tabbedPane.addTab(null, ico_reportLoss, panel_Loss, "挂失解挂");
+		tabbedPane.addTab(null, ico_statusOprea, panel_Loss, "挂失解挂");
 		panel_Loss.setLayout(null);
+		
+				JLabel label_2 = new JLabel("请输入要挂失或解挂的卡号");
+				label_2.setFont(new Font("幼圆", Font.PLAIN, 18));
+				label_2.setBounds(35, 13, 290, 43);
+				panel_Loss.add(label_2);
 
 		textField_loss = new JTextField();
 		textField_loss.setFont(new Font("幼圆", Font.PLAIN, 18));
-		textField_loss.setBounds(290, 128, 444, 43);
+		textField_loss.setBounds(290, 84, 444, 43);
 		panel_Loss.add(textField_loss);
-
-		JLabel label_2 = new JLabel("请输入卡号");
-		label_2.setFont(new Font("幼圆", Font.PLAIN, 18));
-		label_2.setBounds(35, 13, 171, 43);
-		panel_Loss.add(label_2);
-
-		JSeparator separator_3 = new JSeparator();
-		separator_3.setBounds(14, 69, 1024, 2);
-		panel_Loss.add(separator_3);
-
-		btn_loss = new JButton("确认");
-		btn_loss.addActionListener(new LossOperation());
-		btn_loss.setFont(new Font("幼圆", Font.PLAIN, 18));
-		btn_loss.setBounds(470, 217, 90, 43);
-		panel_Loss.add(btn_loss);
+		
+				btn_loss = new JButton("确认");
+				btn_loss.addActionListener(new LossOperation());
+				btn_loss.setFont(new Font("幼圆", Font.PLAIN, 18));
+				btn_loss.setBounds(470, 140, 90, 43);
+				panel_Loss.add(btn_loss);
+		
+		JSeparator separator_2 = new JSeparator();
+		separator_2.setBounds(14, 240, 1024, 2);
+		panel_Loss.add(separator_2);
+		
+		JLabel label_5 = new JLabel("请输入要冻结或解冻的卡号");
+		label_5.setFont(new Font("幼圆", Font.PLAIN, 18));
+		label_5.setBounds(35, 255, 290, 43);
+		panel_Loss.add(label_5);
+		
+		textField = new JTextField();
+		textField.setFont(new Font("幼圆", Font.PLAIN, 18));
+		textField.setBounds(290, 338, 444, 43);
+		panel_Loss.add(textField);
+		
+		JButton btn_lock = new JButton("\u786E\u8BA4");
+		btn_lock.addActionListener(new LockOperation());
+		btn_lock.setFont(new Font("幼圆", Font.PLAIN, 18));
+		btn_lock.setBounds(470, 394, 90, 43);
+		panel_Loss.add(btn_lock);
 
 		JLabel label_1 = new JLabel("");
 		label_1.setIcon(ico_background);
@@ -280,7 +296,7 @@ public class AdminUI {
 		panel_Loss.add(label_1);
 
 		JPanel panel_lock = new JPanel();
-		tabbedPane.addTab(null, ico_lockAcc, panel_lock, "冻结解冻");
+		tabbedPane.addTab(null, ico_query, panel_lock, "冻结解冻");
 		panel_lock.setLayout(null);
 
 		JLabel label_inputCardNumLock = new JLabel("请输入卡号");
@@ -293,17 +309,17 @@ public class AdminUI {
 		separator_4.setBounds(14, 69, 1024, 2);
 		panel_lock.add(separator_4);
 
-		textField_lock = new JTextField();
-		textField_lock.setFont(new Font("幼圆", Font.PLAIN, 18));
-		textField_lock.setBounds(290, 128, 444, 43);
-		panel_lock.add(textField_lock);
+		textField_queryBalance = new JTextField();
+		textField_queryBalance.setFont(new Font("幼圆", Font.PLAIN, 18));
+		textField_queryBalance.setBounds(290, 128, 444, 43);
+		panel_lock.add(textField_queryBalance);
 		textField_carNum.setColumns(10);
-
-		btn_lock = new JButton("\u786E\u8BA4");
-		btn_lock.addActionListener(new LockOperation());
-		btn_lock.setFont(new Font("幼圆", Font.PLAIN, 18));
-		btn_lock.setBounds(470, 217, 90, 43);
-		panel_lock.add(btn_lock);
+		
+		JButton btn_queryBalance = new JButton("\u786E\u8BA4");
+		btn_queryBalance.addActionListener(new QueryBalacne());
+		btn_queryBalance.setFont(new Font("幼圆", Font.PLAIN, 18));
+		btn_queryBalance.setBounds(483, 216, 90, 43);
+		panel_lock.add(btn_queryBalance);
 
 		JLabel label = new JLabel("");
 		label.setIcon(ico_background);
@@ -596,52 +612,53 @@ public class AdminUI {
 
 	// 冻结解冻监听器
 	class LockOperation implements ActionListener {
-		public void actionPerformed(ActionEvent arg0) {
-			//String card = textField_lock.getText();
-			// 调用数据库方法判断卡号是否存在
-			Boolean flag = true;
-			if (flag) {
-				//调用数据库方法获取账户状态
-				String cardStatus = "冻结";
-				//1.如果冻结了，则提问是否要解冻
-				if(cardStatus.equals("冻结")){
-					if(JOptionPane.showConfirmDialog(null, "该卡已冻结，是否要解冻？", "提示", JOptionPane.YES_NO_OPTION) == 0){	//选择解冻操作，输入验证密码
-						String input_password = JOptionPane.showInputDialog(null, "请输入密码", "提示", JOptionPane.INFORMATION_MESSAGE);
-						//调用数据库方法，获取卡号对应密码，假设为123
-						String password = "123";
-						if(password.equals(input_password)){
-							//调用数据库方法设置账户状态为正常
-							JOptionPane.showMessageDialog(null, "解冻成功", "提示", JOptionPane.INFORMATION_MESSAGE);
-							//清空卡号输入框
-							textField_lock.setText("");
-						} else {
-							JOptionPane.showMessageDialog(null, "密码错误", "错误", JOptionPane.ERROR_MESSAGE);
+			public void actionPerformed(ActionEvent arg0) {
+				//String card = textField_lock.getText();
+				// 调用数据库方法判断卡号是否存在
+				Boolean flag = true;
+				if (flag) {
+					//调用数据库方法获取账户状态
+					String cardStatus = "冻结";
+					//1.如果冻结了，则提问是否要解冻
+					if(cardStatus.equals("冻结")){
+						if(JOptionPane.showConfirmDialog(null, "该卡已冻结，是否要解冻？", "提示", JOptionPane.YES_NO_OPTION) == 0){	//选择解冻操作，输入验证密码
+							String input_password = JOptionPane.showInputDialog(null, "请输入密码", "提示", JOptionPane.INFORMATION_MESSAGE);
+							//调用数据库方法，获取卡号对应密码，假设为123
+							String password = "123";
+							if(password.equals(input_password)){
+								//调用数据库方法设置账户状态为正常
+								JOptionPane.showMessageDialog(null, "解冻成功", "提示", JOptionPane.INFORMATION_MESSAGE);
+								//清空卡号输入框
+								textField_queryBalance.setText("");
+							} else {
+								JOptionPane.showMessageDialog(null, "密码错误", "错误", JOptionPane.ERROR_MESSAGE);
+							}
 						}
 					}
-				}
-				
-				//2.如果账户正常，询问是否要冻结
-				else if(cardStatus.equals("正常")){
-					if(JOptionPane.showConfirmDialog(null, "是否要冻结？", "提示", JOptionPane.YES_NO_OPTION) == 0){	//选择冻结操作，输入验证密码
-						String input_password = JOptionPane.showInputDialog(null, "请输入密码", "提示", JOptionPane.INFORMATION_MESSAGE);
-						//调用数据库方法，获取卡号对应密码，假设为123
-						String password = "123";
-						if(password.equals(input_password)){
-							//调用数据库方法设置账户状态为冻结
-							JOptionPane.showMessageDialog(null, "冻结成功", "提示", JOptionPane.INFORMATION_MESSAGE);
-							//清空卡号输入框
-							textField_loss.setText("");
-						} else {
-							JOptionPane.showMessageDialog(null, "密码错误", "错误", JOptionPane.ERROR_MESSAGE);
+					
+					//2.如果账户正常，询问是否要冻结
+					else if(cardStatus.equals("正常")){
+						if(JOptionPane.showConfirmDialog(null, "是否要冻结？", "提示", JOptionPane.YES_NO_OPTION) == 0){	//选择冻结操作，输入验证密码
+							String input_password = JOptionPane.showInputDialog(null, "请输入密码", "提示", JOptionPane.INFORMATION_MESSAGE);
+							//调用数据库方法，获取卡号对应密码，假设为123
+							String password = "123";
+							if(password.equals(input_password)){
+								//调用数据库方法设置账户状态为冻结
+								JOptionPane.showMessageDialog(null, "冻结成功", "提示", JOptionPane.INFORMATION_MESSAGE);
+								//清空卡号输入框
+								textField_loss.setText("");
+							} else {
+								JOptionPane.showMessageDialog(null, "密码错误", "错误", JOptionPane.ERROR_MESSAGE);
+							}
 						}
 					}
+				} else {
+					JOptionPane.showMessageDialog(null, "该账户不存在", "错误", JOptionPane.ERROR_MESSAGE);
 				}
-			} else {
-				JOptionPane.showMessageDialog(null, "该账户不存在", "错误", JOptionPane.ERROR_MESSAGE);
 			}
 		}
-	}
-
+	
+	
 	//查询用户余额监听器
 	class QueryBalacne implements ActionListener{
 		
