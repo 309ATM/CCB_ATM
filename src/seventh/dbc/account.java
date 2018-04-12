@@ -5,9 +5,11 @@ package seventh.dbc;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.boot.model.relational.InitCommand;
 import org.hibernate.mapping.List;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
+import org.junit.Before;
 import org.junit.Test;
 
 import seventh.dbc.HibernateUtils;
@@ -95,8 +97,14 @@ public class account {
 				+ accType + ", bank=" + bank + ", balance=" + balance + ", overdraft=" + overdraft + "]";
 	}
 	
-	private static Session session;
-	private static Transaction tr;
+	//private static Session session ;
+	//private static Transaction tr ;
+	
+	@Before
+	//public void Init() {
+		//Session session = HibernateUtils.getCurrentSession();
+		//Transaction tr = session.beginTransaction();
+	//}
 
 	/**
 	 * 验证卡号密码匹配
@@ -107,9 +115,8 @@ public class account {
 	 */
 	@Test
 	public static boolean checkPawd(long card, long pawd) {
-		session = HibernateUtils.getCurrentSession();
-		tr = session.beginTransaction();
-
+		Session session = HibernateUtils.getCurrentSession();
+		Transaction tr = session.beginTransaction();
 		// Long型转String型，用于setParameter
 		//String stcard = String.valueOf(card);
 		//String stpawd = String.valueOf(pawd);
@@ -136,12 +143,11 @@ public class account {
 	 * @param card
 	 * @return
 	 */
-	public static boolean cardExit(Long card) {
-		session = HibernateUtils.getCurrentSession();
-		tr = session.beginTransaction();
+	public static boolean cardExit(long card) {
+		Session session = HibernateUtils.getCurrentSession();
+		Transaction tr = session.beginTransaction();
 		// 查询结果卡号初始化为0
 		long CARD = 0;
-//		String stcard = String.valueOf(card);
 		String hql = "from account where cardnum = ?0";
 		Query<account> query = session.createQuery(hql);
 		query.setParameter("0", card);
@@ -156,7 +162,6 @@ public class account {
 		} else {
 			return false;
 		}
-
 	}
 
 	/**
@@ -166,10 +171,9 @@ public class account {
 	 * @return
 	 */
 	public static boolean banks(long Card) {
-
+		Session session = HibernateUtils.getCurrentSession();
+		Transaction tr = session.beginTransaction();
 		// String Card = "656885452136697452";
-		session = HibernateUtils.getCurrentSession();
-		tr = session.beginTransaction();
 		String BANK = "";
 		//String stCard = String.valueOf(Card);
 		String hql = "from account a where cardnum = ?0";
@@ -184,5 +188,96 @@ public class account {
 		else
 			return false;
 	}
-
+	
+	/**
+	 * 返回指定卡号的状态
+	 * @param Card
+	 * @return
+	 */
+	public static String getCardStatu(long Card) {
+		Session session = HibernateUtils.getCurrentSession();
+		Transaction tr = session.beginTransaction();
+		String STATU = "";
+		String hql = "from account a where cardnum = ?0";
+		Query query = session.createQuery(hql);
+		query.setParameter("0", Card);
+		java.util.List<account> list = query.list();
+		for (account a : list) {
+			STATU = a.getStat();
+		}
+		return STATU;
+	}
+	
+	/** 
+	 * 返回指定卡号的余额
+	 * @param Card
+	 * @return
+	 */
+	public static float getCardBalance(long Card) {
+		Session session = HibernateUtils.getCurrentSession();
+		Transaction tr = session.beginTransaction();
+		float BALANCE = 0;
+		String hql = "from account a where cardnum = ?0";
+		Query query = session.createQuery(hql);
+		query.setParameter("0", Card);
+		java.util.List<account> list = query.list();
+		for (account a : list) {
+			BALANCE = a.getBalance();
+		}
+		return BALANCE;
+	}
+	
+	/**
+	 * 返回指定卡号的透支额度
+	 * @param Card
+	 * @return
+	 */
+	public static float getCardOverdraft(long Card) {
+		Session session = HibernateUtils.getCurrentSession();
+		//Transaction tr = session.beginTransaction();
+		float OVERDRAFT = 0;
+		String hql = "from account a where cardnum = ?0";
+		Query query = session.createQuery(hql);
+		query.setParameter("0", Card);
+		java.util.List<account> list = query.list();
+		for (account a : list) {
+			OVERDRAFT = a.getOverdraft();
+		}
+		return OVERDRAFT;
+	}
+	
+	/**
+	 * 获取银行卡类型
+	 * @param Card
+	 * @return
+	 */
+	public static String getCardType(long Card){
+		Session session = HibernateUtils.getCurrentSession();
+		Transaction tr = session.beginTransaction();
+		String ACCOUNTTYPE = "";
+		String hql = "from account a where cardnum = ?0";
+		Query query = session.createQuery(hql);
+		query.setParameter("0", Card);
+		java.util.List<account> list = query.list();
+		for (account a : list) {
+			ACCOUNTTYPE = a.getAccType();
+		}
+		return ACCOUNTTYPE;
+	}
+	
+	/**
+	 * 修改账户余额
+	 * @param Card
+	 * @param balance
+	 */
+	public static void setCardBalance(long Card,float balance) {
+		Session session = HibernateUtils.getCurrentSession();
+		Transaction tr = session.beginTransaction();
+		String hql = "update account a set a.balance = a.balance- ?1 where cardnum = ?0";
+		Query query = session.createQuery(hql);
+		query.setParameter("0", Card);
+		query.setParameter("1", balance);
+		int n = query.executeUpdate();
+		tr.commit();
+	}
 }
