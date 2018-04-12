@@ -93,6 +93,7 @@ public class UsersLoginPwsd {
 	class UserLogin implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			//调用数据库 查询账户状态方法
+			//String status = BlankAccout.getInstance().getStatu();
 			String status = "正常";//"挂失","销户"
 			if(status.equals("正常")) {
 				//正常登陆

@@ -122,6 +122,7 @@ public class UserLoginCardNum {
 					// TODO 判断卡号是否存在
 					if(account.cardExit(cardNum)) {
 						//存在
+						//TODO 获取银行卡账号的状态
 						BlankAccout.getInstance().setCardNum(Long.parseLong(cardNum));
 						frameUserLoginCard.dispose();
 						usersLoginPwsd.getFrameUserLoginPwsd().setVisible(true);
