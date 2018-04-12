@@ -9,8 +9,9 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.UIManager;
 
-import seventh.accout.BlankAccout;
+import seventh.until.ATMButton;
 
 /**
  * 取款选择
@@ -30,6 +31,7 @@ public class TakeChoseFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 					TakeChoseFrame window = new TakeChoseFrame();
 					window.frameChose.setVisible(true);
 				} catch (Exception e) {
@@ -62,22 +64,22 @@ public class TakeChoseFrame {
 		frameChose.setBounds(360, 150, 1095, 750);
 		frameChose.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frameChose.getContentPane().setLayout(null);
-
-		ATMButton button = new ATMButton("<html>取款<br>Cash</html>");
+		
+		ATMButton button = new ATMButton("<html><center>取款<br>Cash</center></html>");
 		button.addActionListener(new ToTake());
-		button.setBounds(14, 400, 200, 80);
+		button.setBounds(14, 330, 160, 70);
 		frameChose.getContentPane().add(button);
-
-		ATMButton overdeaftButton = new ATMButton("<html>透支取款<br>Overdraft</html>");
+		
+		ATMButton overdeaftButton = new ATMButton("<html><center>透支取款<br>Overdraft</center></html>");
 		overdeaftButton.setActionCommand("透支取款");
 		overdeaftButton.addActionListener(new ToTake());
-		overdeaftButton.setBounds(875, 400, 200, 80);
+		overdeaftButton.setBounds(915, 330, 160, 70);
 		frameChose.getContentPane().add(overdeaftButton);
-
+		
 		ATMButton button_2 = new ATMButton("<html>退出<br>Exit</html>");
 		button_2.setForeground(Color.RED);
 		button_2.addActionListener(new Back());
-		button_2.setBounds(875, 550, 200, 80);
+		button_2.setBounds(915, 550, 160, 70);
 		frameChose.getContentPane().add(button_2);
 
 		JLabel lblBg = new JLabel("");

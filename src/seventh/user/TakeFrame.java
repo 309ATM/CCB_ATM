@@ -9,11 +9,11 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
 import seventh.accout.BlankAccout;
+import seventh.until.ATMButton;
 
 import javax.swing.SwingConstants;
 import java.awt.Color;
@@ -26,9 +26,11 @@ public class TakeFrame {
 
 	public JFrame frameTake;
 	private JTextField textField_money;
-	Boolean isOverdeaft; //是不是透支取款
+	// 是不是透支取款
+	Boolean isOverdeaft; 
 	// private String File = "E:\\Code\\java\\CCB_ATM";
 	private String File = ".";
+	private JLabel label_message;
 
 	/**
 	 * Launch the application.
@@ -72,32 +74,33 @@ public class TakeFrame {
 
 		ATMButton btn_100 = new ATMButton("100");
 		btn_100.addActionListener(new withdrawal("100"));
-		btn_100.setBounds(14, 250, 200, 80);
+		btn_100.setBounds(14, 220, 160, 70);
 		frameTake.getContentPane().add(btn_100);
 
 		ATMButton btn_300 = new ATMButton("200");
 		btn_300.addActionListener(new withdrawal("200"));
-		btn_300.setBounds(14, 402, 200, 80);
+		btn_300.setBounds(14, 330, 160, 70);
 		frameTake.getContentPane().add(btn_300);
 
 		ATMButton btn_500 = new ATMButton("500");
 		btn_500.addActionListener(new withdrawal("500"));
-		btn_500.setBounds(14, 550, 200, 80);
+		btn_500.setBounds(14, 440, 160, 70);
 		frameTake.getContentPane().add(btn_500);
 
 		ATMButton btnBack = new ATMButton("<html><center>退出<br>Exit</center></html>");
+		btnBack.setForeground(Color.RED);
 		btnBack.addActionListener(new Back());
-		btnBack.setBounds(875, 550, 200, 80);
+		btnBack.setBounds(14, 550, 160, 70);
 		frameTake.getContentPane().add(btnBack);
 
 		ATMButton btn_1000 = new ATMButton("1000");
 		btn_1000.addActionListener(new withdrawal("1000"));
-		btn_1000.setBounds(875, 250, 200, 80);
+		btn_1000.setBounds(915, 220, 160, 70);
 		frameTake.getContentPane().add(btn_1000);
 
 		ATMButton btn_2000 = new ATMButton("2000");
 		btn_2000.addActionListener(new withdrawal("2000"));
-		btn_2000.setBounds(875, 402, 200, 80);
+		btn_2000.setBounds(915, 330, 160, 70);
 		frameTake.getContentPane().add(btn_2000);
 
 		textField_money = new JTextField();
@@ -106,9 +109,10 @@ public class TakeFrame {
 		frameTake.getContentPane().add(textField_money);
 		textField_money.setColumns(10);
 
-		ATMButton btn_confirm = new ATMButton("<html><center>确认<br>Confirm</center><html>");
+		ATMButton btn_confirm = new ATMButton("<html><center>确认<br>Confirm</center></html>");
+		btn_confirm.setForeground(new Color(0, 128, 0));
 		btn_confirm.addActionListener(new CustomWithdrawal());
-		btn_confirm.setBounds(425, 402, 200, 80);
+		btn_confirm.setBounds(915, 550, 160, 70);
 		frameTake.getContentPane().add(btn_confirm);
 
 		JLabel label = new JLabel("请输入金额");
@@ -117,6 +121,14 @@ public class TakeFrame {
 		label.setFont(new Font("幼圆", Font.BOLD, 20));
 		label.setBounds(381, 216, 294, 48);
 		frameTake.getContentPane().add(label);
+
+		label_message = new JLabel("");
+		label_message.setHorizontalAlignment(SwingConstants.CENTER);
+		label_message.setForeground(Color.red);
+		label_message.setFont(new Font("幼圆", Font.BOLD, 20));
+		label_message.setBounds(381, 341, 294, 48);
+		label_message.setVisible(false);
+		frameTake.getContentPane().add(label_message);
 
 		JLabel lblBg2 = new JLabel("");
 		lblBg2.setBounds(3, 0, 1086, 716);
@@ -138,46 +150,55 @@ public class TakeFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			//如果是透支取款，则调用透支取款的方法。
-			if(isOverdeaft) {
+			// 如果是透支取款，则调用透支取款的方法。
+			if (isOverdeaft) {
 				Overdraft(money);
-			}
-			else
+			} else
 				take(money);
 		}
 
 	}
-	
-	
+
 	/**
 	 * 用户输入数字取款时的监听器。
 	 *
 	 */
 	class CustomWithdrawal implements ActionListener {
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			label_message.setVisible(false);
 			String moneys = textField_money.getText();
-			float money = Float.parseFloat(moneys);
-			
-			if (!isOverdeaft) {
-				if (money % 100 != 0)
-					JOptionPane.showMessageDialog(null, "金额数必须是100的整数倍", "错误", JOptionPane.ERROR_MESSAGE);
-				else if (money > 5000) {
-					JOptionPane.showMessageDialog(null, "取款数额大于单笔限额，单笔存款最多为5000元", "错误", JOptionPane.ERROR_MESSAGE);
+			if (!moneys.isEmpty()) {
+				// 如果是透支取款
+				float money = Float.parseFloat(moneys);
+				if (!isOverdeaft) {
+					if (money % 100 != 0){
+						label_message.setText("金额数必须是100的整数倍");
+						label_message.setVisible(true);
+					}
+					else if (money > 5000) {
+						label_message.setText("单笔存款最多为5000元");
+						label_message.setVisible(true);
+					} else {
+						take(moneys);
+					}
 				} else {
-					take(moneys);
-				} 
-			}else {
-				if (money % 100 != 0)
-					JOptionPane.showMessageDialog(null, "金额数必须是100的整数倍", "错误", JOptionPane.ERROR_MESSAGE);
-				else if (money > 5000) {
-					JOptionPane.showMessageDialog(null, "透支数额大于透支额，透支最多为5000元", "错误", JOptionPane.ERROR_MESSAGE);
-				} else {
-					Overdraft(moneys);
-				} 
+					if (money % 100 != 0){
+						label_message.setText("金额数必须是100的整数倍");
+						label_message.setVisible(true);
+					}
+					else if (money > 5000) {
+						label_message.setText("透支额上限为5000元");
+						label_message.setVisible(true);
+					} else {
+						Overdraft(moneys);
+					}
+				}
+			} else {
+				label_message.setText("请输入金额");
+				label_message.setVisible(true);
 			}
-			
+
 			textField_money.setText("");
 		}
 
@@ -191,49 +212,53 @@ public class TakeFrame {
 		}
 	}
 
-	/** 调用数据库方法写入数据，修改 BlankAccount
+	/**
+	 * 调用数据库方法写入数据，修改 BankAccount
+	 * 
 	 * @param moneys
 	 */
 	public void take(String moneys) {
 		float money = Float.parseFloat(moneys);
 		// 手续费
-		float fees  = 0;
+		float fees = 0;
 		if (money > BlankAccout.getInstance().getWithdrawalsLimit()) {
-			JOptionPane.showMessageDialog(null, "取款数额大于今日限额", "错误", JOptionPane.ERROR_MESSAGE);
+			label_message.setText("取款数额大于今日限额");
+			label_message.setVisible(true);
 		} else {
 			// TODO 调用数据库方法，交易记录表增加一项，修改数据库中的余额
 			if (BlankAccout.getInstance().getBlank() != "建设银行") {
-				fees = money* 1 / 100;
+				fees = money * 1 / 100;
 			}
+			// 设置目标账号为自己
+			BlankAccout.getInstance().setTargetCard(BlankAccout.getInstance().getCardNum());
 			// 修改今日取款额度
 			BlankAccout.getInstance().setWithdrawalsLimit(BlankAccout.getInstance().getWithdrawalsLimit() - money);
 			// 修改余额
 			BlankAccout.getInstance().setBalance(BlankAccout.getInstance().getBalance() - money - fees);
-			System.out.println(BlankAccout.getInstance().getWithdrawalsLimit());
-			System.out.println(BlankAccout.getInstance().getBalance());
-			JOptionPane.showMessageDialog(null, "取款" + money, "提示", JOptionPane.INFORMATION_MESSAGE);
+			label_message.setText("取款" + money + "元");
+			label_message.setVisible(true);
 		}
 	}
-	
+
 	public void Overdraft(String moneys) {
-		//TODO 透支取款的方法
+		// TODO 透支取款的方法
 		float money = Float.parseFloat(moneys);
 		// 手续费
-		float fees  = 0;
-		if (money > BlankAccout.getInstance().getWithdrawalsLimit()) {
-			JOptionPane.showMessageDialog(null, "透支数额大于今日限额", "错误", JOptionPane.ERROR_MESSAGE);
+		float fees = 0;
+		if (money > BlankAccout.getInstance().getOverdraft()) {
+			label_message.setText("透支数额大于透支额");
+			label_message.setVisible(true);
 		} else {
-			// TODO 调用数据库方法，交易记录表增加一项，修改数据库中的余额
+			// TODO 调用数据库方法，交易记录表增加一项，修改数据库中的余额和透支额
 			if (BlankAccout.getInstance().getBlank() != "建设银行") {
-				fees = money* 1 / 100;
+				fees = money * 1 / 100;
 			}
-			// 修改今日取款额度
-			BlankAccout.getInstance().setWithdrawalsLimit(BlankAccout.getInstance().getWithdrawalsLimit() - money);
-			// 修改余额
-			BlankAccout.getInstance().setBalance(BlankAccout.getInstance().getBalance() - money - fees);
-			System.out.println(BlankAccout.getInstance().getWithdrawalsLimit());
-			System.out.println(BlankAccout.getInstance().getBalance());
-			JOptionPane.showMessageDialog(null, "取款" + money, "提示", JOptionPane.INFORMATION_MESSAGE);
+			// 设置目标账号为自己
+			BlankAccout.getInstance().setTargetCard(BlankAccout.getInstance().getCardNum());
+			// 修改透支额
+			BlankAccout.getInstance().setOverdraft(BlankAccout.getInstance().getOverdraft()- money - fees);
+			label_message.setText("透支取款" + money + "元");
+			label_message.setVisible(true);
 		}
 	}
 }

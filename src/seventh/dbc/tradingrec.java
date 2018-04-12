@@ -1,18 +1,11 @@
 package seventh.dbc;
 
-import javax.persistence.criteria.CriteriaQuery;
-
-
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.mapping.List;
-import org.hibernate.query.NativeQuery;
-import org.hibernate.query.Query;
-import org.junit.Test;
-
-
-import util.HibernateUtils;
+/** 
+ * 交易记录
+ *
+ */
 public class tradingrec {
 	private int tradeNum;
 	private int cardnum;
@@ -72,7 +65,7 @@ public class tradingrec {
 				+ fee + "]";
 	}
 	
-	public void inserMess(int cardnum,String tradeDate,float tradeMoney,String tradeType,int tradeTarget,float fee){
+	public static boolean inserMess(int cardnum,String tradeDate,float tradeMoney,String tradeType,int tradeTarget,float fee){
 		Session session = HibernateUtils.getCurrentSession();
 		Transaction tr = session.beginTransaction();
 		
@@ -83,9 +76,20 @@ public class tradingrec {
 		tra.setTradeType(tradeType);
 		tra.setTradeTarget(tradeTarget);
 		tra.setFee(fee);
+		tr.commit();
+		return true;
 	}
 	
-	public void deleteMess(){
+	public static void deleteMess(){
 		
+	}
+	
+	public static String[][] getTraRec(long cardNumber,String[] date){
+		//date[0]为起始日期，date[1]为结束时间
+		//获取这两个时间之间的交易记录
+		//返回一个String[][]
+		//看看能不能按照获取记录大小动态定义数组
+		String[][] s = new String[10][10];
+		return s;
 	}
 }

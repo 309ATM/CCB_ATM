@@ -6,7 +6,7 @@ import org.hibernate.cfg.Configuration;
 
 public class HibernateUtils {
 	//使用一个静态块创建SessionFactory对象
-	public static final Configuration CONFIG;
+	public static final Configuration CONFIG;//CONFIG;
 	public static final SessionFactory FACTORY;
 	
 	static{
