@@ -27,8 +27,8 @@ public class MainFrame {
 	private TransferFrame transferFrame = new TransferFrame();
 	private QueryFrame queryFrame = new QueryFrame();
 	private HistoryFrame historyFrame = new HistoryFrame();
-//	private String File = "E:\\Code\\java\\CCB_ATM";
-	private String File = ".";
+	private String File = "E:\\Code\\java\\CCB_ATM";
+//	private String File = ".";
 	private ATMButton btnQu;
 	private ATMButton btnZhuan;
 
@@ -107,7 +107,7 @@ public class MainFrame {
 
 	public void cardLock() {
 		//这部分我写
-		String status = "冻结";//"正常","挂失","销户"
+		String status = "正常";//"正常","挂失","销户"
 		if(status.equals("冻结")) {
 			//调用MainFrame的方法，隐藏部分控件，实现功能消除
 			btnQu.setVisible(false);

@@ -8,7 +8,6 @@ import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -26,10 +25,11 @@ import seventh.until.ATMButton;
 public class SaveFrame {
 
 	private JFrame frameSave;
+	private MessageFrame messageFrame = new MessageFrame();
+	private String[] message = new String[4];
 	private JTextField textField_money;
 	private String File = "E:\\Code\\java\\CCB_ATM";
 	private JLabel label_message;
-	private JLabel label_success;
 	// private String File = ".";
 
 	public JFrame getFrameSave() {
@@ -86,13 +86,6 @@ public class SaveFrame {
 		label_message.setBounds(381, 406, 294, 48);
 		frameSave.getContentPane().add(label_message);
 		
-		label_success = new JLabel("");
-		label_success.setHorizontalAlignment(SwingConstants.CENTER);
-		label_success.setForeground(Color.WHITE);
-		label_success.setFont(new Font("幼圆", Font.BOLD, 20));
-		label_success.setBounds(381, 406, 294, 100);
-		frameSave.getContentPane().add(label_success);
-
 		textField_money = new JTextField();
 		textField_money.setFont(new Font("微软雅黑 Light", Font.PLAIN, 40));
 		textField_money.setBounds(380, 330, 294, 53);
@@ -118,20 +111,13 @@ public class SaveFrame {
 		frameSave.getContentPane().add(lblBg);
 	}
 
-	class Back implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			MainFrame.frameMain.setVisible(true);
-			frameSave.setVisible(false);
-		}
-	}
 
 	public Boolean poundage(String card) {
 		// 判断所属银行
 		return true;
 	}
 
-	public void deposit(Long card, int money) {
+	public void deposit(Long card, float money) {
 		// 存款方法
 		//TODO 调用数据库函数，存钱
 		BlankAccout.getInstance().setBalance(BlankAccout.getInstance().getBalance() + money);
@@ -144,7 +130,7 @@ public class SaveFrame {
 			label_message.setText("");
 				String moneys = textField_money.getText().trim();
 				try {
-					int money = Integer.parseInt(moneys);
+					float money = Float.parseFloat(moneys);
 //					BlankAccout.getInstance().setDepositLimit(4000);
 //					BlankAccout.getInstance().setBlank("中国银行");
 					if (money % 100 != 0){
@@ -161,19 +147,36 @@ public class SaveFrame {
 							deposit(BlankAccout.getInstance().getCardNum(), money);
 						} else {
 							// 非本行，计算手续费
-							money = money * 99 / 100;
-							deposit(BlankAccout.getInstance().getCardNum(), money);
+							float fees = 0;
+							fees = money * 1 / 100;
+							deposit(BlankAccout.getInstance().getCardNum(), money - fees);
 						}
-						textField_money.setText("");
-						float balace = BlankAccout.getInstance().getBalance();
-						float overdraft = BlankAccout.getInstance().getOverdraft();
+						BlankAccout.getInstance().setDepositLimit(BlankAccout.getInstance().getDepositLimit() - money);
 						
-						label_success.setText("<html><center>存款成功<br>余额：" + balace + "<br>可透支额：" + overdraft + "</center></html>");
+						textField_money.setText("");
+						message[0] = "存款";
+						message[1] = moneys;	//存款数
+						message[2] = Float.toString(BlankAccout.getInstance().getBalance());//账户余额
+						message[3] = Float.toString(BlankAccout.getInstance().getDepositLimit());//今日可存款额度
+
+						//TODO 跳转取款成功界面
+						messageFrame.getFrameMessage().setVisible(true);
+						messageFrame.showMessage(message);
+						frameSave.dispose();
 					}
 				} catch (NumberFormatException e) {
-					JOptionPane.showMessageDialog(null, "请输入数字", "错误", JOptionPane.ERROR_MESSAGE);
+					label_message.setText("请输入数字");
 				}
 			}
 	}
 
+	class Back implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			MainFrame.frameMain.setVisible(true);
+			frameSave.setVisible(false);
+			textField_money.setText("");
+			label_message.setText("");
+		}
+	}
 }

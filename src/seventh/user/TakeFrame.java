@@ -25,9 +25,11 @@ import java.awt.Color;
 public class TakeFrame {
 
 	public JFrame frameTake;
+	private MessageFrame messageFrame = new MessageFrame();
 	private JTextField textField_money;
+	private String[] message = new String[4];
 	// 是不是透支取款
-	Boolean isOverdeaft; 
+	Boolean isOverdeaft;
 	// private String File = "E:\\Code\\java\\CCB_ATM";
 	private String File = ".";
 	private JLabel label_message;
@@ -127,7 +129,6 @@ public class TakeFrame {
 		label_message.setForeground(Color.red);
 		label_message.setFont(new Font("幼圆", Font.BOLD, 20));
 		label_message.setBounds(381, 341, 294, 48);
-		label_message.setVisible(false);
 		frameTake.getContentPane().add(label_message);
 
 		JLabel lblBg2 = new JLabel("");
@@ -150,11 +151,7 @@ public class TakeFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// 如果是透支取款，则调用透支取款的方法。
-			if (isOverdeaft) {
-				Overdraft(money);
-			} else
-				take(money);
+			textField_money.setText(money);
 		}
 
 	}
@@ -166,50 +163,45 @@ public class TakeFrame {
 	class CustomWithdrawal implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			label_message.setVisible(false);
+			label_message.setText("");
 			String moneys = textField_money.getText();
 			if (!moneys.isEmpty()) {
 				// 如果是透支取款
 				float money = Float.parseFloat(moneys);
 				if (!isOverdeaft) {
-					if (money % 100 != 0){
+					if (money % 100 != 0) {
 						label_message.setText("金额数必须是100的整数倍");
-						label_message.setVisible(true);
-					}
-					else if (money > 5000) {
+					} else if (money > 5000) {
 						label_message.setText("单笔存款最多为5000元");
-						label_message.setVisible(true);
+					} else if (money > BlankAccout.getInstance().getWithdrawalsLimit()) {
+						label_message.setText("取款数额大于今日限额");
 					} else {
+						// 取款方法
 						take(moneys);
 					}
 				} else {
-					if (money % 100 != 0){
+					if (money % 100 != 0) {
 						label_message.setText("金额数必须是100的整数倍");
-						label_message.setVisible(true);
-					}
-					else if (money > 5000) {
+					} else if (money > 5000) {
 						label_message.setText("透支额上限为5000元");
-						label_message.setVisible(true);
+					} else if (money > BlankAccout.getInstance().getOverdraft()) {
+						label_message.setText("透支数额大于透支额");
 					} else {
+						// 透支取款方法
 						Overdraft(moneys);
 					}
 				}
 			} else {
 				label_message.setText("请输入金额");
-				label_message.setVisible(true);
 			}
-
 			textField_money.setText("");
-		}
 
-	}
-
-	class Back implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			MainFrame.frameMain.setVisible(true);
+			// TODO 跳转取款成功界面
+			messageFrame.getFrameMessage().setVisible(true);
+			messageFrame.showMessage(message);
 			frameTake.dispose();
 		}
+
 	}
 
 	/**
@@ -219,46 +211,52 @@ public class TakeFrame {
 	 */
 	public void take(String moneys) {
 		float money = Float.parseFloat(moneys);
-		// 手续费
-		float fees = 0;
-		if (money > BlankAccout.getInstance().getWithdrawalsLimit()) {
-			label_message.setText("取款数额大于今日限额");
-			label_message.setVisible(true);
-		} else {
-			// TODO 调用数据库方法，交易记录表增加一项，修改数据库中的余额
-			if (BlankAccout.getInstance().getBlank() != "建设银行") {
-				fees = money * 1 / 100;
-			}
-			// 设置目标账号为自己
-			BlankAccout.getInstance().setTargetCard(BlankAccout.getInstance().getCardNum());
-			// 修改今日取款额度
-			BlankAccout.getInstance().setWithdrawalsLimit(BlankAccout.getInstance().getWithdrawalsLimit() - money);
-			// 修改余额
-			BlankAccout.getInstance().setBalance(BlankAccout.getInstance().getBalance() - money - fees);
-			label_message.setText("取款" + money + "元");
-			label_message.setVisible(true);
+		float fees = 0;// 手续费
+		// TODO 调用数据库方法，交易记录表增加一项，修改数据库中的余额
+		if (BlankAccout.getInstance().getBlank() != "建设银行") {
+			fees = money * 1 / 100;
 		}
+		// 设置目标账号为自己
+		BlankAccout.getInstance().setTargetCard(BlankAccout.getInstance().getCardNum());
+		// 修改今日取款额度
+		BlankAccout.getInstance().setWithdrawalsLimit(BlankAccout.getInstance().getWithdrawalsLimit() - money);
+		// 修改余额
+		BlankAccout.getInstance().setBalance(BlankAccout.getInstance().getBalance() - money - fees);
+
+		// 取款成功，发送消息给取款成功提示界面
+		message[0] = "取款";
+		message[1] = moneys; // 取款数
+		message[2] = Float.toString(BlankAccout.getInstance().getBalance());// 账户余额
+		message[3] = Float.toString(BlankAccout.getInstance().getWithdrawalsLimit());// 今日可取款额度
 	}
 
 	public void Overdraft(String moneys) {
 		// TODO 透支取款的方法
 		float money = Float.parseFloat(moneys);
-		// 手续费
-		float fees = 0;
-		if (money > BlankAccout.getInstance().getOverdraft()) {
-			label_message.setText("透支数额大于透支额");
-			label_message.setVisible(true);
-		} else {
-			// TODO 调用数据库方法，交易记录表增加一项，修改数据库中的余额和透支额
-			if (BlankAccout.getInstance().getBlank() != "建设银行") {
-				fees = money * 1 / 100;
-			}
-			// 设置目标账号为自己
-			BlankAccout.getInstance().setTargetCard(BlankAccout.getInstance().getCardNum());
-			// 修改透支额
-			BlankAccout.getInstance().setOverdraft(BlankAccout.getInstance().getOverdraft()- money - fees);
-			label_message.setText("透支取款" + money + "元");
-			label_message.setVisible(true);
+		float fees = 0;// 手续费
+		// TODO 调用数据库方法，交易记录表增加一项，修改数据库中的余额和透支额
+		if (BlankAccout.getInstance().getBlank() != "建设银行") {
+			fees = money * 1 / 100;
+		}
+		// 设置目标账号为自己
+		BlankAccout.getInstance().setTargetCard(BlankAccout.getInstance().getCardNum());
+		// 修改透支额
+		BlankAccout.getInstance().setOverdraft(BlankAccout.getInstance().getOverdraft() - money - fees);
+
+		// 取款成功，发送消息给取款成功提示界面
+		message[0] = "透支取款";
+		message[1] = moneys; // 取款数
+		message[2] = Float.toString(BlankAccout.getInstance().getBalance());// 账户余额
+		message[3] = Float.toString(BlankAccout.getInstance().getOverdraft());// 今日可透支取款额度
+	}
+
+	class Back implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			MainFrame.frameMain.setVisible(true);
+			frameTake.dispose();
+			textField_money.setText("");
+			label_message.setText("");
 		}
 	}
 }

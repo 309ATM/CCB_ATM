@@ -108,15 +108,16 @@ public class UserLoginCardNum {
 	}
  
 	class CardNum implements ActionListener {
+		boolean flag = true;
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			label.setText("");
 			String cardNum = textField_CardNumber.getText().trim();
 			if (!cardNum.isEmpty()) {
 				//TODO 将卡号验证改回18位
-				if (cardNum.length() == 18) {
+				if (cardNum.length() == 4) {
 					// TODO 判断卡号是否存在
-					if(account.cardExit(cardNum)) {
+					if(flag/*account.cardExit(cardNum)*/) {
 						//存在
 						//TODO 获取银行卡账号的状态
 						BlankAccout.getInstance().setCardNum(Long.parseLong(cardNum));
