@@ -133,8 +133,8 @@ public class SaveFrame {
 					float money = Float.parseFloat(moneys);
 //					BlankAccout.getInstance().setDepositLimit(4000);
 //					BlankAccout.getInstance().setBlank("中国银行");
-					if (money % 100 != 0){
-						label_message.setText("金额数必须是100的整数倍");
+					if (money % 100 != 0|| money <= 0){
+						label_message.setText("金额数必须是100的正整数倍");
 					}
 					else if (money > 10000) {
 						label_message.setText("单笔存款最多为10,000元");
