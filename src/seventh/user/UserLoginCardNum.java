@@ -13,7 +13,6 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 
 import seventh.accout.BlankAccout;
-import seventh.dbc.account;
 import seventh.until.ATMButton;
 
 import javax.swing.SwingConstants;
