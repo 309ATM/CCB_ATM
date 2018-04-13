@@ -128,7 +128,7 @@ public class TransferFrame {
 		public void actionPerformed(ActionEvent e) {
 			//首先判断输入卡号已经选择的功能是否一致(指所属银行及转账类型)
 			String cardNum = textField_money.getText();//获取输入要卡号
-			//TODO *调用数据库方法 判断所属银行是否为其他行
+			//TODO D调用数据库方法 判断所属银行是否为其他行
 			flag = false;
 			//如果是跨行，那卡号要求不能是本行卡号
 			if(isCross){

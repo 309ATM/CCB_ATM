@@ -1,8 +1,11 @@
 package seventh.accout;
 
+import seventh.dbc.AccountDAO;
+import seventh.dbc.AdminDAO;
+
 public class BlankAccout {
 	private long cardNum;
-	private String statu;
+	private String status;
 	private String accountType;
 	private String blank;
 	private float balance;
@@ -16,9 +19,14 @@ public class BlankAccout {
 	// 目标账号
 	private long targetCard;
 
-
+	//数据库对象
+	private AccountDAO accountDAO;
+	private AdminDAO adminDAO;
+	
+	
 	// 设置单例模式
 	private BlankAccout() {
+		accountDAO = new AccountDAO();
 	}
 
 	private static class LazyHolder {
@@ -30,6 +38,7 @@ public class BlankAccout {
 	}
 
 	
+	//Getter、 Setter方法
 	public long getTargetCard() {
 		return targetCard;
 	}
@@ -53,12 +62,12 @@ public class BlankAccout {
 		this.cardNum = cardNum;
 	}
 
-	public String getStatu() {
-		return statu;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setStatu(String statu) {
-		this.statu = statu;
+	public void setStatus(String statu) {
+		this.status = statu;
 	}
 
 	public String getAccountType() {
@@ -99,6 +108,20 @@ public class BlankAccout {
 
 	public void setWithdrawalsLimit(float withdrawalsLimit) {
 		this.withdrawalsLimit = withdrawalsLimit;
+	}
+	
+	public AccountDAO getAccountDAO() {
+		return accountDAO;
+	}
+
+
+	public AdminDAO getAdminDAO() {
+		return adminDAO;
+	}
+
+
+	public void setAdminDAO(AdminDAO adminDAO) {
+		this.adminDAO = adminDAO;
 	}
 
 }
