@@ -174,7 +174,7 @@ public class TakeFrame {
 						label_message.setText("单笔取款最多为5000元");
 					} else if (money > BlankAccout.getInstance().getWithdrawalsLimit()) {
 						label_message.setText("取款数额大于今日限额");
-					}else {
+					} else {
 						// 取款方法
 						take(moneys);
 					}
@@ -207,28 +207,29 @@ public class TakeFrame {
 	public void take(String moneys) {
 		float money = Float.parseFloat(moneys);
 		float fees = 0;// 手续费
-		
+
 		if (BlankAccout.getInstance().getBlank() != "建设银行") {
 			fees = money * 1 / 100;
 		}
-		if(BlankAccout.getInstance().getBalance() > (money+fees)) {
+		if (BlankAccout.getInstance().getBalance() > (money + fees)) {
 			// 设置目标账号为自己
 			BlankAccout.getInstance().setTargetCard(BlankAccout.getInstance().getCardNum());
 			// 修改今日取款额度
 			BlankAccout.getInstance().setWithdrawalsLimit(BlankAccout.getInstance().getWithdrawalsLimit() - money);
 			// 修改余额
 			BlankAccout.getInstance().setBalance(BlankAccout.getInstance().getBalance() - (money + fees));
-			//TODO D调用数据库方法，交易记录表增加一项，修改数据库中的余额
+			// TODO D调用数据库方法，交易记录表增加一项，修改数据库中的余额
+			BlankAccout.getInstance().getTradingrecDAO().insertRecording(BlankAccout.getInstance().getCardNum(), money,
+					"取款", BlankAccout.getInstance().getCardNum(), fees);
 			// 取款成功，发送消息给取款成功提示界面
 			message[0] = "取款";
 			message[1] = moneys; // 取款数
 			message[2] = Float.toString(BlankAccout.getInstance().getBalance());// 账户余额
 			message[3] = Float.toString(BlankAccout.getInstance().getWithdrawalsLimit());// 今日可取款额度
-			// TODO 跳转取款成功界面
 			messageFrame.getFrameMessage().setVisible(true);
 			messageFrame.showMessage(message);
 			frameTake.dispose();
-		}else {
+		} else {
 			label_message.setText("你的余额不足");
 		}
 
