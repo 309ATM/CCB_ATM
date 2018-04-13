@@ -119,16 +119,12 @@ public class AccountDAO extends DAO<Account>{
 		return accType;
 	}
 	
-	/**修改账户余额
+	/**修改账户余额,
 	 * @param Card
 	 * @param balance
-	 * @return
+	 * @return 修改成功返回 true，否则返回 false
 	 */
 	public boolean setCardBalance(long card,float balance) {
-		//输入卡号，修改余额,返回修改成功失败
-		//long card,float balance
-		//long card = 656885452136697452L;
-		//float balance = 100;
 		try{
 		String sql = "update account set balance = ? where cardnum = ?";
 		update(sql,balance,card);
@@ -138,6 +134,21 @@ public class AccountDAO extends DAO<Account>{
 		}
 	}
 
+	/**
+	 * 修改透支额度
+	 * @param card
+	 * @param overdraft
+	 * @return
+	 */
+	public boolean setCardOverdraft(long card,float overdraft) {
+		try{
+				String sql = "update account set overdraft = ? where cardnum = ?";
+				update(sql,overdraft,card);
+				return true;
+			}catch(Exception e){
+				return false;
+			}
+	}
 
 //	private float balance;
 //
@@ -221,7 +232,7 @@ public class AccountDAO extends DAO<Account>{
 		}
 	}
 	
-	/**
+	/**用户取款
 	 * @param card
 	 * @param balance(取款数)
 	 */

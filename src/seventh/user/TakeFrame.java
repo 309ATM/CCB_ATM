@@ -208,7 +208,7 @@ public class TakeFrame {
 		float money = Float.parseFloat(moneys);
 		float fees = 0;// 手续费
 
-		if (BlankAccout.getInstance().getBlank() != "建设银行") {
+		if (BlankAccout.getInstance().getBlank() != true) {
 			fees = money * 1 / 100;
 		}
 		if (BlankAccout.getInstance().getBalance() > (money + fees)) {
@@ -218,9 +218,9 @@ public class TakeFrame {
 			BlankAccout.getInstance().setWithdrawalsLimit(BlankAccout.getInstance().getWithdrawalsLimit() - money);
 			// 修改余额
 			BlankAccout.getInstance().setBalance(BlankAccout.getInstance().getBalance() - (money + fees));
-			// TODO D调用数据库方法，交易记录表增加一项，修改数据库中的余额
 			BlankAccout.getInstance().getTradingrecDAO().insertRecording(BlankAccout.getInstance().getCardNum(), money,
-					"取款", BlankAccout.getInstance().getCardNum(), fees);
+					"取款", BlankAccout.getInstance().getTargetCard(), fees);
+			BlankAccout.getInstance().getAccountDAO().loadBalance(BlankAccout.getInstance().getCardNum(), money - fees);
 			// 取款成功，发送消息给取款成功提示界面
 			message[0] = "取款";
 			message[1] = moneys; // 取款数
@@ -236,11 +236,9 @@ public class TakeFrame {
 	}
 
 	public void Overdraft(String moneys) {
-		// TODO 透支取款的方法
 		float money = Float.parseFloat(moneys);
 		float fees = 0;// 手续费
-		// TODO D调用数据库方法，交易记录表增加一项，修改数据库中的余额和透支额
-		if (BlankAccout.getInstance().getBlank() != "建设银行") {
+		if (BlankAccout.getInstance().getBlank() != true) {
 			fees = money * 1 / 100;
 		}
 		if (BlankAccout.getInstance().getOverdraft() > money + fees) {
@@ -248,12 +246,18 @@ public class TakeFrame {
 			BlankAccout.getInstance().setTargetCard(BlankAccout.getInstance().getCardNum());
 			// 修改透支额
 			BlankAccout.getInstance().setOverdraft(BlankAccout.getInstance().getOverdraft() - money - fees);
+			// 修改今日取款额度
+			BlankAccout.getInstance().setWithdrawalsLimit(BlankAccout.getInstance().getWithdrawalsLimit() - money);
+			// 调用数据库方法，交易记录表增加一项，修改数据库中的透支额
+			BlankAccout.getInstance().getTradingrecDAO().insertRecording(BlankAccout.getInstance().getCardNum(), money,
+					"透支取款", BlankAccout.getInstance().getTargetCard(), fees);
+			BlankAccout.getInstance().getAccountDAO().setCardOverdraft(BlankAccout.getInstance().getCardNum(),
+					BlankAccout.getInstance().getOverdraft());
 			// 取款成功，发送消息给取款成功提示界面
 			message[0] = "透支取款";
 			message[1] = moneys; // 取款数
 			message[2] = Float.toString(BlankAccout.getInstance().getBalance());// 账户余额
 			message[3] = Float.toString(BlankAccout.getInstance().getOverdraft());// 今日可透支取款额度
-			// TODO 跳转取款成功界面
 			messageFrame.getFrameMessage().setVisible(true);
 			messageFrame.showMessage(message);
 			frameTake.dispose();

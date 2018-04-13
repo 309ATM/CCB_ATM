@@ -85,7 +85,7 @@ public class SaveFrame {
 		label_message.setFont(new Font("幼圆", Font.BOLD, 20));
 		label_message.setBounds(381, 406, 294, 48);
 		frameSave.getContentPane().add(label_message);
-		
+
 		textField_money = new JTextField();
 		textField_money.setFont(new Font("微软雅黑 Light", Font.PLAIN, 40));
 		textField_money.setBounds(380, 330, 294, 53);
@@ -111,63 +111,61 @@ public class SaveFrame {
 		frameSave.getContentPane().add(lblBg);
 	}
 
-
-	public Boolean poundage(String card) {
-		// 判断所属银行
-		return true;
-	}
-
-	public void deposit(Long card, float money) {
+	public void deposit(Long card, float money, float fees) {
 		// 存款方法
-		//TODO D调用数据库函数，存钱
-		BlankAccout.getInstance().setBalance(BlankAccout.getInstance().getBalance() + money);
+		// 更改 bank account 中的值
+		BlankAccout.getInstance().setBalance(BlankAccout.getInstance().getBalance() + money - fees);
 		BlankAccout.getInstance().setTargetCard(BlankAccout.getInstance().getCardNum());
+		// 更新数据库的余额部分，增加交易记录
+		BlankAccout.getInstance().getAccountDAO().setCardBalance(BlankAccout.getInstance().getCardNum(),
+				BlankAccout.getInstance().getBalance());
+		BlankAccout.getInstance().getTradingrecDAO().insertRecording(BlankAccout.getInstance().getCardNum(), money,
+				"存款", BlankAccout.getInstance().getTargetCard(), fees);
+
 	}
 
 	// 存钱监听器
 	class SaveMoney implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			label_message.setText("");
-				String moneys = textField_money.getText().trim();
-				try {
-					float money = Float.parseFloat(moneys);
-//					BlankAccout.getInstance().setDepositLimit(4000);
-//					BlankAccout.getInstance().setBlank("中国银行");
-					if (money % 100 != 0|| money <= 0){
-						label_message.setText("金额数必须是100的正整数倍");
-					}
-					else if (money > 10000) {
-						label_message.setText("单笔存款最多为10,000元");
-					} else if (money > BlankAccout.getInstance().getDepositLimit()) {
-						label_message.setText("存款数额大于今日限额");
+			String moneys = textField_money.getText().trim();
+			try {
+				float money = Float.parseFloat(moneys);
+				// BlankAccout.getInstance().setDepositLimit(4000);
+				// BlankAccout.getInstance().setBlank("中国银行");
+				if (money % 100 != 0 || money <= 0) {
+					label_message.setText("金额数必须是100的正整数倍");
+				} else if (money > 10000) {
+					label_message.setText("单笔存款最多为10,000元");
+				} else if (money > BlankAccout.getInstance().getDepositLimit()) {
+					label_message.setText("存款数额大于今日限额");
+				} else {
+					// 判断银行，手续费计算
+					if (BlankAccout.getInstance().getBlank() == true) {
+						// 直接调用数据库存款方法
+						deposit(BlankAccout.getInstance().getCardNum(), money, 0);
 					} else {
-						// 判断银行，手续费计算
-						if (BlankAccout.getInstance().getBlank() == "建设银行") {
-							// 直接调用数据库存款方法
-							deposit(BlankAccout.getInstance().getCardNum(), money);
-						} else {
-							// 非本行，计算手续费
-							float fees = 0;
-							fees = money * 1 / 100;
-							deposit(BlankAccout.getInstance().getCardNum(), money - fees);
-						}
-						BlankAccout.getInstance().setDepositLimit(BlankAccout.getInstance().getDepositLimit() - money);
-						
-						textField_money.setText("");
-						message[0] = "存款";
-						message[1] = moneys;	//存款数
-						message[2] = Float.toString(BlankAccout.getInstance().getBalance());//账户余额
-						message[3] = Float.toString(BlankAccout.getInstance().getDepositLimit());//今日可存款额度
-
-						//TODO 跳转取款成功界面
-						messageFrame.getFrameMessage().setVisible(true);
-						messageFrame.showMessage(message);
-						frameSave.dispose();
+						// 非本行，计算手续费
+						float fees = 0;
+						fees = money * 1 / 100;
+						deposit(BlankAccout.getInstance().getCardNum(), money, fees);
 					}
-				} catch (NumberFormatException e) {
-					label_message.setText("请输入数字");
+					BlankAccout.getInstance().setDepositLimit(BlankAccout.getInstance().getDepositLimit() - money);
+
+					textField_money.setText("");
+					message[0] = "存款";
+					message[1] = moneys; // 存款数
+					message[2] = Float.toString(BlankAccout.getInstance().getBalance());// 账户余额
+					message[3] = Float.toString(BlankAccout.getInstance().getDepositLimit());// 今日可存款额度
+
+					messageFrame.getFrameMessage().setVisible(true);
+					messageFrame.showMessage(message);
+					frameSave.dispose();
 				}
+			} catch (NumberFormatException e) {
+				label_message.setText("请输入数字");
 			}
+		}
 	}
 
 	class Back implements ActionListener {

@@ -9,7 +9,8 @@ public class BlankAccout {
 	private long cardNum;
 	private String status;
 	private String accountType;
-	private String blank;
+	// 判断是否为本行
+	private boolean blank;
 	private float balance;
 	
 	//透支额度
@@ -84,11 +85,11 @@ public class BlankAccout {
 		this.accountType = accountType;
 	}
 
-	public String getBlank() {
+	public boolean getBlank() {
 		return blank;
 	}
 
-	public void setBlank(String blank) {
+	public void setBlank(boolean blank) {
 		this.blank = blank;
 	}
 

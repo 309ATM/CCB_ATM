@@ -98,8 +98,8 @@ public class QueryFrame {
 		String messages = "<html><p align=\"left\">您的余额为：{0}元<br>您的透支额度为：{1}元<br>您今日存款限额还剩：{2}元<br>您今日取款限额还剩：{3}元</p></html>";//显示信息还要修改
 		messages = messages.replace("{0}", String.valueOf(balance));//message[0-3]换成上面的money等
 		messages = messages.replace("{1}", String.valueOf(overdraft));
-		messages = messages.replace("{2}", String.valueOf(withdrawalsLimit));
-		messages = messages.replace("{3}", String.valueOf(depositLimit));
+		messages = messages.replace("{2}", String.valueOf(depositLimit));
+		messages = messages.replace("{3}", String.valueOf(withdrawalsLimit));
 		label.setText(messages);
 	}
 	

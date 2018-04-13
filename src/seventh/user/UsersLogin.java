@@ -77,7 +77,7 @@ public class UsersLogin {
 		lblInputcardnum.setBounds(380, 159, 288, 43);
 		frameUserLogin.getContentPane().add(lblInputcardnum);
 
-		//TODO T自动填卡号
+		// TODO T自动填卡号
 		textField_CardNumber = new JTextField("656885452136697452");
 		textField_CardNumber.setFont(new Font("微软雅黑 Light", Font.PLAIN, 28));
 		textField_CardNumber.setBounds(380, 219, 294, 53);
@@ -117,47 +117,52 @@ public class UsersLogin {
 			String pawd = new String(textUserPswd.getPassword());
 			label_message.setText("");
 			if (!card.isEmpty()) {
-				if(!pawd.isEmpty()){
-					if(BlankAccout.getInstance().getAccountDAO().getCardExit(Long.parseLong(card))){
-						if(accountDAO.checkPawd(Long.parseLong(card), Long.parseLong(pawd))){
-							//如果账号密码正确，就获取账户状态
-							String status = BlankAccout.getInstance().getAccountDAO().getCardStatu(Long.parseLong(card));
-							if(status.equals("正常")||status.equals("冻结")){
-							// 将用户账号保存下来
+				if (!pawd.isEmpty()) {
+					if (BlankAccout.getInstance().getAccountDAO().getCardExit(Long.parseLong(card))) {
+						if (accountDAO.checkPawd(Long.parseLong(card), Long.parseLong(pawd))) {
+							// 如果账号密码正确，就获取账户状态
+							String status = BlankAccout.getInstance().getAccountDAO()
+									.getCardStatu(Long.parseLong(card));
+							if (status.equals("正常") || status.equals("冻结")) {
+								// 将用户账号保存下来
 								BlankAccout.getInstance().setCardNum(Long.parseLong(card));
 								BlankAccout.getInstance().setStatus(status);
 								login();
-							}else{
-								label_message.setText("该账户已"+status);
+							} else {
+								label_message.setText("该账户已" + status);
 							}
-							
-						}else{
+
+						} else {
 							label_message.setText("密码不正确");
 						}
-					}else{
+					} else {
 						label_message.setText("账户不存在");
 					}
-				}else{
+				} else {
 					label_message.setText("请输入密码");
 				}
 			} else {
 				label_message.setText("请输入账号");
 			}
 
-
 		}
-		
+
 		private void login() {
 			frameUserLogin.setVisible(false);
 			MainFrame.main(null);
 			// 接下来这里调用数据库，将所有信息传入单例之中，如下
 			// TODO D这里记得去除信息的设置
-			//设置今日取款限额，设置透支额度，设置今日转账限额，设置账户余额，设置所属银行
-			BlankAccout.getInstance().setWithdrawalsLimit(20000);
-			BlankAccout.getInstance().setDepositLimit(50000);
-			BlankAccout.getInstance().setOverdraft(5000);
-			BlankAccout.getInstance().setBalance(100000);
-			BlankAccout.getInstance().setBlank("中国银行");
+			// 设置今日取款限额，设置透支额度，设置今日转账限额，设置账户余额，设置所属银行
+			BlankAccout.getInstance().setWithdrawalsLimit(BlankAccout.getInstance().getTradingrecDAO()
+					.getWithdrawalsLimit(BlankAccout.getInstance().getCardNum()));
+			BlankAccout.getInstance().setDepositLimit(BlankAccout.getInstance().getTradingrecDAO()
+					.getDepositLimit(BlankAccout.getInstance().getCardNum()));
+			BlankAccout.getInstance().setOverdraft((BlankAccout.getInstance().getAccountDAO()
+					.getCardOverdraft(BlankAccout.getInstance().getCardNum())));
+			BlankAccout.getInstance().setBalance(
+					BlankAccout.getInstance().getAccountDAO().getCardBalance(BlankAccout.getInstance().getCardNum()));
+			BlankAccout.getInstance().setBlank(
+					BlankAccout.getInstance().getAccountDAO().getBanks(BlankAccout.getInstance().getCardNum()));
 			frameUserLogin.dispose();
 
 		}
