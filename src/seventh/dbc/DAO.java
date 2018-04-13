@@ -15,7 +15,7 @@ import com.mysql.jdbc.Connection;
 public class DAO<T> {
 
 	private Class<T> tClass;
-	private QueryRunner queryRunner = new QueryRunner();
+	private static QueryRunner queryRunner = new QueryRunner();
 
 	/**
 	 * 构造器，利用反射，用以获取泛型类型。
@@ -88,7 +88,8 @@ public class DAO<T> {
 	 */
 	public <E> E getForValue(String sql, Object... objects) {
 		try (Connection connection = JDBCTools.getConnection()) {
-			return (E) queryRunner.query(sql, new ScalarHandler(),objects);
+			//System.out.println("hahahahaahahah");
+			return (E) queryRunner.query(connection,sql, new ScalarHandler(),objects);
 		} catch (Exception e) {
 			e.getStackTrace();
 		}
