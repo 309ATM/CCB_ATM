@@ -141,9 +141,49 @@ public class AccountDAO extends DAO<Account>{
 	 * @param accType
 	 * @param bank
 	 */
-	public boolean setAccountMess(long cardnum,int id,long passwd,String stat,String accType,String bank){
-		String sql = "insert into account values(?,?,?,?,?,?)";
-		update(sql,cardnum,id,passwd,stat,accType,bank);
+//	private float balance;
+//
+//	private float overdraft;
+//	
+//	private int loginTime;
+	public boolean setAccount(long cardnum,int id,long passwd,String stat,String accType,String bank,float balance,float overdraft,int loginTime){
+		String sql = "insert into account values(?,?,?,?,?,?,?,?,?)";
+		update(sql,cardnum,id,passwd,stat,accType,bank,balance,overdraft,loginTime);
 		return true;
+	}
+	
+	/**修改账户信息
+	 * @param oldCardnum
+	 * @param cardnum
+	 * @param id
+	 * @param passwd
+	 * @param stat
+	 * @param accType
+	 * @param bank
+	 * @param balance
+	 * @param overdraft
+	 * @param loginTime
+	 * @return
+	 */
+	public boolean updateAccountAllMessage(long oldCardnum,long cardnum,int id,long passwd,String stat,String accType,String bank,float balance,float overdraft,int loginTime){
+		//oldCardnum是原卡号，寻找记录的
+		String sql = "update account set cardnum = ?,id = ?,passwd = ?,stat = ?,accType = ?,bank = ?,balance = ?,overdraft = ?,logintime = ? where cardnum = ?";
+		update(sql,cardnum,id,passwd,stat,accType,bank,balance,overdraft,loginTime,oldCardnum);
+		return true;		
+	}
+	
+	/**修改账户状态
+	 * @param card
+	 * @param accType(修改后的状态)
+	 * @return
+	 */
+	public boolean updateAccountType(long card,String accType){
+		try{
+			String sql = "update account set accType = ? where cardnum = ?";
+			update(sql,accType,card);
+			return true;
+		}catch(Exception e){
+			return false;
+		}
 	}
 }
