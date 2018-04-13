@@ -47,7 +47,7 @@ public class AccountDAO extends DAO<Account>{
 	 * @param Card
 	 * @return
 	 */
-	public void getBanks(long card) {
+	public boolean getBanks(long card) {
 		//输入卡号，返回对错
 		//long card
 		//long card = 656885452136697452L;
@@ -56,11 +56,11 @@ public class AccountDAO extends DAO<Account>{
 		String bank = getForValue(sql,card);
 		//System.out.println(bank);	
 		if(bank.equals("建设银行")){
-			System.out.println("true");
-			//return true;
+			//System.out.println("true");
+			return true;
 		}else{
-			System.out.println("false");
-			//return false;
+			//System.out.println("false");
+			return false;
 		}
 
 
