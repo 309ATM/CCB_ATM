@@ -21,7 +21,7 @@ public class TradingrecDAO extends DAO<Tradingrec> {
 	public void insertRecording(long card, float money, String tradeType, long tradeTarget, float fee) {
 		String sql = "insert into tradingrec(cardnum,tradeDate,tradeMoney,tradeType,tradeTarget,fee) values (?,?,?,?,?,?)";
 		// 自动获取当前日期
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String date = sdf.format(new Date());
 		update(sql, card, date, money, tradeType, tradeTarget, fee);
 	}
