@@ -21,9 +21,7 @@ public class TradingrecDAO extends DAO<Tradingrec>{
 		// 自动获取当前日期
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		String date = sdf.format(new Date());
-		Object[] param = {card,date,money,tradeType,tradeTarget, fee};
-		
-		update(sql, param);
+		update(sql, card,date,money,tradeType,tradeTarget, fee);
 	}
 	
 	
@@ -80,13 +78,12 @@ public class TradingrecDAO extends DAO<Tradingrec>{
 		List<Tradingrec> tradingrecs = getForList(sql, card,date[0],date[1]);
 		String[][] records = new String[tradingrecs.size()][7];
 		for (int i=0;i<tradingrecs.size();i++) {
-			records[i][0] = String.valueOf(tradingrecs.get(i).getTradeNum());
-			records[i][1] = String.valueOf(tradingrecs.get(i).getCardNum());
-			records[i][2] = String.valueOf(tradingrecs.get(i).getTradeDate());
-			records[i][3] = String.valueOf(tradingrecs.get(i).getTradeMoney());
-			records[i][4] = String.valueOf(tradingrecs.get(i).getTradeType());
-			records[i][5] = String.valueOf(tradingrecs.get(i).getTradeTarget());
-			records[i][6] = String.valueOf(tradingrecs.get(i).getFee());
+			records[i][0] = String.valueOf(tradingrecs.get(i).getCardNum());
+			records[i][1] = String.valueOf(tradingrecs.get(i).getTradeDate());
+			records[i][2] = String.valueOf(tradingrecs.get(i).getTradeMoney());
+			records[i][3] = String.valueOf(tradingrecs.get(i).getTradeType());
+			records[i][4] = String.valueOf(tradingrecs.get(i).getTradeTarget());
+			records[i][5] = String.valueOf(tradingrecs.get(i).getFee());
 		}
 		return records;
 	}	
