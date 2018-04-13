@@ -2,6 +2,8 @@ package seventh.accout;
 
 import seventh.dbc.AccountDAO;
 import seventh.dbc.AdminDAO;
+import seventh.dbc.TradingrecDAO;
+import seventh.dbc.UserDao;
 
 public class BlankAccout {
 	private long cardNum;
@@ -19,14 +21,18 @@ public class BlankAccout {
 	// 目标账号
 	private long targetCard;
 
-	//数据库对象
+	//数据库操作对象
 	private AccountDAO accountDAO;
 	private AdminDAO adminDAO;
-	
+	private TradingrecDAO tradingrecDAO; 
+	private UserDao userDao;
 	
 	// 设置单例模式
 	private BlankAccout() {
 		accountDAO = new AccountDAO();
+		adminDAO = new AdminDAO();
+		tradingrecDAO = new TradingrecDAO();
+		userDao = new UserDao();
 	}
 
 	private static class LazyHolder {
@@ -114,14 +120,16 @@ public class BlankAccout {
 		return accountDAO;
 	}
 
-
 	public AdminDAO getAdminDAO() {
 		return adminDAO;
 	}
 
+	public TradingrecDAO getTradingrecDAO() {
+		return tradingrecDAO;
+	}
 
-	public void setAdminDAO(AdminDAO adminDAO) {
-		this.adminDAO = adminDAO;
+	public UserDao getUserDao() {
+		return userDao;
 	}
 
 }
