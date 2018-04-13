@@ -24,7 +24,7 @@ public class MainFrame {
 	public static JFrame frameMain;
 	private TakeChoseFrame takeChoseFrame = new TakeChoseFrame();
 	private SaveFrame saveFrame = new SaveFrame();
-	private TransferFrame transferFrame = new TransferFrame();
+	private TransferChoseFrame transferChoseFrame = new TransferChoseFrame();
 	private QueryFrame queryFrame = new QueryFrame();
 	private HistoryFrame historyFrame = new HistoryFrame();
 	private String File = "E:\\Code\\java\\CCB_ATM";
@@ -50,7 +50,7 @@ public class MainFrame {
 	public MainFrame() {
 		initialize();
 		takeChoseFrame.getFrameChose().setVisible(false);
-		transferFrame.getFrameTransfer().setVisible(false);
+		transferChoseFrame.getFrameTransferChose().setVisible(false);
 		saveFrame.getFrameSave().setVisible(false);
 		queryFrame.getFrameQuery().setVisible(false);
 		historyFrame.getFrameHistory().setVisible(false);
@@ -139,7 +139,7 @@ public class MainFrame {
 	class ToTransfer implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			transferFrame.getFrameTransfer().setVisible(true);
+			transferChoseFrame.getFrameTransferChose().setVisible(true);
 			frameMain.dispose();
 
 		}

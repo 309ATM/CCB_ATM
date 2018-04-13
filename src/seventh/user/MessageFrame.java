@@ -56,7 +56,7 @@ public class MessageFrame {
 			messages = messages.replace("{3}", message[3]);
 			label_message.setText(messages);
 		}else if (message[0].equals("转账")) {
-			String messages = "<html><center>{0}成功<br>{0}{1}元<br>您当前可用余额：{2}<br>您今日可{0}额：{3}";
+			String messages = "<html><center>{0}成功<br>{0}{1}元<br>转账目标：{3}<br>您当前可用余额：{2}";
 			messages = messages.replace("{0}", message[0]);
 			messages = messages.replace("{1}", message[1]);
 			messages = messages.replace("{2}", message[2]);
