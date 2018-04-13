@@ -36,7 +36,6 @@ public class JDBCTools {
 			try {
 				resultSet.close();
 			} catch (SQLException e) {
-				// TODO 自动生成的 catch 块
 				e.printStackTrace();
 			}
 		}
@@ -44,7 +43,6 @@ public class JDBCTools {
 			try {
 				pStatement.close();
 			} catch (SQLException e) {
-				// TODO 自动生成的 catch 块
 				e.printStackTrace();
 			}
 		}

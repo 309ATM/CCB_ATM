@@ -145,7 +145,6 @@ public class TakeFrame {
 		String money;
 
 		public withdrawal(String money) {
-			// TODO 自动生成的构造函数存根
 			this.money = money;
 		}
 
@@ -178,7 +177,6 @@ public class TakeFrame {
 					}else {
 						// 取款方法
 						take(moneys);
-						
 					}
 				} else {
 					if (money % 100 != 0) {
@@ -220,7 +218,7 @@ public class TakeFrame {
 			BlankAccout.getInstance().setWithdrawalsLimit(BlankAccout.getInstance().getWithdrawalsLimit() - money);
 			// 修改余额
 			BlankAccout.getInstance().setBalance(BlankAccout.getInstance().getBalance() - (money + fees));
-			//TODO 调用数据库方法，交易记录表增加一项，修改数据库中的余额
+			//TODO D调用数据库方法，交易记录表增加一项，修改数据库中的余额
 			// 取款成功，发送消息给取款成功提示界面
 			message[0] = "取款";
 			message[1] = moneys; // 取款数
@@ -240,7 +238,7 @@ public class TakeFrame {
 		// TODO 透支取款的方法
 		float money = Float.parseFloat(moneys);
 		float fees = 0;// 手续费
-		// TODO 调用数据库方法，交易记录表增加一项，修改数据库中的余额和透支额
+		// TODO D调用数据库方法，交易记录表增加一项，修改数据库中的余额和透支额
 		if (BlankAccout.getInstance().getBlank() != "建设银行") {
 			fees = money * 1 / 100;
 		}
@@ -259,7 +257,7 @@ public class TakeFrame {
 			messageFrame.showMessage(message);
 			frameTake.dispose();
 		} else {
-			label_message.setText("你的透支额度不足");
+			label_message.setText("您的透支额度不足");
 		}
 	}
 

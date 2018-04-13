@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.UIManager;
 
+import seventh.accout.BlankAccout;
 import seventh.until.ATMButton;
 
 import java.awt.Color;
@@ -107,7 +108,7 @@ public class MainFrame {
 
 	public void cardLock() {
 		//这部分我写
-		String status = "正常";//"正常","挂失","销户"
+		String status = BlankAccout.getInstance().getStatus();
 		if(status.equals("冻结")) {
 			//调用MainFrame的方法，隐藏部分控件，实现功能消除
 			btnQu.setVisible(false);
@@ -157,7 +158,7 @@ public class MainFrame {
 	class Exit implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			UserLoginCardNum.main(null);
+			UsersLogin.main(null);
 			frameMain.dispose();
 		}
 	}
