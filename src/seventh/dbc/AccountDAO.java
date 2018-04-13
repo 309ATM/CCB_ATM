@@ -77,7 +77,11 @@ public class AccountDAO extends DAO<Account>{
 		String sql = "select stat from account where cardnum = ?";
 		String stat = getForValue(sql,card);
 		//System.out.println(stat);
-		return stat;
+		if(stat != null){
+			return stat;
+		}else{
+			return null;
+		}
 	}
 	
 	/**查询余额
@@ -90,6 +94,7 @@ public class AccountDAO extends DAO<Account>{
 		float balance = getForValue(sql,card);
 		//System.out.println(stat);
 		return balance;
+
 	}
 	
 	/**查询透支额度
@@ -133,22 +138,29 @@ public class AccountDAO extends DAO<Account>{
 		}
 	}
 
-	/**插入账户表
-	 * @param cardnum
-	 * @param id
-	 * @param passwd
-	 * @param stat
-	 * @param accType
-	 * @param bank
-	 */
+
 //	private float balance;
 //
 //	private float overdraft;
 //	
 //	private int loginTime;
-	public boolean setAccount(long cardnum,int id,long passwd,String stat,String accType,String bank,float balance,float overdraft,int loginTime){
-		String sql = "insert into account values(?,?,?,?,?,?,?,?,?)";
-		update(sql,cardnum,id,passwd,stat,accType,bank,balance,overdraft,loginTime);
+	/**插入账户表
+	 * @param idCard(用身份证去获取用户id)
+	 * @param cardnum
+	 * @param passwd
+	 * @param stat
+	 * @param accType
+	 * @param bank
+	 * @param balance
+	 * @param overdraft
+	 * @param loginTime
+	 * @return
+	 */
+	public boolean setAccount(String idCard,long cardnum,long passwd,String stat,String accType,String bank,float balance,float overdraft,int loginTime){
+		String sql = "select id from users where idcard = ?";
+		int id = getForValue(sql, idCard);
+		String sql1 = "insert into account values(?,?,?,?,?,?,?,?,?)";
+		update(sql1,cardnum,id,passwd,stat,accType,bank,balance,overdraft,loginTime);
 		return true;
 	}
 	
@@ -178,12 +190,47 @@ public class AccountDAO extends DAO<Account>{
 	 * @return
 	 */
 	public boolean updateAccountType(long card,String accType){
-		try{
 			String sql = "update account set accType = ? where cardnum = ?";
 			update(sql,accType,card);
 			return true;
+	}
+	
+	/**修改账户密码
+	 * @param card
+	 * @param newPasswd
+	 * @param oldPasswd
+	 * @return
+	 */
+	public boolean updatePasswd(long card,long newPasswd,long oldPasswd){
+		String sql = "update account set passwd = ? where cardnum = ? and passwd = ?";
+		update(sql,newPasswd,card,oldPasswd);
+		return true;
+	}
+	
+	/**用户存款
+	 * @param card
+	 * @param balance(存款数)
+	 * @return
+	 */
+	public void saveBalance(long card,float Money){
+		try{
+			String sql = "update account set balance = balance+? where cardnum = ? ";
+			update(sql,Money,card);
 		}catch(Exception e){
-			return false;
+			System.out.println("出错");
+		}
+	}
+	
+	/**
+	 * @param card
+	 * @param balance(取款数)
+	 */
+	public void loadBalance(long card,float Money){
+		try{
+			String sql = "update account set balance = balance-? where cardnum = ?";
+			update(sql,Money,card);
+		}catch(Exception e){
+			System.out.println("出错");
 		}
 	}
 }
