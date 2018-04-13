@@ -233,4 +233,16 @@ public class AccountDAO extends DAO<Account>{
 			System.out.println("出错");
 		}
 	}
+	
+	/**转账
+	 * @param card
+	 * @param targetCard
+	 * @param money(已计算手续费)
+	 */
+	public void transferAccount(long card,long targetCard,float money){
+		String sql = "update account set balance = balance-? where card = ?";
+		update(sql,money,card);
+		String sql1 = "update account set balance = balance+? where card = ?";
+		update(sql,money,targetCard);
+	}
 }
