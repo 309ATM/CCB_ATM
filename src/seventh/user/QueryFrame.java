@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import seventh.accout.BlankAccout;
 import seventh.until.ATMButton;
 
 import java.awt.Color;
@@ -21,8 +22,9 @@ import java.awt.Color;
 public class QueryFrame {
 
 	private JFrame frameQuery;
-	private String File = "E:\\Code\\java\\CCB_ATM";
-	// private String File = ".";
+	private JLabel label;
+	//private String File = "E:\\Code\\java\\CCB_ATM";
+	private String File = ".";
 
 	/**
 	 * Launch the application.
@@ -67,10 +69,10 @@ public class QueryFrame {
 		button_1.setBounds(875, 550, 200, 80);
 		frameQuery.getContentPane().add(button_1);
 
-		JLabel label = new JLabel("您的余额信息：");
+		label = new JLabel("您的余额信息：");
 		label.setForeground(Color.WHITE);
-		label.setFont(new Font("幼圆", Font.BOLD, 24));
-		label.setBounds(421, 246, 157, 40);
+		label.setFont(new Font("幼圆", Font.BOLD, 26));
+		label.setBounds(304, 181, 464, 271);
 		frameQuery.getContentPane().add(label);
 
 		JLabel lblBg = new JLabel("");
@@ -87,5 +89,19 @@ public class QueryFrame {
 		}
 	}
 
+	public void showMessage() {
+		float balance= BlankAccout.getInstance().getBalance();
+		float overdraft = BlankAccout.getInstance().getOverdraft();
+		float withdrawalsLimit = BlankAccout.getInstance().getWithdrawalsLimit();
+		float depositLimit = BlankAccout.getInstance().getDepositLimit(); 
+		
+		String messages = "<html><p align=\"left\">您的余额为：{0}元<br>您的透支额度为：{1}元<br>您今日存款限额还剩：{2}元<br>您今日取款限额还剩：{3}元</p></html>";//显示信息还要修改
+		messages = messages.replace("{0}", String.valueOf(balance));//message[0-3]换成上面的money等
+		messages = messages.replace("{1}", String.valueOf(overdraft));
+		messages = messages.replace("{2}", String.valueOf(withdrawalsLimit));
+		messages = messages.replace("{3}", String.valueOf(depositLimit));
+		label.setText(messages);
+	}
+	
 	
 }

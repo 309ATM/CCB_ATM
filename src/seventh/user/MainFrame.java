@@ -149,6 +149,7 @@ public class MainFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			queryFrame.getFrameQuery().setVisible(true);
+			queryFrame.showMessage();
 			frameMain.setVisible(false);
 		}
 	}
