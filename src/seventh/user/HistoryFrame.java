@@ -61,7 +61,7 @@ public class HistoryFrame {
 
 	public HistoryFrame() {
 		initialize();
-		//WriteData();
+		WriteData(1);
 	}
 
 	private void initialize() {
@@ -105,8 +105,9 @@ public class HistoryFrame {
 		table = new JTable();
 		// 设置表格的格式
 		table.setRowHeight(50); // 设置行高
-		table.getTableHeader().setFont(new Font("幼圆", Font.BOLD, 20)); // 设置表头字体
-		table.setFont(new Font("幼圆", Font.BOLD, 20)); // 设置表格字体
+		table.getTableHeader().setFont(new Font("幼圆", Font.BOLD, 18)); // 设置表头字体
+		table.setFont(new Font("幼圆", Font.BOLD, 18)); // 设置表格字体
+		
 		table.setRowMargin(5);// 设置相邻两行单元格的距离
 		table.setRowSelectionAllowed(true);// 设置可否被选择.默认为false
 		table.setSelectionBackground(Color.white);// 设置所选择行的背景色
@@ -135,37 +136,29 @@ public class HistoryFrame {
 	}
 
 	public void WriteData(int month) {
-		final String[] columnNames = { "日期", "交易类型", "交易金额", "目标账户", "手续费" };
-		
-		if(month==1){
-			//调用数据库方法获取记录
-			//function(BlankAccout.getInstance().getCardNum(),getDate(1));
+		final String[] columnNames = { "账户", "日期", "交易金额", "交易类型", "目标账户", "手续费" };
+		if (month == 1) {
+			// 调用数据库方法获取记录
+			String[][] rowData = BlankAccout.getInstance().getTradingrecDAO()
+					.getSpecifiedRecording(BlankAccout.getInstance().getCardNum(), getDate(1));
+			table.setModel(new DefaultTableModel(rowData, columnNames));
 		}
-		if(month==3){
-			//调用数据库方法获取记录
-			//function(BlankAccout.getInstance().getCardNum(),getDate(3));
+		if (month == 3) {
+			// 调用数据库方法获取记录
+			String[][] rowData = BlankAccout.getInstance().getTradingrecDAO()
+					.getSpecifiedRecording(BlankAccout.getInstance().getCardNum(), getDate(3));
+			table.setModel(new DefaultTableModel(rowData, columnNames));
 		}
-		if(month==6){
-			//调用数据库方法获取记录
-			//function(BlankAccout.getInstance().getCardNum(),getDate(6));
+		if (month == 6) {
+			// 调用数据库方法获取记录
+			String[][] rowData = BlankAccout.getInstance().getTradingrecDAO()
+					.getSpecifiedRecording(BlankAccout.getInstance().getCardNum(), getDate(6));
+			table.setModel(new DefaultTableModel(rowData, columnNames));
 		}
-		//这部分数据从数据库里获取
-		String[][] rowData = { { "2018.04.01 08:09:56", "转账", "￥1200", "62218858000005086", "￥0.00" },
-				{ "2018.04.01 14:04:38", "转账", "￥13000", "62218858000005086", "￥0.00" },
-				{ "2018.04.04 15:50:21", "转账", "￥100", "62218858000005086", "￥1.00" },
-				{ "2018.04.08 11:34:23", "转账", "￥200", "62218858000005086", "￥2.00" },
-				{ "2018.04.10 09:56:12", "透支取款", "￥400", "62218858000005086", "￥4.00" },
-				{ "2018.04.10 09:56:12", "透支取款", "￥400", "62218858000005086", "￥4.00" },
-				{ "2018.04.10 09:56:12", "透支取款", "￥400", "62218858000005086", "￥4.00" },
-				{ "2018.04.10 09:56:12", "透支取款", "￥400", "62218858000005086", "￥4.00" },
-				{ "2018.04.10 09:56:12", "透支取款", "￥400", "62218858000005086", "￥4.00" },
-				{ "2018.04.10 09:56:12", "透支取款", "￥400", "62218858000005086", "￥4.00" } };
-		
-		
-		table.setModel(new DefaultTableModel(rowData, columnNames));
 		// 设置文字居中
 		DefaultTableCellRenderer render = new DefaultTableCellRenderer();
 		render.setHorizontalAlignment(SwingConstants.CENTER);
+		table.getColumn("账户").setCellRenderer(render);
 		table.getColumn("日期").setCellRenderer(render);
 		table.getColumn("交易类型").setCellRenderer(render);
 		table.getColumn("交易金额").setCellRenderer(render);
@@ -173,40 +166,43 @@ public class HistoryFrame {
 		table.getColumn("手续费").setCellRenderer(render);
 		// 设置列宽
 		table.getColumnModel().getColumn(0).setPreferredWidth(180);
-		table.getColumnModel().getColumn(1).setPreferredWidth(20);
-		table.getColumnModel().getColumn(2).setPreferredWidth(20);
-		table.getColumnModel().getColumn(3).setPreferredWidth(180);
-		table.getColumnModel().getColumn(4).setPreferredWidth(20);
+		table.getColumnModel().getColumn(1).setPreferredWidth(180);
+		table.getColumnModel().getColumn(2).setPreferredWidth(40);
+		table.getColumnModel().getColumn(3).setPreferredWidth(40);
+		table.getColumnModel().getColumn(4).setPreferredWidth(180);
+		table.getColumnModel().getColumn(5).setPreferredWidth(20);
 	}
 
 	class SelectTime implements ItemListener {
 
 		@Override
 		public void itemStateChanged(ItemEvent e) {
-			// TODO 自动生成的方法存根
 			if (e.getItem().equals("1个月"))
 				WriteData(1);
 			else if (e.getItem().equals("3个月"))
 				WriteData(3);
 			else if (e.getItem().equals("6个月"))
 				WriteData(6);
-
 		}
 
 	}
 
-	public String[] getDate(int month){
-		Date dNow = new Date();   //当前时间
+	public String[] getDate(int month) {
+		Date dNow = new Date(); // 当前时间
 		Date dBefore = new Date();
-		Calendar calendar = Calendar.getInstance(); //得到日历
-		calendar.setTime(dNow);//把当前时间赋给日历
-		calendar.add(calendar.MONTH, -month);  //设置为前month月
-		dBefore = calendar.getTime();   //得到前3月的时间
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); // HH:mm:ss"); //设置时间格式
-		String[] date = {sdf.format(dBefore),sdf.format(dNow)};
+		Calendar calendar = Calendar.getInstance(); // 得到日历
+		calendar.add(calendar.DATE, 1);
+		dNow = calendar.getTime();
+		calendar.setTime(dNow);// 把当前时间赋给日历
+		calendar.add(calendar.MONTH, -month); // 设置为前month月
+		calendar.add(calendar.DATE,1);
+		dBefore = calendar.getTime(); // 得到前3月的时间
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // HH:mm:ss");
+																	// //设置时间格式
+		String[] date = { sdf.format(dBefore), sdf.format(dNow) };
 		return date;
 	}
-	
+
 	class Back implements ActionListener {
 
 		@Override

@@ -77,8 +77,9 @@ public class UsersLogin {
 		lblInputcardnum.setBounds(380, 159, 288, 43);
 		frameUserLogin.getContentPane().add(lblInputcardnum);
 
-		textField_CardNumber = new JTextField();
-		textField_CardNumber.setFont(new Font("Î¢ÈíÑÅºÚ Light", Font.PLAIN, 40));
+		//TODO T×Ô¶¯Ìî¿¨ºÅ
+		textField_CardNumber = new JTextField("656885452136697452");
+		textField_CardNumber.setFont(new Font("Î¢ÈíÑÅºÚ Light", Font.PLAIN, 28));
 		textField_CardNumber.setBounds(380, 219, 294, 53);
 		frameUserLogin.getContentPane().add(textField_CardNumber);
 		textField_CardNumber.setColumns(10);
@@ -105,7 +106,7 @@ public class UsersLogin {
 
 		JLabel lblBg = new JLabel("");
 		lblBg.setIcon(new ImageIcon(File + "\\img\\ATM_bg.png"));
-		lblBg.setBounds(0, 6, 1089, 715);
+		lblBg.setBounds(2, 0, 1089, 715);
 		frameUserLogin.getContentPane().add(lblBg);
 	}
 
