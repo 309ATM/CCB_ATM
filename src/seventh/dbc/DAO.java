@@ -88,7 +88,7 @@ public class DAO<T> {
 	 */
 	public <E> E getForValue(String sql, Object... objects) {
 		try (Connection connection = JDBCTools.getConnection()) {
-			return (E) queryRunner.query(sql, new ScalarHandler(),objects);
+			return (E) queryRunner.query(connection,sql, new ScalarHandler(),objects);
 		} catch (Exception e) {
 			e.getStackTrace();
 		}
