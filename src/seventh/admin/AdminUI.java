@@ -7,6 +7,9 @@ import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -54,9 +57,8 @@ public class AdminUI {
 	private JComboBox comboBox;
 	private JButton btn_loss;
 	private JTable table;
-	private String dateBefore = "";
-	private String dateNow = "";
-	
+	private String[] date;
+
 	private String File = "E:\\Code\\java\\CCB_ATM";
 	private JTextField textField;
 	// private String File = ".";
@@ -83,6 +85,9 @@ public class AdminUI {
 	 */
 	public AdminUI() {
 		initialize();
+		date = new String[2];
+		date[0] = ""; 
+		date[1] = ""; 
 	}
 
 	/**
@@ -174,8 +179,8 @@ public class AdminUI {
 		textField_name.setBounds(265, 130, 211, 35);
 		panel_OpenAcc.add(textField_name);
 		textField_name.setColumns(10);
-		
-		String[] sex ={ "男" , "女" };
+
+		String[] sex = { "男", "女" };
 		comboBox = new JComboBox(sex);
 		comboBox.setForeground(Color.BLUE);
 		comboBox.setFont(new Font("幼圆", Font.PLAIN, 18));
@@ -253,37 +258,37 @@ public class AdminUI {
 		JPanel panel_Loss = new JPanel();
 		tabbedPane.addTab(null, ico_statusOprea, panel_Loss, "挂失解挂");
 		panel_Loss.setLayout(null);
-		
-				JLabel label_2 = new JLabel("请输入要挂失或解挂的卡号");
-				label_2.setFont(new Font("幼圆", Font.PLAIN, 18));
-				label_2.setBounds(35, 13, 290, 43);
-				panel_Loss.add(label_2);
+
+		JLabel label_2 = new JLabel("请输入要挂失或解挂的卡号");
+		label_2.setFont(new Font("幼圆", Font.PLAIN, 18));
+		label_2.setBounds(35, 13, 290, 43);
+		panel_Loss.add(label_2);
 
 		textField_loss = new JTextField();
 		textField_loss.setFont(new Font("幼圆", Font.PLAIN, 18));
 		textField_loss.setBounds(290, 84, 444, 43);
 		panel_Loss.add(textField_loss);
-		
-				btn_loss = new JButton("确认");
-				btn_loss.addActionListener(new LossOperation());
-				btn_loss.setFont(new Font("幼圆", Font.PLAIN, 18));
-				btn_loss.setBounds(470, 140, 90, 43);
-				panel_Loss.add(btn_loss);
-		
+
+		btn_loss = new JButton("确认");
+		btn_loss.addActionListener(new LossOperation());
+		btn_loss.setFont(new Font("幼圆", Font.PLAIN, 18));
+		btn_loss.setBounds(470, 140, 90, 43);
+		panel_Loss.add(btn_loss);
+
 		JSeparator separator_2 = new JSeparator();
 		separator_2.setBounds(14, 240, 1024, 2);
 		panel_Loss.add(separator_2);
-		
+
 		JLabel label_5 = new JLabel("请输入要冻结或解冻的卡号");
 		label_5.setFont(new Font("幼圆", Font.PLAIN, 18));
 		label_5.setBounds(35, 255, 290, 43);
 		panel_Loss.add(label_5);
-		
+
 		textField = new JTextField();
 		textField.setFont(new Font("幼圆", Font.PLAIN, 18));
 		textField.setBounds(290, 338, 444, 43);
 		panel_Loss.add(textField);
-		
+
 		JButton btn_lock = new JButton("\u786E\u8BA4");
 		btn_lock.addActionListener(new LockOperation());
 		btn_lock.setFont(new Font("幼圆", Font.PLAIN, 18));
@@ -314,7 +319,7 @@ public class AdminUI {
 		textField_queryBalance.setBounds(290, 128, 444, 43);
 		panel_lock.add(textField_queryBalance);
 		textField_carNum.setColumns(10);
-		
+
 		JButton btn_queryBalance = new JButton("\u786E\u8BA4");
 		btn_queryBalance.addActionListener(new QueryBalacne());
 		btn_queryBalance.setFont(new Font("幼圆", Font.PLAIN, 18));
@@ -367,8 +372,8 @@ public class AdminUI {
 		table = new JTable();
 		// 设置表格的格式
 		table.setRowHeight(50); // 设置行高
-		table.getTableHeader().setFont(new Font("幼圆", Font.BOLD, 20)); // 设置表头字体
-		table.setFont(new Font("幼圆", Font.BOLD, 20)); // 设置表格字体
+		table.getTableHeader().setFont(new Font("幼圆", Font.BOLD, 18)); // 设置表头字体
+		table.setFont(new Font("幼圆", Font.BOLD, 18)); // 设置表格字体
 		table.setRowMargin(5);// 设置相邻两行单元格的距离
 		table.setRowSelectionAllowed(true);// 设置可否被选择.默认为false
 		table.setSelectionBackground(Color.white);// 设置所选择行的背景色
@@ -436,26 +441,18 @@ public class AdminUI {
 	}
 
 	// TODO 获取填入表格的数据
-	public void WriteData(String[] month) {
-		final String[] columnNames = { "日期", "交易类型", "交易金额", "目标账户", "手续费" };
+	public void WriteData(Long card, String[] date) {
+		final String[] columnNames = { "账号", "日期", "交易类型", "交易金额", "目标账户", "手续费" };
 		// 调用数据库方法获取记录
 		// function(BlankAccout.getInstance().getCardNum(),getDate(6));
 		// 这部分数据从数据库里获取
-		String[][] rowData = { { "2018.04.01 08:09:56", "转账", "￥1200", "62218858000005086", "￥0.00" },
-				{ "2018.04.01 14:04:38", "转账", "￥13000", "62218858000005086", "￥0.00" },
-				{ "2018.04.04 15:50:21", "转账", "￥100", "62218858000005086", "￥1.00" },
-				{ "2018.04.08 11:34:23", "转账", "￥200", "62218858000005086", "￥2.00" },
-				{ "2018.04.10 09:56:12", "透支取款", "￥400", "62218858000005086", "￥4.00" },
-				{ "2018.04.10 09:56:12", "透支取款", "￥400", "62218858000005086", "￥4.00" },
-				{ "2018.04.10 09:56:12", "透支取款", "￥400", "62218858000005086", "￥4.00" },
-				{ "2018.04.10 09:56:12", "透支取款", "￥400", "62218858000005086", "￥4.00" },
-				{ "2018.04.10 09:56:12", "透支取款", "￥400", "62218858000005086", "￥4.00" },
-				{ "2018.04.10 09:56:12", "透支取款", "￥400", "62218858000005086", "￥4.00" } };
+		String[][] rowData = BlankAccout.getInstance().getTradingrecDAO().getSpecifiedRecording(card, date);
 
 		table.setModel(new DefaultTableModel(rowData, columnNames));
 		// 设置文字居中
 		DefaultTableCellRenderer render = new DefaultTableCellRenderer();
 		render.setHorizontalAlignment(SwingConstants.CENTER);
+		table.getColumn("账号").setCellRenderer(render);
 		table.getColumn("日期").setCellRenderer(render);
 		table.getColumn("交易类型").setCellRenderer(render);
 		table.getColumn("交易金额").setCellRenderer(render);
@@ -463,10 +460,11 @@ public class AdminUI {
 		table.getColumn("手续费").setCellRenderer(render);
 		// 设置列宽
 		table.getColumnModel().getColumn(0).setPreferredWidth(180);
-		table.getColumnModel().getColumn(1).setPreferredWidth(20);
-		table.getColumnModel().getColumn(2).setPreferredWidth(20);
-		table.getColumnModel().getColumn(3).setPreferredWidth(180);
-		table.getColumnModel().getColumn(4).setPreferredWidth(20);
+		table.getColumnModel().getColumn(1).setPreferredWidth(180);
+		table.getColumnModel().getColumn(2).setPreferredWidth(40);
+		table.getColumnModel().getColumn(3).setPreferredWidth(40);
+		table.getColumnModel().getColumn(4).setPreferredWidth(180);
+		table.getColumnModel().getColumn(5).setPreferredWidth(20);
 	}
 
 	// TODO 获取日期监听器
@@ -477,51 +475,68 @@ public class AdminUI {
 
 			if (e.getSource() == btn_begin) {
 				dateChoose.showDateChooser();
-				dateBefore = dateChoose.getDateFormat("yyyy-MM-dd");
-				btn_begin.setText(dateBefore);
+				date[0] = dateChoose.getDateFormat("yyyy-MM-dd");
+				btn_begin.setText(date[0]);
 			}
 			if (e.getSource() == btn_end) {
 				dateChoose.showDateChooser();
-				dateNow = dateChoose.getDateFormat("yyyy-MM-dd");
-				btn_end.setText(dateNow);
+				date[1] = dateChoose.getDateFormat("yyyy-MM-dd");
+				btn_end.setText(date[1]);
 			}
 			if (e.getSource() == btn_confirm) {
-				if (dateBefore.isEmpty() || dateNow.isEmpty()) {
+				if (date[0].isEmpty() || date[1].isEmpty() ) {
 					JOptionPane.showMessageDialog(null, "请选择正确日期", "错误", JOptionPane.ERROR_MESSAGE);
-				} else if (dateBefore.compareTo(dateNow) <= 0) {
+				} else if (textField_query.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "请输入卡号", "错误", JOptionPane.ERROR_MESSAGE);
+				} else if (date[0].compareTo(date[1]) <= 0) {
 					// TODO 读取记录信息，插入信息到表格JTable中
-					String[] date = { dateBefore, dateNow };
-					WriteData(date);
+					WriteData(Long.parseLong(textField_query.getText()),date);
 				} else {
-					JOptionPane.showMessageDialog(null, "请选择正确日期", "错误", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "请选择正确日期222", "错误", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		}
+
+		public String SQLDate(String source) {
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			Date date;
+			try {
+				date = simpleDateFormat.parse(source);
+			} catch (Exception e) {
+			}
+			Calendar calendar = Calendar.getInstance(); // 得到日历
+			calendar.add(calendar.DATE, 1);
+			date = calendar.getTime();
+
+			return simpleDateFormat.format(date);
+
+		}
+
 	}
 
 	// 录入用户信息的监听器
 	class UserInformation implements ActionListener {
-		//清空文本框
-		public void setTextNone(){
+		// 清空文本框
+		public void setTextNone() {
 			textField_name.setText("");
 			textField_idcard.setText("");
 			textField_phone.setText("");
 			textArea_address.setText("");
 		}
-		
-		//TODO 生成卡号
-		public String generateCardNum(){
+
+		// TODO 生成卡号
+		public String generateCardNum() {
 			String cardNum = "6217000830000123";
 			return cardNum;
 		}
-		
+
 		public void actionPerformed(ActionEvent arg0) {
 			// 去除信息头尾的空格
 			String name = textField_name.getText().trim();
-			String sex = (String) comboBox_cardType.getSelectedItem();//下拉框获取性别
+			String sex = (String) comboBox_cardType.getSelectedItem();// 下拉框获取性别
 			String phone = textField_phone.getText().trim();
 			String idCard = textField_idcard.getText();
-			String cardType = (String) comboBox.getSelectedItem();//下拉框获取开户卡类型
+			String cardType = (String) comboBox.getSelectedItem();// 下拉框获取开户卡类型
 			String address = textArea_address.getText().trim();
 			// 开始进行信息检查
 			if (name.isEmpty() | phone.isEmpty() | address.isEmpty()) {
@@ -535,18 +550,20 @@ public class AdminUI {
 				String confirmPassword = null;
 				// 如果用户取消输入密码，则不弹出确认密码的输入框
 				if (password != null) {
-					confirmPassword = JOptionPane.showInputDialog(null, "请再次输入密码", "提示",JOptionPane.INFORMATION_MESSAGE);
+					confirmPassword = JOptionPane.showInputDialog(null, "请再次输入密码", "提示",
+							JOptionPane.INFORMATION_MESSAGE);
 				}
 				try {
 					if (confirmPassword.length() == 6 && password.length() == 6) {
 						if (password.equals(confirmPassword)) {
 							BlankAccout.getInstance().setCardNum(Long.parseLong(idCard));
-							//TODO 卡号生成规则怎么写？
+							// TODO 卡号生成规则怎么写？
 							System.out.println(BlankAccout.getInstance().getCardNum());
-							System.out.println("姓名：" + name + "\n性别：" + sex + "\n手机号："+ phone + 
-									"\n身份证号：" + idCard + "\n账户类型：" + cardType + "\n家庭住址：" + address);
-							JOptionPane.showMessageDialog(null, "开户成功，您的卡号为：\n"+generateCardNum(), "恭喜", JOptionPane.INFORMATION_MESSAGE);
-							setTextNone(); //完成用户信息录入后清空所有文本框内容
+							System.out.println("姓名：" + name + "\n性别：" + sex + "\n手机号：" + phone + "\n身份证号：" + idCard
+									+ "\n账户类型：" + cardType + "\n家庭住址：" + address);
+							JOptionPane.showMessageDialog(null, "开户成功，您的卡号为：\n" + generateCardNum(), "恭喜",
+									JOptionPane.INFORMATION_MESSAGE);
+							setTextNone(); // 完成用户信息录入后清空所有文本框内容
 						} else {
 							JOptionPane.showMessageDialog(null, "两次密码不一致", "错误", JOptionPane.ERROR_MESSAGE);
 						}
@@ -565,39 +582,41 @@ public class AdminUI {
 	// 挂失解挂监听器
 	class LossOperation implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
-			//String card = textField_loss.getText();
+			// String card = textField_loss.getText();
 			// 调用数据库方法判断卡号是否存在
 			Boolean flag = true;
 			if (flag) {
-				//调用数据库方法获取账户状态
+				// 调用数据库方法获取账户状态
 				String cardStatus = "挂失";
-				//1.如果挂失了，则提问是否要解挂
-				if(cardStatus.equals("挂失")){
-					if(JOptionPane.showConfirmDialog(null, "该卡已挂失，是否要解挂？", "提示", JOptionPane.YES_NO_OPTION) == 0){	//选择解挂操作，输入验证密码
-						String input_password = JOptionPane.showInputDialog(null, "请输入密码", "提示", JOptionPane.INFORMATION_MESSAGE);
-						//调用数据库方法，获取卡号对应密码，假设为123
+				// 1.如果挂失了，则提问是否要解挂
+				if (cardStatus.equals("挂失")) {
+					if (JOptionPane.showConfirmDialog(null, "该卡已挂失，是否要解挂？", "提示", JOptionPane.YES_NO_OPTION) == 0) { // 选择解挂操作，输入验证密码
+						String input_password = JOptionPane.showInputDialog(null, "请输入密码", "提示",
+								JOptionPane.INFORMATION_MESSAGE);
+						// 调用数据库方法，获取卡号对应密码，假设为123
 						String password = "123";
-						if(password.equals(input_password)){
-							//调用数据库方法设置账户状态为正常
+						if (password.equals(input_password)) {
+							// 调用数据库方法设置账户状态为正常
 							JOptionPane.showMessageDialog(null, "解挂成功", "提示", JOptionPane.INFORMATION_MESSAGE);
-							//清空卡号输入框
+							// 清空卡号输入框
 							textField_loss.setText("");
 						} else {
 							JOptionPane.showMessageDialog(null, "密码错误", "错误", JOptionPane.ERROR_MESSAGE);
 						}
 					}
 				}
-				
-				//2.如果账户正常，询问是否要挂失
-				else if(cardStatus.equals("正常")){
-					if(JOptionPane.showConfirmDialog(null, "是否要挂失？", "提示", JOptionPane.YES_NO_OPTION) == 0){	//选择挂失操作，输入验证密码
-						String input_password = JOptionPane.showInputDialog(null, "请输入密码", "提示", JOptionPane.INFORMATION_MESSAGE);
-						//调用数据库方法，获取卡号对应密码，假设为123
+
+				// 2.如果账户正常，询问是否要挂失
+				else if (cardStatus.equals("正常")) {
+					if (JOptionPane.showConfirmDialog(null, "是否要挂失？", "提示", JOptionPane.YES_NO_OPTION) == 0) { // 选择挂失操作，输入验证密码
+						String input_password = JOptionPane.showInputDialog(null, "请输入密码", "提示",
+								JOptionPane.INFORMATION_MESSAGE);
+						// 调用数据库方法，获取卡号对应密码，假设为123
 						String password = "123";
-						if(password.equals(input_password)){
-							//调用数据库方法设置账户状态为挂失
+						if (password.equals(input_password)) {
+							// 调用数据库方法设置账户状态为挂失
 							JOptionPane.showMessageDialog(null, "挂失成功", "提示", JOptionPane.INFORMATION_MESSAGE);
-							//清空卡号输入框
+							// 清空卡号输入框
 							textField_loss.setText("");
 						} else {
 							JOptionPane.showMessageDialog(null, "密码错误", "错误", JOptionPane.ERROR_MESSAGE);
@@ -612,72 +631,74 @@ public class AdminUI {
 
 	// 冻结解冻监听器
 	class LockOperation implements ActionListener {
-			public void actionPerformed(ActionEvent arg0) {
-				//String card = textField_lock.getText();
-				// 调用数据库方法判断卡号是否存在
-				Boolean flag = true;
-				if (flag) {
-					//调用数据库方法获取账户状态
-					String cardStatus = "冻结";
-					//1.如果冻结了，则提问是否要解冻
-					if(cardStatus.equals("冻结")){
-						if(JOptionPane.showConfirmDialog(null, "该卡已冻结，是否要解冻？", "提示", JOptionPane.YES_NO_OPTION) == 0){	//选择解冻操作，输入验证密码
-							String input_password = JOptionPane.showInputDialog(null, "请输入密码", "提示", JOptionPane.INFORMATION_MESSAGE);
-							//调用数据库方法，获取卡号对应密码，假设为123
-							String password = "123";
-							if(password.equals(input_password)){
-								//调用数据库方法设置账户状态为正常
-								JOptionPane.showMessageDialog(null, "解冻成功", "提示", JOptionPane.INFORMATION_MESSAGE);
-								//清空卡号输入框
-								textField_queryBalance.setText("");
-							} else {
-								JOptionPane.showMessageDialog(null, "密码错误", "错误", JOptionPane.ERROR_MESSAGE);
-							}
+		public void actionPerformed(ActionEvent arg0) {
+			// String card = textField_lock.getText();
+			// 调用数据库方法判断卡号是否存在
+			Boolean flag = true;
+			if (flag) {
+				// 调用数据库方法获取账户状态
+				String cardStatus = "冻结";
+				// 1.如果冻结了，则提问是否要解冻
+				if (cardStatus.equals("冻结")) {
+					if (JOptionPane.showConfirmDialog(null, "该卡已冻结，是否要解冻？", "提示", JOptionPane.YES_NO_OPTION) == 0) { // 选择解冻操作，输入验证密码
+						String input_password = JOptionPane.showInputDialog(null, "请输入密码", "提示",
+								JOptionPane.INFORMATION_MESSAGE);
+						// 调用数据库方法，获取卡号对应密码，假设为123
+						String password = "123";
+						if (password.equals(input_password)) {
+							// 调用数据库方法设置账户状态为正常
+							JOptionPane.showMessageDialog(null, "解冻成功", "提示", JOptionPane.INFORMATION_MESSAGE);
+							// 清空卡号输入框
+							textField_queryBalance.setText("");
+						} else {
+							JOptionPane.showMessageDialog(null, "密码错误", "错误", JOptionPane.ERROR_MESSAGE);
 						}
 					}
-					
-					//2.如果账户正常，询问是否要冻结
-					else if(cardStatus.equals("正常")){
-						if(JOptionPane.showConfirmDialog(null, "是否要冻结？", "提示", JOptionPane.YES_NO_OPTION) == 0){	//选择冻结操作，输入验证密码
-							String input_password = JOptionPane.showInputDialog(null, "请输入密码", "提示", JOptionPane.INFORMATION_MESSAGE);
-							//调用数据库方法，获取卡号对应密码，假设为123
-							String password = "123";
-							if(password.equals(input_password)){
-								//调用数据库方法设置账户状态为冻结
-								JOptionPane.showMessageDialog(null, "冻结成功", "提示", JOptionPane.INFORMATION_MESSAGE);
-								//清空卡号输入框
-								textField_loss.setText("");
-							} else {
-								JOptionPane.showMessageDialog(null, "密码错误", "错误", JOptionPane.ERROR_MESSAGE);
-							}
-						}
-					}
-				} else {
-					JOptionPane.showMessageDialog(null, "该账户不存在", "错误", JOptionPane.ERROR_MESSAGE);
 				}
+
+				// 2.如果账户正常，询问是否要冻结
+				else if (cardStatus.equals("正常")) {
+					if (JOptionPane.showConfirmDialog(null, "是否要冻结？", "提示", JOptionPane.YES_NO_OPTION) == 0) { // 选择冻结操作，输入验证密码
+						String input_password = JOptionPane.showInputDialog(null, "请输入密码", "提示",
+								JOptionPane.INFORMATION_MESSAGE);
+						// 调用数据库方法，获取卡号对应密码，假设为123
+						String password = "123";
+						if (password.equals(input_password)) {
+							// 调用数据库方法设置账户状态为冻结
+							JOptionPane.showMessageDialog(null, "冻结成功", "提示", JOptionPane.INFORMATION_MESSAGE);
+							// 清空卡号输入框
+							textField_loss.setText("");
+						} else {
+							JOptionPane.showMessageDialog(null, "密码错误", "错误", JOptionPane.ERROR_MESSAGE);
+						}
+					}
+				}
+			} else {
+				JOptionPane.showMessageDialog(null, "该账户不存在", "错误", JOptionPane.ERROR_MESSAGE);
 			}
 		}
-	
-	
-	//查询用户余额监听器
-	class QueryBalacne implements ActionListener{
-		
+	}
+
+	// 查询用户余额监听器
+	class QueryBalacne implements ActionListener {
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			//String cardNum = textField_yue.getText();
-			//调用数据库方法判断卡号是否存在
+			// String cardNum = textField_yue.getText();
+			// 调用数据库方法判断卡号是否存在
 			Boolean flag = true;
-			if(flag){
-				//用户输入密码
-				String input_password = JOptionPane.showInputDialog(null, "请输入密码", "提示", JOptionPane.INFORMATION_MESSAGE);
-				//调用数据库方法，获取卡号对应密码，假设为123
+			if (flag) {
+				// 用户输入密码
+				String input_password = JOptionPane.showInputDialog(null, "请输入密码", "提示",
+						JOptionPane.INFORMATION_MESSAGE);
+				// 调用数据库方法，获取卡号对应密码，假设为123
 				String password = "123";
-				if(password.equals(input_password)){
-					//调用数据库方法，获取该卡号余额信息
-				}
-				else JOptionPane.showMessageDialog(null, "密码错误", "错误", JOptionPane.ERROR_MESSAGE);
+				if (password.equals(input_password)) {
+					// 调用数据库方法，获取该卡号余额信息
+				} else
+					JOptionPane.showMessageDialog(null, "密码错误", "错误", JOptionPane.ERROR_MESSAGE);
 			}
 		}
-		
+
 	}
 }

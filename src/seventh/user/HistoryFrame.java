@@ -191,11 +191,9 @@ public class HistoryFrame {
 		Date dNow = new Date(); // 当前时间
 		Date dBefore = new Date();
 		Calendar calendar = Calendar.getInstance(); // 得到日历
-		calendar.add(calendar.DATE, 1);
 		dNow = calendar.getTime();
 		calendar.setTime(dNow);// 把当前时间赋给日历
 		calendar.add(calendar.MONTH, -month); // 设置为前month月
-		calendar.add(calendar.DATE,1);
 		dBefore = calendar.getTime(); // 得到前3月的时间
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // HH:mm:ss");
 																	// //设置时间格式
