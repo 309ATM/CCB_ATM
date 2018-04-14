@@ -516,7 +516,9 @@ public class AdminUI {
 
 	// 录入用户信息的监听器
 	class UserInformation implements ActionListener {
-		// 清空文本框
+		/**
+		 * 清空文本框
+		 */
 		public void setTextNone() {
 			textField_name.setText("");
 			textField_idcard.setText("");
@@ -524,7 +526,10 @@ public class AdminUI {
 			textArea_address.setText("");
 		}
 
-		// TODO 生成卡号
+		/**
+		 * 生成卡号
+		 * @return 一个 string 类型的卡号
+		 */
 		public String generateCardNum() {
 			// 用 621700 的固定开头和时间戳生成卡号
 			String cardNum = "621700"+String.valueOf(new Date().getTime()).substring(1);
@@ -557,15 +562,23 @@ public class AdminUI {
 				try {
 					if (confirmPassword.length() == 6 && password.length() == 6) {
 						if (password.equals(confirmPassword)) {
-							//BlankAccout.getInstance().setCardNum(Long.parseLong(idCard));
-							// TODO 卡号生成规则已写
-							System.out.println(BlankAccout.getInstance().getCardNum());
+							// 生成卡号
+							String cardnum = generateCardNum();
+							// 透支额度默认为 0 
+							float overdraft = 0;
 							System.out.println("姓名：" + name + "\n性别：" + sex + "\n手机号：" + phone + "\n身份证号：" + idCard
 									+ "\n账户类型：" + cardType + "\n家庭住址：" + address);
-							JOptionPane.showMessageDialog(null, "开户成功，您的卡号为：\n" + generateCardNum(), "恭喜",
+							JOptionPane.showMessageDialog(null, "开户成功，您的卡号为：\n" + cardnum, "恭喜",
 									JOptionPane.INFORMATION_MESSAGE);
-							setTextNone(); // 完成用户信息录入后清空所有文本框内容
-							//TODO 调用数据库方法，传入用户信息
+							 // 完成用户信息录入后清空所有文本框内容
+							setTextNone();
+							// 如果账号类型是信用卡，透支额度则设为5000
+							if(cardType == "信用卡") {
+								overdraft = 5000;
+							}
+							//调用数据库方法，传入用户信息，在 user 和 account 表中插入录入数据
+							BlankAccout.getInstance().getUserDao().insertUserInformation(name, sex, idCard, phone, address);
+							BlankAccout.getInstance().getAccountDAO().setAccount(idCard, Long.parseLong(cardnum), Long.parseLong(password), "正常", cardType, "建设银行", 0, overdraft, 0);
 						} else {
 							JOptionPane.showMessageDialog(null, "两次密码不一致", "错误", JOptionPane.ERROR_MESSAGE);
 						}
