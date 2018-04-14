@@ -86,8 +86,8 @@ public class AdminUI {
 	public AdminUI() {
 		initialize();
 		date = new String[2];
-		date[0] = ""; 
-		date[1] = ""; 
+		date[0] = "";
+		date[1] = "";
 	}
 
 	/**
@@ -315,7 +315,7 @@ public class AdminUI {
 		panel_lock.add(separator_4);
 
 		textField_queryBalance = new JTextField();
-		textField_queryBalance.setFont(new Font("幼圆", Font.PLAIN, 18));
+		textField_queryBalance.setFont(new Font("幼圆", Font.PLAIN, 24));
 		textField_queryBalance.setBounds(290, 128, 444, 43);
 		panel_lock.add(textField_queryBalance);
 		textField_carNum.setColumns(10);
@@ -484,13 +484,13 @@ public class AdminUI {
 				btn_end.setText(date[1]);
 			}
 			if (e.getSource() == btn_confirm) {
-				if (date[0].isEmpty() || date[1].isEmpty() ) {
+				if (date[0].isEmpty() || date[1].isEmpty()) {
 					JOptionPane.showMessageDialog(null, "请选择正确日期", "错误", JOptionPane.ERROR_MESSAGE);
 				} else if (textField_query.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(null, "请输入卡号", "错误", JOptionPane.ERROR_MESSAGE);
 				} else if (date[0].compareTo(date[1]) <= 0) {
 					// TODO 读取记录信息，插入信息到表格JTable中
-					WriteData(Long.parseLong(textField_query.getText()),date);
+					WriteData(Long.parseLong(textField_query.getText()), date);
 				} else {
 					JOptionPane.showMessageDialog(null, "请选择正确日期222", "错误", JOptionPane.ERROR_MESSAGE);
 				}
@@ -505,7 +505,7 @@ public class AdminUI {
 			} catch (Exception e) {
 			}
 			Calendar calendar = Calendar.getInstance(); // 得到日历
-			calendar.add(calendar.DATE, 1);
+			calendar.add(Calendar.DATE, 1);
 			date = calendar.getTime();
 
 			return simpleDateFormat.format(date);
@@ -684,21 +684,46 @@ public class AdminUI {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// String cardNum = textField_yue.getText();
-			// 调用数据库方法判断卡号是否存在
-			Boolean flag = true;
+			textField_queryBalance.setText("656885452136697452");
+			String cards = textField_queryBalance.getText().trim();
+			Long card = Long.parseLong(cards);
+			//判断卡号是否存在
+			Boolean flag = BlankAccout.getInstance().getAccountDAO().getCardExit(card);
 			if (flag) {
 				// 用户输入密码
 				String input_password = JOptionPane.showInputDialog(null, "请输入密码", "提示",
 						JOptionPane.INFORMATION_MESSAGE);
-				// 调用数据库方法，获取卡号对应密码，假设为123
-				String password = "123";
-				if (password.equals(input_password)) {
-					// 调用数据库方法，获取该卡号余额信息
-				} else
-					JOptionPane.showMessageDialog(null, "密码错误", "错误", JOptionPane.ERROR_MESSAGE);
+				Long password = -0L;
+				try{
+					password = Long.parseLong(input_password);
+					}catch (Exception e1) {
+					}finally {
+						if (BlankAccout.getInstance().getAccountDAO().checkPawd(card, password)){
+							// 调用数据库方法，获取该卡号余额信息
+							JOptionPane.showMessageDialog(null, showMessage(card), "账户余额信息", JOptionPane.INFORMATION_MESSAGE);
+						} else
+							JOptionPane.showMessageDialog(null, "密码错误", "错误", JOptionPane.ERROR_MESSAGE);
+					}
+				
+			}else{
+				JOptionPane.showMessageDialog(null, "账号不存在", "错误", JOptionPane.ERROR_MESSAGE);
 			}
 		}
-
 	}
+
+	public String showMessage(Long card) {
+		float balance = BlankAccout.getInstance().getAccountDAO().getCardBalance(card);
+		float overdraft = BlankAccout.getInstance().getAccountDAO().getCardOverdraft(card);
+		float withdrawalsLimit = BlankAccout.getInstance().getTradingrecDAO().getWithdrawalsLimit(card);
+		float depositLimit = BlankAccout.getInstance().getTradingrecDAO().getDepositLimit(card);
+
+		String messages = "<html><p align=\"left\">您的余额为：{0}元<br>您的透支额度为：{1}元<br>您今日存款限额还剩：{2}元<br>您今日取款限额还剩：{3}元</p></html>";// 显示信息还要修改
+		messages = messages.replace("{0}", String.valueOf(balance));// message[0-3]换成上面的money等
+		messages = messages.replace("{1}", String.valueOf(overdraft));
+		messages = messages.replace("{2}", String.valueOf(depositLimit));
+		messages = messages.replace("{3}", String.valueOf(withdrawalsLimit));
+
+		return messages;
+	}
+
 }
