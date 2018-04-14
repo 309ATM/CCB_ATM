@@ -526,17 +526,18 @@ public class AdminUI {
 
 		// TODO 生成卡号
 		public String generateCardNum() {
-			String cardNum = "6217000830000123";
+			// 用 621700 的固定开头和时间戳生成卡号
+			String cardNum = "621700"+String.valueOf(new Date().getTime()).substring(1);
 			return cardNum;
 		}
 
 		public void actionPerformed(ActionEvent arg0) {
 			// 去除信息头尾的空格
 			String name = textField_name.getText().trim();
-			String sex = (String) comboBox_cardType.getSelectedItem();// 下拉框获取性别
+			String sex = (String) comboBox.getSelectedItem();// 下拉框获取性别
 			String phone = textField_phone.getText().trim();
 			String idCard = textField_idcard.getText();
-			String cardType = (String) comboBox.getSelectedItem();// 下拉框获取开户卡类型
+			String cardType = (String) comboBox_cardType.getSelectedItem();// 下拉框获取开户卡类型
 			String address = textArea_address.getText().trim();
 			// 开始进行信息检查
 			if (name.isEmpty() | phone.isEmpty() | address.isEmpty()) {
@@ -556,14 +557,15 @@ public class AdminUI {
 				try {
 					if (confirmPassword.length() == 6 && password.length() == 6) {
 						if (password.equals(confirmPassword)) {
-							BlankAccout.getInstance().setCardNum(Long.parseLong(idCard));
-							// TODO 卡号生成规则怎么写？
+							//BlankAccout.getInstance().setCardNum(Long.parseLong(idCard));
+							// TODO 卡号生成规则已写
 							System.out.println(BlankAccout.getInstance().getCardNum());
 							System.out.println("姓名：" + name + "\n性别：" + sex + "\n手机号：" + phone + "\n身份证号：" + idCard
 									+ "\n账户类型：" + cardType + "\n家庭住址：" + address);
 							JOptionPane.showMessageDialog(null, "开户成功，您的卡号为：\n" + generateCardNum(), "恭喜",
 									JOptionPane.INFORMATION_MESSAGE);
 							setTextNone(); // 完成用户信息录入后清空所有文本框内容
+							//TODO 调用数据库方法，传入用户信息
 						} else {
 							JOptionPane.showMessageDialog(null, "两次密码不一致", "错误", JOptionPane.ERROR_MESSAGE);
 						}
