@@ -62,7 +62,7 @@ public class TransferChoseFrame {
 		frameTransferChose.getContentPane().setLayout(null);
 
 		// TODO 修改英文，下面那个按钮也一样
-		ATMButton button = new ATMButton("<html><center>卡转出转账<br>Transfer</center></html>");
+		ATMButton button = new ATMButton("<html><center>建行转建行<br>Transfer</center></html>");
 		button.addActionListener(new ToTransfer());
 		button.setBounds(14, 330, 200, 80);
 		frameTransferChose.getContentPane().add(button);

@@ -150,9 +150,7 @@ public class UsersLogin {
 		private void login() {
 			frameUserLogin.setVisible(false);
 			MainFrame.main(null);
-			// 接下来这里调用数据库，将所有信息传入单例之中，如下
-			// TODO D这里记得去除信息的设置
-			// 设置今日取款限额，设置透支额度，设置今日转账限额，设置账户余额，设置所属银行
+			// 设置今日取款限额，设置透支额度，设置今日转账限额，设置账户余额，设置所属银行，设置银行卡类型
 			BlankAccout.getInstance().setWithdrawalsLimit(BlankAccout.getInstance().getTradingrecDAO()
 					.getWithdrawalsLimit(BlankAccout.getInstance().getCardNum()));
 			BlankAccout.getInstance().setDepositLimit(BlankAccout.getInstance().getTradingrecDAO()
@@ -163,6 +161,7 @@ public class UsersLogin {
 					BlankAccout.getInstance().getAccountDAO().getCardBalance(BlankAccout.getInstance().getCardNum()));
 			BlankAccout.getInstance().setBlank(
 					BlankAccout.getInstance().getAccountDAO().getBanks(BlankAccout.getInstance().getCardNum()));
+			
 			frameUserLogin.dispose();
 
 		}

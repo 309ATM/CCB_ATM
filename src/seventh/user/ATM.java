@@ -12,6 +12,8 @@ import javax.swing.UIManager;
 
 import seventh.until.ATMButton;
 
+//TODO 加入卡类型的判断，如果是储蓄卡，则隐藏透支取款按钮。
+
 /**
  * 用户输入卡号
  *
