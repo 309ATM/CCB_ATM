@@ -650,15 +650,6 @@ public class AdminUI {
 				// 调用数据库方法获取账户状态
 				String cardStatus = BlankAccout.getInstance().getAccountDAO().getCardStatu(card);
 				// 1.如果挂失了，则提问是否要解挂
-<<<<<<< HEAD
-				if (cardStatus.equals("正常")) {
-					JShowMessage jShowMessage = new JShowMessage();
-					jShowMessage.frame.setVisible(true);
-					jShowMessage.btn_confirm.setText("解挂");
-					if (jShowMessage.isConfirm) { // 选择解挂操作，输入验证密码
-						long input_password = Long.parseLong(
-								JOptionPane.showInputDialog(null, "请输入密码", "提示", JOptionPane.INFORMATION_MESSAGE));
-=======
 				if (cardStatus.equals("挂失")) {
 					JShowInfo jSM = new JShowInfo();
 					jSM.setBtnText("解挂");
@@ -670,7 +661,6 @@ public class AdminUI {
 					if (jSM.showJSM()) { // 选择解挂操作，输入验证密码
 						long input_password = Long.parseLong(JOptionPane.showInputDialog(null, "请输入密码", "提示",
 								JOptionPane.INFORMATION_MESSAGE));
->>>>>>> Jachin
 						// 调用数据库方法，判断卡号是否对应密码
 						if (BlankAccout.getInstance().getAccountDAO().checkPawd(card, input_password)) {
 							//TODO D调用数据库方法设置账户状态为正常
