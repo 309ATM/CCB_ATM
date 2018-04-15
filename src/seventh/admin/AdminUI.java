@@ -530,11 +530,12 @@ public class AdminUI {
 
 		/**
 		 * 生成卡号
+		 * 
 		 * @return 一个 string 类型的卡号
 		 */
 		public String generateCardNum() {
 			// 用 621700 的固定开头和时间戳生成卡号
-			String cardNum = "621700"+String.valueOf(new Date().getTime()).substring(1);
+			String cardNum = "621700" + String.valueOf(new Date().getTime()).substring(1);
 			return cardNum;
 		}
 
@@ -566,21 +567,23 @@ public class AdminUI {
 						if (password.equals(confirmPassword)) {
 							// 生成卡号
 							String cardnum = generateCardNum();
-							// 透支额度默认为 0 
+							// 透支额度默认为 0
 							float overdraft = 0;
 							System.out.println("姓名：" + name + "\n性别：" + sex + "\n手机号：" + phone + "\n身份证号：" + idCard
 									+ "\n账户类型：" + cardType + "\n家庭住址：" + address);
 							JOptionPane.showMessageDialog(null, "开户成功，您的卡号为：\n" + cardnum, "恭喜",
 									JOptionPane.INFORMATION_MESSAGE);
-							 // 完成用户信息录入后清空所有文本框内容
+							// 完成用户信息录入后清空所有文本框内容
 							setTextNone();
 							// 如果账号类型是信用卡，透支额度则设为5000
-							if(cardType == "信用卡") {
+							if (cardType == "信用卡") {
 								overdraft = 5000;
 							}
-							//调用数据库方法，传入用户信息，在 user 和 account 表中插入录入数据
-							BlankAccout.getInstance().getUserDao().insertUserInformation(name, sex, idCard, phone, address);
-							BlankAccout.getInstance().getAccountDAO().setAccount(idCard, Long.parseLong(cardnum), Long.parseLong(password), "正常", cardType, "建设银行", 0, overdraft, 0);
+							// 调用数据库方法，传入用户信息，在 user 和 account 表中插入录入数据
+							BlankAccout.getInstance().getUserDao().insertUserInformation(name, sex, idCard, phone,
+									address);
+							BlankAccout.getInstance().getAccountDAO().setAccount(idCard, Long.parseLong(cardnum),
+									Long.parseLong(password), "正常", cardType, "建设银行", 0, overdraft, 0);
 						} else {
 							JOptionPane.showMessageDialog(null, "两次密码不一致", "错误", JOptionPane.ERROR_MESSAGE);
 						}
@@ -595,18 +598,42 @@ public class AdminUI {
 
 		}
 	}
-	
+
 	/**
 	 * 销户功能监听器
 	 */
-	class Cancellation implements ActionListener{
+	class Cancellation implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO 检测卡号是否存在
-			
+			// TODO 弹出消息窗口，将按钮设为销户，然后输入密码进行确认，更改用户状态
+			// 获取卡号
+			String cardNums = textField_carNum.getText().trim();
+			long cardNum = Long.parseLong(cardNums);
+			// 判断卡号是否存在，如果存在进入下一步，不存在则进行提示
+			if (BlankAccout.getInstance().getAccountDAO().getCardExit(cardNum)) {
+				float balance = BlankAccout.getInstance().getAccountDAO().getCardBalance(cardNum);
+				// 检查该卡的类型，如果是信用卡，则需要检查是否有未还透支。
+				if (BlankAccout.getInstance().getAccountDAO().getCardType(cardNum).equals("信用卡")) {
+					// 获取该卡的余额和透支额
+					float overdraft = BlankAccout.getInstance().getAccountDAO().getCardOverdraft(cardNum);
+					if (balance + overdraft >= 5000) {
+						// TODO 显示客户信息，让客户确认是否要销户
+						JOptionPane.showMessageDialog(null, "你的信用卡已经销户成功", "提示", JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(null, "您有未还清的透支，请偿还之后再进行销户", "拒绝", JOptionPane.ERROR_MESSAGE);
+					}
+					// 如果是储蓄卡，
+				} else {
+					// TODO 显示客户信息，让客户确认是否要销户
+					JOptionPane.showMessageDialog(null, "你的储蓄卡已经销户成功", "提示", JOptionPane.INFORMATION_MESSAGE);
+				}
+			} else {
+				JOptionPane.showMessageDialog(null, "输入的卡号不存在", "错误", JOptionPane.ERROR_MESSAGE);
+			}
+
 		}
-		
+
 	}
 
 	// 挂失解挂监听器
@@ -625,8 +652,8 @@ public class AdminUI {
 					jShowMessage.frame.setVisible(true);
 					jShowMessage.btn_confirm.setText("解挂");
 					if (jShowMessage.isConfirm) { // 选择解挂操作，输入验证密码
-						long input_password = Long.parseLong(JOptionPane.showInputDialog(null, "请输入密码", "提示",
-								JOptionPane.INFORMATION_MESSAGE));
+						long input_password = Long.parseLong(
+								JOptionPane.showInputDialog(null, "请输入密码", "提示", JOptionPane.INFORMATION_MESSAGE));
 						// 调用数据库方法，判断卡号是否对应密码
 						if (BlankAccout.getInstance().getAccountDAO().checkPawd(card, input_password)) {
 							// 调用数据库方法设置账户状态为正常
@@ -720,25 +747,26 @@ public class AdminUI {
 			textField_queryBalance.setText("656885452136697452");
 			String cards = textField_queryBalance.getText().trim();
 			Long card = Long.parseLong(cards);
-			//判断卡号是否存在
+			// 判断卡号是否存在
 			Boolean flag = BlankAccout.getInstance().getAccountDAO().getCardExit(card);
 			if (flag) {
 				// 用户输入密码
 				String input_password = JOptionPane.showInputDialog(null, "请输入密码", "提示",
 						JOptionPane.INFORMATION_MESSAGE);
 				Long password = -0L;
-				try{
+				try {
 					password = Long.parseLong(input_password);
-					}catch (Exception e1) {
-					}finally {
-						if (BlankAccout.getInstance().getAccountDAO().checkPawd(card, password)){
-							// 调用数据库方法，获取该卡号余额信息
-							JOptionPane.showMessageDialog(null, showMessage(card), "账户余额信息", JOptionPane.INFORMATION_MESSAGE);
-						} else
-							JOptionPane.showMessageDialog(null, "密码错误", "错误", JOptionPane.ERROR_MESSAGE);
-					}
-				
-			}else{
+				} catch (Exception e1) {
+				} finally {
+					if (BlankAccout.getInstance().getAccountDAO().checkPawd(card, password)) {
+						// 调用数据库方法，获取该卡号余额信息
+						JOptionPane.showMessageDialog(null, showMessage(card), "账户余额信息",
+								JOptionPane.INFORMATION_MESSAGE);
+					} else
+						JOptionPane.showMessageDialog(null, "密码错误", "错误", JOptionPane.ERROR_MESSAGE);
+				}
+
+			} else {
 				JOptionPane.showMessageDialog(null, "账号不存在", "错误", JOptionPane.ERROR_MESSAGE);
 			}
 		}
