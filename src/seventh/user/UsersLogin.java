@@ -156,7 +156,7 @@ public class UsersLogin {
 			BlankAccout.getInstance().setDepositLimit(BlankAccout.getInstance().getTradingrecDAO()
 					.getDepositLimit(BlankAccout.getInstance().getCardNum()));
 			BlankAccout.getInstance().setTransferLimit(BlankAccout.getInstance().getTradingrecDAO()
-					.getDepositLimit(BlankAccout.getInstance().getCardNum()));
+					.getTransferLimit(BlankAccout.getInstance().getCardNum()));
 			BlankAccout.getInstance().setOverdraft((BlankAccout.getInstance().getAccountDAO()
 					.getCardOverdraft(BlankAccout.getInstance().getCardNum())));
 			BlankAccout.getInstance().setBalance(
