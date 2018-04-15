@@ -1,4 +1,6 @@
 package seventh.dbc;
+import java.util.List;
+import seventh.dbc.User;
 import org.junit.Test;
 public class AccountDAO extends DAO<Account>{
 	
@@ -218,6 +220,12 @@ public class AccountDAO extends DAO<Account>{
 		return true;
 	}
 	
+	public boolean updateStatus(long cardNum,String status){
+		String sql = "update account set stat = ? where cardnum = ?";
+		update(sql,status,cardNum);
+		return true;
+	}
+	
 	/**用户存款
 	 * @param card
 	 * @param balance(存款数)
@@ -256,4 +264,27 @@ public class AccountDAO extends DAO<Account>{
 		String sql1 = "update account set balance = balance+? where card = ?";
 		update(sql,money,targetCard);
 	}
+	
+	
+	
+//	@Test
+//	public void getUserMessage(){
+//		long cardNum = 656885452136697452L;
+//		String sql = "select distinct name,sex,idcard,phone,address,account.accType,account.stat from users join account on users.id = account.id"
+//				+	"where users.id = (select id from account where cardnum = ?);";
+//		
+//		List<Account> accounts = getForList(sql, cardNum);
+//		List<User> users = getForList(sql1, cardNum);
+//		String[] records = new String[7];
+//		for (int i = 0; i < 7; i++) {
+//			records[i] = String.valueOf(accounts.get(i));
+////			records[1] = String.valueOf(accounts.get(i));
+////			records[2] = String.valueOf(accounts.get(i));
+////			records[3] = String.valueOf(accounts.get(i));
+////			records[4] = String.valueOf(accounts.get(i));
+////			records[5] = String.valueOf(accounts.get(i));
+////			records[6] = String.valueOf(accounts.get(i));
+//		}
+//		System.out.println(records);	
+//	}
 }

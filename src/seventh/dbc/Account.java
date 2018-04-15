@@ -18,7 +18,7 @@ public class Account {
 	private float overdraft;
 	
 	private int loginTime;
-
+	
 	
 	public long getCardnum() {
 		return cardnum;
