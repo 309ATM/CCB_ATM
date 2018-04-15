@@ -11,7 +11,7 @@ import seventh.dbc.DAO;
  * @author SAM
  *
  */
-public class connectTable{
+public class ConnectTable{
 	@Test
 	public String[] getUserMessage(long card){
 		String[] userRecords = new String[5];
