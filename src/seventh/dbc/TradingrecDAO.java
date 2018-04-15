@@ -64,6 +64,20 @@ public class TradingrecDAO extends DAO<Tradingrec> {
 		}
 		return withdrawalsLimit - withdrawalsNum;
 	}
+	
+	public float getTransferLimit(long card){
+		float transferLimit = 50000;
+		float transferNum = 0;
+		String sql = "select * from tradingrec where cardnum = ? " + " and tradeType = ? and tradeDate like ?";
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String tradedate = sdf.format(new Date());
+		
+		List<Tradingrec> tradingrecs = getForList(sql, card, "转账转出", "%" + tradedate + "%");
+		for (Tradingrec t : tradingrecs) {
+			transferNum += t.getTradeMoney();
+		}
+		return transferLimit - transferNum;
+	}
 
 	/**
 	 * 获取指定时间段内的交易记录

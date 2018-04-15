@@ -19,6 +19,7 @@ public class MessageFrame {
 
 	private JFrame frameMessage;
 	private JLabel label_message;
+	private String[] message;
 
 	private String File = "E:\\Code\\java\\CCB_ATM";
 	// private String File = ".";
@@ -48,19 +49,28 @@ public class MessageFrame {
 	}
 
 	public void showMessage(String[] message) {
-		if (message[0].equals("取款")|message[0].equals("透支取款")|message[0].equals("存款")) {
-			String messages = "<html><center>{0}成功<br>{0}{1}元<br>您当前可用余额：{2}<br>您今日可{0}额：{3}";
+		this.message = message;
+		if (message[0].equals("取款") | message[0].equals("透支取款") | message[0].equals("存款")) {
+			String messages = "<html>{0}成功<br>{0}{1}元<br>您当前可用余额：{2}<br>您今日可{0}额：{3}";
 			messages = messages.replace("{0}", message[0]);
 			messages = messages.replace("{1}", message[1]);
 			messages = messages.replace("{2}", message[2]);
 			messages = messages.replace("{3}", message[3]);
 			label_message.setText(messages);
-		}else if (message[0].equals("转账")) {
-			String messages = "<html><center>{0}成功<br>{0}{1}元<br>转账目标：{3}<br>您当前可用余额：{2}";
+		} else if (message[0].equals("转账")) {
+			String messages = "<html>{0}成功<br>{0}{1}元<br>转账目标：{3}<br>您当前可用余额：{2}";
 			messages = messages.replace("{0}", message[0]);
 			messages = messages.replace("{1}", message[1]);
 			messages = messages.replace("{2}", message[2]);
 			messages = messages.replace("{3}", message[3]);
+			label_message.setText(messages);
+		} else if (message[0].equals("跨行转账")) {
+			String messages = "<html>{0}成功<br>{0}：{1}元<br>收取手续费：{4}元<br>转账目标：{3}<br>您当前可用余额：{2}";
+			messages = messages.replace("{0}", message[0]);
+			messages = messages.replace("{1}", message[1]);
+			messages = messages.replace("{2}", message[2]);
+			messages = messages.replace("{3}", message[3]);
+			messages = messages.replace("{4}", message[4]);
 			label_message.setText(messages);
 		}
 	}
@@ -83,14 +93,14 @@ public class MessageFrame {
 
 		label_message = new JLabel();
 		label_message.setForeground(new Color(255, 255, 255));
-		label_message.setFont(new Font("幼圆", Font.BOLD, 20));
+		label_message.setFont(new Font("幼圆", Font.BOLD, 24));
 		label_message.setHorizontalAlignment(SwingConstants.CENTER);
 		label_message.setBounds(287, 282, 504, 204);
 		frameMessage.getContentPane().add(label_message);
 
 		ATMButton button_continue = new ATMButton("<html><center>继续<br>Continue</center></html>");
 		button_continue.setForeground(new Color(0, 128, 0));
-		// button_1.addActionListener(new ToHistory());
+		button_continue.addActionListener(new Continue());
 		button_continue.setBounds(875, 550, 200, 80);
 		frameMessage.getContentPane().add(button_continue);
 
@@ -109,12 +119,33 @@ public class MessageFrame {
 
 	}
 
+	class Continue implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (message[0].equals("取款") || message[0].equals("透支取款")) {
+				TakeChoseFrame.main(null);
+				frameMessage.setVisible(false);
+			}
+			if (message[0].equals("存款")) {
+				SaveFrame.main(null);
+				frameMessage.setVisible(false);
+			}
+			if (message[0].equals("转账")) {
+				TransferChoseFrame.main(null);
+				frameMessage.setVisible(false);
+			}
+		}
+
+	}
+
 	// 返回主菜单界面
 	class Back implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			MainFrame.frameMain.setVisible(true);
 			frameMessage.setVisible(false);
+			label_message.setText("");
 		}
 	}
 
