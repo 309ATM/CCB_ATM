@@ -246,6 +246,7 @@ public class AdminUI {
 		textField_carNum.setColumns(10);
 
 		JButton btn_delAcc = new JButton("销户");
+		btn_delAcc.addActionListener(new Cancellation());
 		btn_delAcc.setFont(new Font("幼圆", Font.PLAIN, 18));
 		btn_delAcc.setBounds(458, 258, 84, 27);
 		panel_DelAcc.add(btn_delAcc);
@@ -592,6 +593,19 @@ public class AdminUI {
 			}
 
 		}
+	}
+	
+	/**
+	 * 销户功能监听器
+	 */
+	class Cancellation implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO 检测卡号是否存在
+			
+		}
+		
 	}
 
 	// 挂失解挂监听器
