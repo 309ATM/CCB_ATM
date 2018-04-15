@@ -10,6 +10,7 @@ public class User {
 	private String idCard;
 	private String phone;
 	private String address;
+	
 	public String getName() {
 		return name;
 	}
