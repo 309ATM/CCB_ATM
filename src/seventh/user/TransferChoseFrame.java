@@ -1,5 +1,6 @@
 package seventh.user;
 
+import seventh.accout.BlankAccout;
 import seventh.until.ATMButton;
 
 import java.awt.Color;
@@ -18,6 +19,7 @@ public class TransferChoseFrame {
 	private JFrame frameTransferChose;
 	private TransferFrame transferFrame = new TransferFrame();
 	private String File = "E:\\Code\\java\\CCB_ATM";
+	private ATMButton button;
 	// private String File = ".";
 
 	public JFrame getFrameTransferChose() {
@@ -47,6 +49,10 @@ public class TransferChoseFrame {
 	public TransferChoseFrame() {
 		initialize();
 		transferFrame.getFrameTransfer().setVisible(false);
+		if(!BlankAccout.getInstance().getBlank()){
+			button.setVisible(false);
+		}
+		
 	}
 
 	/**
@@ -61,8 +67,7 @@ public class TransferChoseFrame {
 		frameTransferChose.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frameTransferChose.getContentPane().setLayout(null);
 
-		// TODO 修改英文，下面那个按钮也一样
-		ATMButton button = new ATMButton("<html><center>建行转建行<br>Transfer</center></html>");
+		button = new ATMButton("<html><center>建行转建行<br>Transfer</center></html>");
 		button.addActionListener(new ToTransfer());
 		button.setBounds(14, 330, 200, 80);
 		frameTransferChose.getContentPane().add(button);
