@@ -18,6 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
@@ -653,17 +654,19 @@ public class AdminUI {
 				if (cardStatus.equals("挂失")) {
 					JShowInfo jSM = new JShowInfo();
 					jSM.setBtnText("解挂");
-					String[] info = new String[7];//获取用户信息
-					String[] info_Data = {"张三","信用卡","男","挂失","440823199602133837","13724867853","广东省广州市海珠区仑头路21号"};
- 					info = info_Data;
- 					jSM.addComponentData(info);
-					//info = BlankAccout.getInstance().getUserDao().getUserInformation(idCard) 
+					String[] info = new String[7];// 获取用户信息
+					String[] info_Data = { "张三", "信用卡", "男", "挂失", "440823199602133837", "13724867853",
+							"广东省广州市海珠区仑头路21号" };
+					info = info_Data;
+					jSM.addComponentData(info);
+					// info =
+					// BlankAccout.getInstance().getUserDao().getUserInformation(idCard)
 					if (jSM.showJSM()) { // 选择解挂操作，输入验证密码
-						long input_password = Long.parseLong(JOptionPane.showInputDialog(null, "请输入密码", "提示",
-								JOptionPane.INFORMATION_MESSAGE));
+						long input_password = Long.parseLong(
+								JOptionPane.showInputDialog(null, "请输入密码", "提示", JOptionPane.INFORMATION_MESSAGE));
 						// 调用数据库方法，判断卡号是否对应密码
 						if (BlankAccout.getInstance().getAccountDAO().checkPawd(card, input_password)) {
-							//TODO D调用数据库方法设置账户状态为正常
+							// TODO D调用数据库方法设置账户状态为正常
 							JOptionPane.showMessageDialog(null, "解挂成功", "提示", JOptionPane.INFORMATION_MESSAGE);
 							// 清空卡号输入框
 							textField_loss.setText("");
@@ -678,16 +681,17 @@ public class AdminUI {
 				else if (cardStatus.equals("正常")) {
 					JShowInfo jSM = new JShowInfo();
 					jSM.setBtnText("挂失");
-					String[] info = new String[7];//获取用户信息
-					String[] info_Data = {"张三","信用卡","男","正常","440823199602133837","13724867853","广东省广州市海珠区仑头路21号"};
- 					info = info_Data;
- 					jSM.addComponentData(info);
+					String[] info = new String[7];// 获取用户信息
+					String[] info_Data = { "张三", "信用卡", "男", "正常", "440823199602133837", "13724867853",
+							"广东省广州市海珠区仑头路21号" };
+					info = info_Data;
+					jSM.addComponentData(info);
 					if (jSM.showJSM()) { // 选择挂失操作，输入验证密码
-						long input_password = Long.parseLong(JOptionPane.showInputDialog(null, "请输入密码", "提示",
-								JOptionPane.INFORMATION_MESSAGE));
+						long input_password = Long.parseLong(
+								JOptionPane.showInputDialog(null, "请输入密码", "提示", JOptionPane.INFORMATION_MESSAGE));
 						// 调用数据库方法，获取卡号对应密码，假设为123
 						if (BlankAccout.getInstance().getAccountDAO().checkPawd(card, input_password)) {
-							//TODO D调用数据库方法设置账户状态为挂失
+							// TODO D调用数据库方法设置账户状态为挂失
 							JOptionPane.showMessageDialog(null, "挂失成功", "提示", JOptionPane.INFORMATION_MESSAGE);
 							// 清空卡号输入框
 							textField_loss.setText("");
@@ -708,7 +712,8 @@ public class AdminUI {
 			String cards = textField_lock.getText();
 			Long card = Long.parseLong(cards);
 			// 调用数据库方法判断卡号是否存在
-			Boolean flag = BlankAccout.getInstance().getAccountDAO().getCardExit(card);;
+			Boolean flag = BlankAccout.getInstance().getAccountDAO().getCardExit(card);
+			;
 			if (flag) {
 				// 调用数据库方法获取账户状态
 				String cardStatus = BlankAccout.getInstance().getAccountDAO().getCardStatu(card);
@@ -716,14 +721,15 @@ public class AdminUI {
 				if (cardStatus.equals("冻结")) {
 					JShowInfo jSM = new JShowInfo();
 					jSM.setBtnText("解冻");
-					String[] info = new String[7];//获取用户信息
-					//从数据库获取用户信息
-					String[] info_Data = {"张三","信用卡","男","冻结","440823199602133837","13724867853","广东省广州市海珠区仑头路21号"};
- 					info = info_Data;
- 					jSM.addComponentData(info);
+					String[] info = new String[7];// 获取用户信息
+					// 从数据库获取用户信息
+					String[] info_Data = { "张三", "信用卡", "男", "冻结", "440823199602133837", "13724867853",
+							"广东省广州市海珠区仑头路21号" };
+					info = info_Data;
+					jSM.addComponentData(info);
 					if (jSM.showJSM()) { // 选择解冻操作，输入验证密码
-						long input_password = Long.parseLong(JOptionPane.showInputDialog(null, "请输入密码", "提示",
-								JOptionPane.INFORMATION_MESSAGE));
+						long input_password = Long.parseLong(
+								JOptionPane.showInputDialog(null, "请输入密码", "提示", JOptionPane.INFORMATION_MESSAGE));
 						// 调用数据库方法，获取卡号对应密码，假设为123
 						if (BlankAccout.getInstance().getAccountDAO().checkPawd(card, input_password)) {
 							// 调用数据库方法设置账户状态为正常
@@ -740,13 +746,14 @@ public class AdminUI {
 				else if (cardStatus.equals("正常")) {
 					JShowInfo jSM = new JShowInfo();
 					jSM.setBtnText("冻结");
-					String[] info = new String[7];//获取用户信息
-					String[] info_Data = {"张三","信用卡","男","正常","440823199602133837","13724867853","广东省广州市海珠区仑头路21号"};
- 					info = info_Data;
- 					jSM.addComponentData(info);
+					String[] info = new String[7];// 获取用户信息
+					String[] info_Data = { "张三", "信用卡", "男", "正常", "440823199602133837", "13724867853",
+							"广东省广州市海珠区仑头路21号" };
+					info = info_Data;
+					jSM.addComponentData(info);
 					if (jSM.showJSM()) { // 选择冻结操作，输入验证密码
-						long input_password = Long.parseLong(JOptionPane.showInputDialog(null, "请输入密码", "提示",
-								JOptionPane.INFORMATION_MESSAGE));
+						long input_password = Long.parseLong(
+								JOptionPane.showInputDialog(null, "请输入密码", "提示", JOptionPane.INFORMATION_MESSAGE));
 						// 调用数据库方法，获取卡号对应密码，假设为123
 						if (BlankAccout.getInstance().getAccountDAO().checkPawd(card, input_password)) {
 							// 调用数据库方法设置账户状态为冻结
@@ -776,19 +783,23 @@ public class AdminUI {
 			Boolean flag = BlankAccout.getInstance().getAccountDAO().getCardExit(card);
 			if (flag) {
 				// 用户输入密码
-				String input_password = JOptionPane.showInputDialog(null, "请输入密码", "提示",
-						JOptionPane.INFORMATION_MESSAGE);
-				Long password = -0L;
-				try {
-					password = Long.parseLong(input_password);
-				} catch (Exception e1) {
-				} finally {
-					if (BlankAccout.getInstance().getAccountDAO().checkPawd(card, password)) {
-						// 调用数据库方法，获取该卡号余额信息
-						JOptionPane.showMessageDialog(null, showMessage(card), "账户余额信息",
-								JOptionPane.INFORMATION_MESSAGE);
-					} else
-						JOptionPane.showMessageDialog(null, "密码错误", "错误", JOptionPane.ERROR_MESSAGE);
+				JPasswordField pwd = new JPasswordField();
+				Object[] message = { "请输入密码:", pwd };
+				int res = JOptionPane.showConfirmDialog(null, message, "请输入密码:", JOptionPane.OK_CANCEL_OPTION,
+						JOptionPane.QUESTION_MESSAGE);
+				if (res == 0) {
+					Long password = -0L;
+					try {
+						password = Long.valueOf(new String(pwd.getPassword()));
+					} catch (Exception e1) {
+					} finally {
+						if (BlankAccout.getInstance().getAccountDAO().checkPawd(card, password)) {
+							// 调用数据库方法，获取该卡号余额信息
+							JOptionPane.showMessageDialog(null, showMessage(card), "账户余额信息",
+									JOptionPane.INFORMATION_MESSAGE);
+						} else
+							JOptionPane.showMessageDialog(null, "密码错误", "错误", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 
 			} else {
