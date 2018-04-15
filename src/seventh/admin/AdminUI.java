@@ -49,13 +49,15 @@ public class AdminUI {
 	private JFrame frame;
 	private JTextField textField_name;
 	private JTextField textField_idcard;
-	private JTextField textField_carNum;
+	private JTextField textField_delAccount;
 	private JTextField textField_phone;
 	private JTextField textField_queryBalance;
 	private JTextField textField_loss;
-	private JTextField textField_yue;
+	private JTextField textField_chaUserPass;
 	private JTextArea textArea_address;
 	private JTextField textField_query;
+	private JTextField textField_changeInfo;
+	private JTextField textField_queryInfo;
 	private JButton btn_begin;
 	private JButton btn_end;
 	private JButton btn_confirm;
@@ -67,6 +69,7 @@ public class AdminUI {
 
 	private String File = "E:\\Code\\java\\CCB_ATM";
 	private JTextField textField_lock;
+	private JTextField textField_chaAdminPass;
 	// private String File = ".";
 
 	/**
@@ -133,7 +136,6 @@ public class AdminUI {
 		JPanel panel_OpenAcc = new JPanel();
 		tabbedPane_Acc.addTab("开户", null, panel_OpenAcc, null);
 		panel_OpenAcc.setLayout(null);
-		panel_OpenAcc.setOpaque(false);
 
 		JLabel label_inputAccInfo = new JLabel("请输入用户信息");
 		label_inputAccInfo.setFont(new Font("幼圆", Font.PLAIN, 18));
@@ -233,7 +235,6 @@ public class AdminUI {
 
 		JPanel panel_DelAcc = new JPanel();
 		tabbedPane_Acc.addTab("销户", null, panel_DelAcc, null);
-		panel_DelAcc.setOpaque(false);
 		panel_DelAcc.setLayout(null);
 
 		JLabel label_inputCardNum = new JLabel("请输入卡号");
@@ -245,11 +246,11 @@ public class AdminUI {
 		separator_1.setBounds(14, 70, 1024, 2);
 		panel_DelAcc.add(separator_1);
 
-		textField_carNum = new JTextField();
-		textField_carNum.setFont(new Font("幼圆", Font.PLAIN, 18));
-		textField_carNum.setBounds(285, 155, 444, 43);
-		panel_DelAcc.add(textField_carNum);
-		textField_carNum.setColumns(10);
+		textField_delAccount = new JTextField();
+		textField_delAccount.setFont(new Font("幼圆", Font.PLAIN, 18));
+		textField_delAccount.setBounds(285, 155, 444, 43);
+		panel_DelAcc.add(textField_delAccount);
+		textField_delAccount.setColumns(10);
 
 		JButton btn_delAcc = new JButton("销户");
 		btn_delAcc.addActionListener(new Cancellation());
@@ -259,85 +260,148 @@ public class AdminUI {
 
 		JLabel label_bg12 = new JLabel("");
 		label_bg12.setIcon(ico_background);
-		label_bg12.setBounds(0, 0, 1052, 475);
+		label_bg12.setBounds(0, -29, 1065, 502);
 		panel_DelAcc.add(label_bg12);
 
-		JPanel panel_Loss = new JPanel();
-		tabbedPane.addTab(null, ico_statusOprea, panel_Loss, "挂失解挂");
-		panel_Loss.setLayout(null);
+		// 查询用户信息界面
+		JPanel panel_queryInfo = new JPanel();
+		tabbedPane_Acc.addTab("查询信息", null, panel_queryInfo, null);
+		panel_queryInfo.setLayout(null);
+
+		JLabel lblTips1 = new JLabel("请输入卡号");
+		lblTips1.setFont(new Font("幼圆", Font.PLAIN, 18));
+		lblTips1.setBounds(45, 13, 171, 43);
+		panel_queryInfo.add(lblTips1);
+
+		JSeparator separator_6 = new JSeparator();
+		separator_6.setBounds(14, 70, 1024, 2);
+		panel_queryInfo.add(separator_6);
+
+		textField_queryInfo = new JTextField();
+		textField_queryInfo.setFont(new Font("幼圆", Font.PLAIN, 18));
+		textField_queryInfo.setBounds(285, 155, 444, 43);
+		panel_queryInfo.add(textField_queryInfo);
+
+		JButton btn_query = new JButton("\u786E\u8BA4");
+		btn_query.setFont(new Font("幼圆", Font.PLAIN, 18));
+		btn_query.setBounds(458, 258, 69, 29);
+		panel_queryInfo.add(btn_query);
+
+		JLabel label_14 = new JLabel("");
+		label_14.setIcon(ico_background);
+		label_14.setBounds(0, -29, 1065, 502);
+		panel_queryInfo.add(label_14);
+
+		// 修改用户信息界面
+		JPanel panel_changeInfo = new JPanel();
+		tabbedPane_Acc.addTab("修改信息", null, panel_changeInfo, null);
+		panel_OpenAcc.setLayout(null);
+		panel_changeInfo.setLayout(null);
+
+		JLabel lblTips2 = new JLabel("请输入卡号");
+		lblTips2.setFont(new Font("幼圆", Font.PLAIN, 18));
+		lblTips2.setBounds(45, 13, 171, 43);
+		panel_changeInfo.add(lblTips2);
+
+		JSeparator separator_7 = new JSeparator();
+		separator_7.setBounds(14, 70, 1024, 2);
+		panel_changeInfo.add(separator_7);
+
+		textField_changeInfo = new JTextField();
+		textField_changeInfo.setFont(new Font("幼圆", Font.PLAIN, 18));
+		textField_changeInfo.setBounds(285, 155, 444, 43);
+		panel_changeInfo.add(textField_changeInfo);
+
+		JButton btn_change = new JButton("确认");
+		btn_change.setFont(new Font("幼圆", Font.PLAIN, 18));
+		btn_change.setBounds(458, 258, 69, 29);
+		panel_changeInfo.add(btn_change);
+
+		JLabel label_13 = new JLabel("");
+		label_13.setIcon(ico_background);
+		label_13.setBounds(0, -29, 1065, 502);
+		panel_changeInfo.add(label_13);
+
+		// 状态操作界面
+		JPanel panel_statusOpera = new JPanel();
+		tabbedPane.addTab(null, ico_statusOprea, panel_statusOpera, "挂失解挂");
+		panel_statusOpera.setLayout(null);
 
 		JLabel label_2 = new JLabel("请输入要挂失或解挂的卡号");
 		label_2.setFont(new Font("幼圆", Font.PLAIN, 18));
 		label_2.setBounds(35, 13, 290, 43);
-		panel_Loss.add(label_2);
+		panel_statusOpera.add(label_2);
 
 		textField_loss = new JTextField();
 		textField_loss.setFont(new Font("幼圆", Font.PLAIN, 18));
 		textField_loss.setBounds(290, 84, 444, 43);
-		panel_Loss.add(textField_loss);
+		panel_statusOpera.add(textField_loss);
 
 		btn_loss = new JButton("确认");
 		btn_loss.addActionListener(new LossOperation());
 		btn_loss.setFont(new Font("幼圆", Font.PLAIN, 18));
 		btn_loss.setBounds(470, 140, 90, 43);
-		panel_Loss.add(btn_loss);
+		panel_statusOpera.add(btn_loss);
 
 		JSeparator separator_2 = new JSeparator();
 		separator_2.setBounds(14, 240, 1024, 2);
-		panel_Loss.add(separator_2);
+		panel_statusOpera.add(separator_2);
 
 		JLabel label_5 = new JLabel("请输入要冻结或解冻的卡号");
 		label_5.setFont(new Font("幼圆", Font.PLAIN, 18));
 		label_5.setBounds(35, 255, 290, 43);
-		panel_Loss.add(label_5);
+		panel_statusOpera.add(label_5);
 
 		textField_lock = new JTextField();
 		textField_lock.setFont(new Font("幼圆", Font.PLAIN, 18));
 		textField_lock.setBounds(290, 338, 444, 43);
-		panel_Loss.add(textField_lock);
+		panel_statusOpera.add(textField_lock);
 
 		JButton btn_lock = new JButton("\u786E\u8BA4");
 		btn_lock.addActionListener(new LockOperation());
 		btn_lock.setFont(new Font("幼圆", Font.PLAIN, 18));
 		btn_lock.setBounds(470, 394, 90, 43);
-		panel_Loss.add(btn_lock);
+		panel_statusOpera.add(btn_lock);
 
-		JLabel label_1 = new JLabel("");
-		label_1.setIcon(ico_background);
-		label_1.setBounds(0, 0, 1065, 502);
-		panel_Loss.add(label_1);
+		JLabel label_bg2 = new JLabel("");
+		label_bg2.setIcon(ico_background);
+		label_bg2.setBounds(0, 0, 1065, 502);
+		panel_statusOpera.add(label_bg2);
+		panel_OpenAcc.setLayout(null);
 
-		JPanel panel_lock = new JPanel();
-		tabbedPane.addTab(null, ico_query, panel_lock, "冻结解冻");
-		panel_lock.setLayout(null);
+		// 查询余额界面
+		JPanel panel_queryBalance = new JPanel();
+		tabbedPane.addTab(null, ico_query, panel_queryBalance, null);
+		panel_queryBalance.setLayout(null);
 
 		JLabel label_inputCardNumLock = new JLabel("请输入卡号");
 		label_inputCardNumLock.setFont(new Font("幼圆", Font.PLAIN, 18));
 		label_inputCardNumLock.setBounds(35, 13, 171, 43);
-		panel_lock.add(label_inputCardNumLock);
+		panel_queryBalance.add(label_inputCardNumLock);
 		separator_1.setBounds(14, 70, 1024, 2);
 
 		JSeparator separator_4 = new JSeparator();
 		separator_4.setBounds(14, 69, 1024, 2);
-		panel_lock.add(separator_4);
+		panel_queryBalance.add(separator_4);
 
 		textField_queryBalance = new JTextField();
 		textField_queryBalance.setFont(new Font("幼圆", Font.PLAIN, 24));
 		textField_queryBalance.setBounds(290, 128, 444, 43);
-		panel_lock.add(textField_queryBalance);
-		textField_carNum.setColumns(10);
+		panel_queryBalance.add(textField_queryBalance);
+		textField_delAccount.setColumns(10);
 
 		JButton btn_queryBalance = new JButton("\u786E\u8BA4");
 		btn_queryBalance.addActionListener(new QueryBalacne());
 		btn_queryBalance.setFont(new Font("幼圆", Font.PLAIN, 18));
 		btn_queryBalance.setBounds(483, 216, 90, 43);
-		panel_lock.add(btn_queryBalance);
+		panel_queryBalance.add(btn_queryBalance);
 
-		JLabel label = new JLabel("");
-		label.setIcon(ico_background);
-		label.setBounds(0, 0, 1065, 502);
-		panel_lock.add(label);
+		JLabel label_bg3 = new JLabel("");
+		label_bg3.setIcon(ico_background);
+		label_bg3.setBounds(0, 0, 1065, 502);
+		panel_queryBalance.add(label_bg3);
 
+		// 查询交易历史记录界面
 		JPanel panel_queryHistory = new JPanel();
 		tabbedPane.addTab(null, ico_queryHistory, panel_queryHistory, "查询交易历史");
 		panel_queryHistory.setLayout(null);
@@ -412,38 +476,78 @@ public class AdminUI {
 		label_6.setBounds(68, 32, 47, 40);
 		panel_queryHistory.add(label_6);
 
-		JLabel label_3 = new JLabel("");
-		label_3.setIcon(ico_background);
-		label_3.setBounds(0, 0, 1068, 504);
-		panel_queryHistory.add(label_3);
+		JLabel label_bg4 = new JLabel("");
+		label_bg4.setIcon(ico_background);
+		label_bg4.setBounds(0, 0, 1068, 504);
+		panel_queryHistory.add(label_bg4);
 
+		// 修改密码界面
 		JPanel panel_changePasswd = new JPanel();
 		tabbedPane.addTab(null, ico_changePasswd, panel_changePasswd, "修改密码");
 		panel_changePasswd.setLayout(null);
 
-		JLabel lblTips = new JLabel("请输入卡号");
-		lblTips.setFont(new Font("幼圆", Font.PLAIN, 18));
-		lblTips.setBounds(35, 13, 101, 43);
-		panel_changePasswd.add(lblTips);
+		JTabbedPane tabbedPane_changePass = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane_changePass.setBounds(0, 0, 1066, 505);
+		panel_changePasswd.add(tabbedPane_changePass);
 
-		JSeparator separator_5 = new JSeparator();
-		separator_5.setBounds(14, 69, 1024, 2);
-		panel_changePasswd.add(separator_5);
+		// 用户改密界面
+		JPanel panel_chaUserPass = new JPanel();
+		tabbedPane_changePass.addTab("用戶", null, panel_chaUserPass, null);
+		panel_chaUserPass.setLayout(null);
 
-		textField_yue = new JTextField();
-		textField_yue.setFont(new Font("幼圆", Font.PLAIN, 18));
-		textField_yue.setBounds(290, 128, 444, 43);
-		panel_changePasswd.add(textField_yue);
+		JLabel lblTips3 = new JLabel("请输入卡号");
+		lblTips3.setFont(new Font("幼圆", Font.PLAIN, 18));
+		lblTips3.setBounds(45, 13, 171, 43);
+		panel_chaUserPass.add(lblTips3);
 
-		JButton btn_yue = new JButton("\u786E\u8BA4");
-		btn_yue.setFont(new Font("幼圆", Font.PLAIN, 18));
-		btn_yue.setBounds(752, 128, 90, 43);
-		panel_changePasswd.add(btn_yue);
+		JSeparator separator_8 = new JSeparator();
+		separator_8.setBounds(14, 70, 1024, 2);
+		panel_chaUserPass.add(separator_8);
 
-		JLabel label_4 = new JLabel("");
-		label_4.setIcon(ico_background);
-		label_4.setBounds(0, 0, 1068, 504);
-		panel_changePasswd.add(label_4);
+		textField_chaUserPass = new JTextField();
+		textField_chaUserPass.setFont(new Font("幼圆", Font.PLAIN, 18));
+		textField_chaUserPass.setBounds(285, 155, 444, 43);
+		panel_chaUserPass.add(textField_chaUserPass);
+
+		JButton btn_chaUserPass = new JButton("\u786E\u8BA4");
+		btn_chaUserPass.setFont(new Font("幼圆", Font.PLAIN, 18));
+		btn_chaUserPass.setBounds(458, 258, 69, 29);
+		panel_chaUserPass.add(btn_chaUserPass);
+
+		JLabel label_41 = new JLabel("");
+		label_41.setIcon(ico_background);
+		label_41.setBounds(0, -29, 1065, 502);
+		panel_chaUserPass.add(label_41);
+
+		// 管理员改密界面
+		JPanel panel_chaAdminPass = new JPanel();
+		tabbedPane_changePass.addTab("管理员", null, panel_chaAdminPass, null);
+		panel_chaAdminPass.setLayout(null);
+
+		JLabel lblTips4 = new JLabel("请输入管理员账号");
+		lblTips4.setFont(new Font("幼圆", Font.PLAIN, 18));
+		lblTips4.setBounds(45, 13, 171, 43);
+		panel_chaAdminPass.add(lblTips4);
+
+		JSeparator separator_9 = new JSeparator();
+		separator_9.setBounds(14, 70, 1024, 2);
+		panel_chaAdminPass.add(separator_9);
+
+		textField_chaAdminPass = new JTextField();
+		textField_chaAdminPass.setFont(new Font("幼圆", Font.PLAIN, 18));
+		textField_chaAdminPass.setBounds(285, 155, 444, 43);
+		panel_chaAdminPass.add(textField_chaAdminPass);
+
+		JButton btn_chaAdminPass = new JButton("确认");
+		btn_chaAdminPass.setFont(new Font("幼圆", Font.PLAIN, 18));
+		btn_chaAdminPass.setBounds(458, 258, 69, 29);
+		panel_chaAdminPass.add(btn_chaAdminPass);
+
+		JLabel label_42 = new JLabel("");
+		label_42.setIcon(ico_background);
+		label_42.setBounds(0, -29, 1065, 502);
+		panel_chaAdminPass.add(label_42);
+
 	}
 
 	/**
@@ -615,7 +719,7 @@ public class AdminUI {
 		public void actionPerformed(ActionEvent e) {
 			// TODO 弹出消息窗口，将按钮设为销户，然后输入密码进行确认，更改用户状态
 			// 获取卡号
-			String cardNums = textField_carNum.getText().trim();
+			String cardNums = textField_delAccount.getText().trim();
 			long cardNum = Long.parseLong(cardNums);
 			// 判断卡号是否存在，如果存在进入下一步，不存在则进行提示
 			if (BlankAccout.getInstance().getAccountDAO().getCardExit(cardNum)) {
@@ -658,18 +762,18 @@ public class AdminUI {
 					JShowInfo jSM = new JShowInfo();
 					jSM.setBtnText("解挂");
 					String[] info = new String[7];// 获取用户信息
-					String[] info_Data = { "张三", "信用卡", "男", "挂失", "440823199602133837", "13724867853",
-							"广东省广州市海珠区仑头路21号" };
-					info = info_Data;
+					// String[] info_Data = { "张三", "信用卡", "男", "挂失",
+					// "440823199602133837", "13724867853",
+					// "广东省广州市海珠区仑头路21号" };
+					// info = info_Data;
+					info = BlankAccout.getInstance().getConnectTable().getUserMessage(card);
 					jSM.addComponentData(info);
-					// info =
-					// BlankAccout.getInstance().getUserDao().getUserInformation(idCard)
 					if (jSM.showJSM()) { // 选择解挂操作，输入验证密码
 						Long[] result = showPasswordDialog();
 						// 调用数据库方法，判断卡号是否对应密码
 						if (result[0] == 0) {
 							if (BlankAccout.getInstance().getAccountDAO().checkPawd(card, result[1])) {
-								//调用数据库方法设置账户状态为正常
+								// 调用数据库方法设置账户状态为正常
 								JOptionPane.showMessageDialog(null, "解挂成功", "提示", JOptionPane.INFORMATION_MESSAGE);
 								BlankAccout.getInstance().getAccountDAO().updateStatus(card, "正常");
 								// 清空卡号输入框
@@ -687,9 +791,11 @@ public class AdminUI {
 					JShowInfo jSM = new JShowInfo();
 					jSM.setBtnText("挂失");
 					String[] info = new String[7];// 获取用户信息
-					String[] info_Data = { "张三", "信用卡", "男", "正常", "440823199602133837", "13724867853",
-							"广东省广州市海珠区仑头路21号" };
-					info = info_Data;
+					// String[] info_Data = { "张三", "信用卡", "男", "正常",
+					// "440823199602133837", "13724867853",
+					// "广东省广州市海珠区仑头路21号" };
+					// info = info_Data;
+					info = BlankAccout.getInstance().getConnectTable().getUserMessage(card);
 					jSM.addComponentData(info);
 					if (jSM.showJSM()) { // 选择挂失操作，输入验证密码
 						Long[] result = showPasswordDialog();
@@ -707,13 +813,19 @@ public class AdminUI {
 						}
 					}
 				}
+				// 3.如果账户冻结，提示用户不能操作
+				else if (cardStatus.equals("冻结")) {
+					JOptionPane.showMessageDialog(null, "您的卡已冻结，请先解冻", "提示", JOptionPane.INFORMATION_MESSAGE);
+				}
 			} else {
 				JOptionPane.showMessageDialog(null, "该账户不存在", "错误", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
 
-	/** 用户冻结解冻功能监听器
+	/**
+	 * 用户冻结解冻功能监听器
+	 * 
 	 * @author Jachin
 	 *
 	 */
@@ -731,10 +843,12 @@ public class AdminUI {
 					JShowInfo jSM = new JShowInfo();
 					jSM.setBtnText("解冻");
 					String[] info = new String[7];// 获取用户信息
-					//TODO 从数据库获取用户信息
-					String[] info_Data = { "张三", "信用卡", "男", "冻结", "440823199602133837", "13724867853",
-							"广东省广州市海珠区仑头路21号" };
-					info = info_Data;
+					// TODO 从数据库获取用户信息
+					// String[] info_Data = { "张三", "信用卡", "男", "冻结",
+					// "440823199602133837", "13724867853",
+					// "广东省广州市海珠区仑头路21号" };
+					// info = info_Data;
+					info = BlankAccout.getInstance().getConnectTable().getUserMessage(card);
 					jSM.addComponentData(info);
 					if (jSM.showJSM()) { // 选择解冻操作，输入验证密码
 						Long[] result = showPasswordDialog();
@@ -758,9 +872,11 @@ public class AdminUI {
 					JShowInfo jSM = new JShowInfo();
 					jSM.setBtnText("冻结");
 					String[] info = new String[7];// 获取用户信息
-					String[] info_Data = { "张三", "信用卡", "男", "正常", "440823199602133837", "13724867853",
-							"广东省广州市海珠区仑头路21号" };
-					info = info_Data;
+					// String[] info_Data = { "张三", "信用卡", "男", "正常",
+					// "440823199602133837", "13724867853",
+					// "广东省广州市海珠区仑头路21号" };
+					// info = info_Data;
+					info = BlankAccout.getInstance().getConnectTable().getUserMessage(card);
 					jSM.addComponentData(info);
 					if (jSM.showJSM()) { // 选择冻结操作，输入验证密码
 						Long[] result = showPasswordDialog();
@@ -778,13 +894,19 @@ public class AdminUI {
 						}
 					}
 				}
+				// 3.如果账户挂失，提示用户不能操作
+				else if (cardStatus.equals("挂失")) {
+					JOptionPane.showMessageDialog(null, "您的卡已挂失，请先解挂", "提示", JOptionPane.INFORMATION_MESSAGE);
+				}
 			} else {
 				JOptionPane.showMessageDialog(null, "该账户不存在", "错误", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
 
-	/** 用户查询余额功能的监听器
+	/**
+	 * 用户查询余额功能的监听器
+	 * 
 	 * @author Jachin
 	 *
 	 */
@@ -817,8 +939,9 @@ public class AdminUI {
 		}
 	}
 
-	
-	/** 输入密码界面，密码显示为圆点
+	/**
+	 * 输入密码界面，密码显示为圆点
+	 * 
 	 * @return Long[] reslut,第一个是 判断用户是否按下取消(等于2)，第二个是用户输入的密码
 	 */
 	public Long[] showPasswordDialog() {
@@ -849,5 +972,4 @@ public class AdminUI {
 
 		return messages;
 	}
-
 }
