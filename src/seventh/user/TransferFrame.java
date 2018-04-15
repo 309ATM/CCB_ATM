@@ -197,108 +197,124 @@ public class TransferFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			label_message.setText("");
-			String moneys = textField_money.getText();
-			float money = Float.parseFloat(moneys);
-			float fee = 0;
-			// 输入转账金额的合法性判断，如果都没问题
-			if (fees) {// 跨行，收取手续费
-				// 检查账户余额，收取手续费后，余额足够的话
-				float balance = BlankAccout.getInstance().getBalance();// 用户转账前的余额
-				balance = (float) (balance - money * 1.01);// 按手续费收取后的余额
-				if (balance >= 0) {
-					// 余额足够，则从余额中扣除转账金额
-					BlankAccout.getInstance().setBalance(balance);
-					// 转出卡号
-					Long cardOut = BlankAccout.getInstance().getCardNum();
-					// 转入卡号
-					Long cardIn = BlankAccout.getInstance().getTargetCard();
-					// 转账金额
-					money = (float) (money * 0.99);
-					// 手续费
-					fee = (float) (money * 0.01);
-					// 卡转出后余额
-					float balanceOut = balance;
-					// 卡转入后余额
-					float balanceIn = BlankAccout.getInstance().getAccountDAO().getCardBalance(cardIn) + money;
+			// 进入输入金额的界面，首先判断转账限额是否足够
+			if (BlankAccout.getInstance().getTransferLimit() > 0) {
+				String moneys = textField_money.getText();
+				float money = Float.parseFloat(moneys);
+				float fee = 0;
+				// 输入转账金额的合法性判断，如果都没问题
+				if (fees) {// 跨行，收取手续费
+					// 检查账户余额，收取手续费后，余额足够的话
+					float balance = BlankAccout.getInstance().getBalance();// 用户转账前的余额
+					balance = (float) (balance - money * 1.01);// 按手续费收取后的余额
+					if (balance >= 0) {
+						// 余额足够，则从余额中扣除转账金额
+						BlankAccout.getInstance().setBalance(balance);
+						// 转出卡号
+						Long cardOut = BlankAccout.getInstance().getCardNum();
+						// 转入卡号
+						Long cardIn = BlankAccout.getInstance().getTargetCard();
+						// 转账金额
+						money = (float) (money * 0.99);
+						// 手续费
+						fee = (float) (money * 0.01);
+						// 卡转出后余额
+						float balanceOut = balance;
+						// 卡转入后余额
+						float balanceIn = BlankAccout.getInstance().getAccountDAO().getCardBalance(cardIn) + money;
 
-					// 设置消息，传给交互界面
-					message[0] = "跨行转账";
-					message[1] = moneys; // 转账金额
-					message[4] = String.valueOf(money * 0.1);
-					message[2] = Float.toString(BlankAccout.getInstance().getBalance());// 账户余额
-					message[3] = Long.toString(BlankAccout.getInstance().getTargetCard());// 目标账号
-					messageFrame.getFrameMessage().setVisible(true);
-					messageFrame.showMessage(message);
-					frameTransfer.dispose();
-					// 设置文本框为空，按钮重调
-					label_tip.setText("请输入转入账号，无误后继续");
-					textField_money.setText("");
-					btn_transfer.setVisible(true);
-					btn_confirm.setVisible(false);
+						// 设置消息，传给交互界面
+						message[0] = "跨行转账";
+						message[1] = moneys; // 转账金额
+						message[4] = String.valueOf(money * 0.1);
+						message[2] = Float.toString(BlankAccout.getInstance().getBalance());// 账户余额
+						message[3] = Long.toString(BlankAccout.getInstance().getTargetCard());// 目标账号
+						messageFrame.getFrameMessage().setVisible(true);
+						messageFrame.showMessage(message);
+						frameTransfer.dispose();
+						// 设置文本框为空，按钮重调
+						label_tip.setText("请输入转入账号，无误后继续");
+						textField_money.setText("");
+						btn_transfer.setVisible(true);
+						btn_confirm.setVisible(false);
 
-					// 设置转账转出方的余额，转出卡号+余额
-					BlankAccout.getInstance().getAccountDAO().setCardBalance(cardOut, balanceOut);
-					// 设置转账转入方的余额，转入卡号+余额
-					BlankAccout.getInstance().getAccountDAO().setCardBalance(cardIn, balanceIn);
+						// 设置转账转出方的余额，转出卡号+余额
+						BlankAccout.getInstance().getAccountDAO().setCardBalance(cardOut, balanceOut);
+						// 设置转账转入方的余额，转入卡号+余额
+						BlankAccout.getInstance().getAccountDAO().setCardBalance(cardIn, balanceIn);
 
-					// 下面是将记录插入交易历史记录表
-					// 卡转出的记录
-					BlankAccout.getInstance().getTradingrecDAO().insertRecording(cardOut, money, "转账转出", cardIn, fee);
-					// 卡转入的记录
-					BlankAccout.getInstance().getTradingrecDAO().insertRecording(cardIn, money, "转账转入", cardOut, fee);
+						// 修改今日转账额度
+						BlankAccout.getInstance()
+								.setWithdrawalsLimit(BlankAccout.getInstance().getTransferLimit() - money);
 
-				} else {
-					// 提醒用户扣除手续费后余额不足
-					label_message.setText("扣除1%的手续费后余额不足");
+						// 下面是将记录插入交易历史记录表
+						// 卡转出的记录
+						BlankAccout.getInstance().getTradingrecDAO().insertRecording(cardOut, money, "转账转出", cardIn,
+								fee);
+						// 卡转入的记录
+						BlankAccout.getInstance().getTradingrecDAO().insertRecording(cardIn, money, "转账转入", cardOut,
+								fee);
+
+					} else {
+						// 提醒用户扣除手续费后余额不足
+						label_message.setText("扣除1%的手续费后余额不足");
+					}
+				} else {// 本行转账，不收手续费
+						// 检查账户余额，足够的话
+					float balance = BlankAccout.getInstance().getBalance();
+					balance = balance - money; // 转账后的余额
+					if (balance >= 0) {
+						// 余额足够，则从余额中扣除转账金额
+						BlankAccout.getInstance().setBalance(balance);
+						// 转出卡号
+						Long cardOut = BlankAccout.getInstance().getCardNum();
+						// 转入卡号
+						Long cardIn = BlankAccout.getInstance().getTargetCard();
+						// 转账金额就是输入的金额money
+						// 手续费就是fee = 0
+						// 卡转出后的余额
+						float balanceOut = balance;
+						// 卡转入后的余额
+						float balanceIn = BlankAccout.getInstance().getAccountDAO().getCardBalance(cardIn) + money;
+
+						// 转账成功，发送消息给转账成功提示界面
+						message[0] = "转账";
+						message[1] = moneys; // 转账金额
+						message[2] = Float.toString(BlankAccout.getInstance().getBalance());// 账户余额
+						message[3] = Long.toString(BlankAccout.getInstance().getTargetCard());// 目标账号
+						messageFrame.getFrameMessage().setVisible(true);
+						messageFrame.showMessage(message);
+						frameTransfer.dispose();
+						label_tip.setText("请输入转入账号，无误后继续");
+						textField_money.setText("");
+						btn_transfer.setVisible(true);
+						btn_confirm.setVisible(false);
+
+						// 设置转账转出方的余额，转出卡号+余额
+						BlankAccout.getInstance().getAccountDAO().setCardBalance(cardOut, balanceOut);
+						// 设置转账转入方的余额，转入卡号+余额
+						BlankAccout.getInstance().getAccountDAO().setCardBalance(cardIn, balanceIn);
+
+						// 修改今日转账额度
+						BlankAccout.getInstance()
+								.setWithdrawalsLimit(BlankAccout.getInstance().getTransferLimit() - money);
+
+						// 下面是将记录插入交易历史记录表
+						// 卡转出的记录
+						BlankAccout.getInstance().getTradingrecDAO().insertRecording(cardOut, money, "转账转出", cardIn,
+								fee);
+						// 卡转入的记录
+						BlankAccout.getInstance().getTradingrecDAO().insertRecording(cardIn, money, "转账转入", cardOut,
+								fee);
+
+					} else {
+						// 提醒用户余额不足
+					}
+
 				}
-			} else {// 本行转账，不收手续费
-					// 检查账户余额，足够的话
-				float balance = BlankAccout.getInstance().getBalance();
-				balance = balance - money; // 转账后的余额
-				if (balance >= 0) {
-					// 余额足够，则从余额中扣除转账金额
-					BlankAccout.getInstance().setBalance(balance);
-					// 转出卡号
-					Long cardOut = BlankAccout.getInstance().getCardNum();
-					// 转入卡号
-					Long cardIn = BlankAccout.getInstance().getTargetCard();
-					// 转账金额就是输入的金额money
-					// 手续费就是fee = 0
-					// 卡转出后的余额
-					float balanceOut = balance;
-					// 卡转入后的余额
-					float balanceIn = BlankAccout.getInstance().getAccountDAO().getCardBalance(cardIn) + money;
-
-					// 转账成功，发送消息给转账成功提示界面
-					message[0] = "转账";
-					message[1] = moneys; // 转账金额
-					message[2] = Float.toString(BlankAccout.getInstance().getBalance());// 账户余额
-					message[3] = Long.toString(BlankAccout.getInstance().getTargetCard());// 目标账号
-					messageFrame.getFrameMessage().setVisible(true);
-					messageFrame.showMessage(message);
-					frameTransfer.dispose();
-					label_tip.setText("请输入转入账号，无误后继续");
-					textField_money.setText("");
-					btn_transfer.setVisible(true);
-					btn_confirm.setVisible(false);
-
-					// 设置转账转出方的余额，转出卡号+余额
-					BlankAccout.getInstance().getAccountDAO().setCardBalance(cardOut, balanceOut);
-					// 设置转账转入方的余额，转入卡号+余额
-					BlankAccout.getInstance().getAccountDAO().setCardBalance(cardIn, balanceIn);
-
-					// 下面是将记录插入交易历史记录表
-					// 卡转出的记录
-					BlankAccout.getInstance().getTradingrecDAO().insertRecording(cardOut, money, "转账转出", cardIn, fee);
-					// 卡转入的记录
-					BlankAccout.getInstance().getTradingrecDAO().insertRecording(cardIn, money, "转账转入", cardOut, fee);
-
-				} else {
-					// 提醒用户余额不足
-				}
-
+			} else {
+				label_message.setText("您今日的转账限额不足");
 			}
-			// TODO 转账操作，判断目标账号，增加交易记录进数据库，修改余额
 		}
 	}
 
