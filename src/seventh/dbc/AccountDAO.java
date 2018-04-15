@@ -121,6 +121,29 @@ public class AccountDAO extends DAO<Account>{
 		return accType;
 	}
 	
+	/**获取账户Id
+	 * @param card
+	 * @return
+	 */
+	public int getAccountId(long card){
+		String sql = "select id from account where cardnum = ?";
+		int n = getForValue(sql, card);
+		return n;	
+	}
+	
+	/**查询账号类型和状态
+	 * @param card
+	 * @return
+	 */
+	public String[] getAccountTypeStatus(long card){
+		String[] records = new String[2];
+		String sql = "select accType,stat from Account where cardnum = ?";
+		Account account = get(sql,card);
+		records[0] = account.getAccType();
+		records[1] = account.getStat();
+		return records;
+	}
+	
 	/**修改账户余额,
 	 * @param Card
 	 * @param balance
@@ -197,7 +220,7 @@ public class AccountDAO extends DAO<Account>{
 		return true;		
 	}
 	
-	/**修改账户状态
+	/**修改账户类型
 	 * @param card
 	 * @param accType(修改后的状态)
 	 * @return
@@ -220,6 +243,11 @@ public class AccountDAO extends DAO<Account>{
 		return true;
 	}
 	
+	/**修改账户状态
+	 * @param cardNum
+	 * @param status
+	 * @return
+	 */
 	public boolean updateStatus(long cardNum,String status){
 		String sql = "update account set stat = ? where cardnum = ?";
 		update(sql,status,cardNum);
@@ -266,25 +294,5 @@ public class AccountDAO extends DAO<Account>{
 	}
 	
 	
-	
-//	@Test
-//	public void getUserMessage(){
-//		long cardNum = 656885452136697452L;
-//		String sql = "select distinct name,sex,idcard,phone,address,account.accType,account.stat from users join account on users.id = account.id"
-//				+	"where users.id = (select id from account where cardnum = ?);";
-//		
-//		List<Account> accounts = getForList(sql, cardNum);
-//		List<User> users = getForList(sql1, cardNum);
-//		String[] records = new String[7];
-//		for (int i = 0; i < 7; i++) {
-//			records[i] = String.valueOf(accounts.get(i));
-////			records[1] = String.valueOf(accounts.get(i));
-////			records[2] = String.valueOf(accounts.get(i));
-////			records[3] = String.valueOf(accounts.get(i));
-////			records[4] = String.valueOf(accounts.get(i));
-////			records[5] = String.valueOf(accounts.get(i));
-////			records[6] = String.valueOf(accounts.get(i));
-//		}
-//		System.out.println(records);	
-//	}
+
 }

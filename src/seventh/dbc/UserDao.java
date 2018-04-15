@@ -34,4 +34,16 @@ public class UserDao extends DAO<User>{
 		userInformation[4] = users.getAddress();
 		return userInformation;
 	}
+	
+	public String[] getUserMessageId(int id){
+		String[] userInformation = new String[5];
+		String sql = "select name,sex,idcard,phone,address from users where id = ?";
+		User users= get(sql, id);
+		userInformation[0] = users.getName();
+		userInformation[1] = users.getSex();
+		userInformation[2] = users.getIdCard();
+		userInformation[3] = users.getPhone();
+		userInformation[4] = users.getAddress();
+		return userInformation;
+	}
 }
