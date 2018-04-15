@@ -32,6 +32,7 @@ import javax.swing.table.DefaultTableModel;
 
 import seventh.accout.BlankAccout;
 import seventh.until.JDateChooser;
+import seventh.until.JShowMessage;
 
 /**
  * 管理员功能
@@ -611,20 +612,23 @@ public class AdminUI {
 	// 挂失解挂监听器
 	class LossOperation implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
-			// String card = textField_loss.getText();
+			String cards = textField_loss.getText();
+			Long card = Long.parseLong(cards);
 			// 调用数据库方法判断卡号是否存在
-			Boolean flag = true;
+			Boolean flag = BlankAccout.getInstance().getAccountDAO().getCardExit(card);
 			if (flag) {
 				// 调用数据库方法获取账户状态
-				String cardStatus = "挂失";
+				String cardStatus = BlankAccout.getInstance().getAccountDAO().getCardStatu(card);
 				// 1.如果挂失了，则提问是否要解挂
-				if (cardStatus.equals("挂失")) {
-					if (JOptionPane.showConfirmDialog(null, "该卡已挂失，是否要解挂？", "提示", JOptionPane.YES_NO_OPTION) == 0) { // 选择解挂操作，输入验证密码
-						String input_password = JOptionPane.showInputDialog(null, "请输入密码", "提示",
-								JOptionPane.INFORMATION_MESSAGE);
-						// 调用数据库方法，获取卡号对应密码，假设为123
-						String password = "123";
-						if (password.equals(input_password)) {
+				if (cardStatus.equals("正常")) {
+					JShowMessage jShowMessage = new JShowMessage();
+					jShowMessage.frame.setVisible(true);
+					jShowMessage.btn_confirm.setText("解挂");
+					if (jShowMessage.isConfirm) { // 选择解挂操作，输入验证密码
+						long input_password = Long.parseLong(JOptionPane.showInputDialog(null, "请输入密码", "提示",
+								JOptionPane.INFORMATION_MESSAGE));
+						// 调用数据库方法，判断卡号是否对应密码
+						if (BlankAccout.getInstance().getAccountDAO().checkPawd(card, input_password)) {
 							// 调用数据库方法设置账户状态为正常
 							JOptionPane.showMessageDialog(null, "解挂成功", "提示", JOptionPane.INFORMATION_MESSAGE);
 							// 清空卡号输入框
