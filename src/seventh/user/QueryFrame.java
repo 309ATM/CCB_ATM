@@ -94,12 +94,20 @@ public class QueryFrame {
 		float overdraft = BlankAccout.getInstance().getOverdraft();
 		float withdrawalsLimit = BlankAccout.getInstance().getWithdrawalsLimit();
 		float depositLimit = BlankAccout.getInstance().getDepositLimit(); 
+		float transferLimit = BlankAccout.getInstance().getTransferLimit(); 
 		
-		String messages = "<html><p align=\"left\">您的余额为：{0}元<br>您的透支额度为：{1}元<br>您今日存款限额还剩：{2}元<br>您今日取款限额还剩：{3}元</p></html>";//显示信息还要修改
+		
+		String messages = "<html>您的余额为：{0}元<br>"
+				+ "您的透支额度为：{1}元<br>"
+				+ "您今日存款限额还剩：{2}元<br>"
+				+ "您今日取款限额还剩：{3}元<br>"
+				+ "您今日转账限额还剩：{4}元";//显示信息还要修改
 		messages = messages.replace("{0}", String.valueOf(balance));//message[0-3]换成上面的money等
 		messages = messages.replace("{1}", String.valueOf(overdraft));
 		messages = messages.replace("{2}", String.valueOf(depositLimit));
 		messages = messages.replace("{3}", String.valueOf(withdrawalsLimit));
+		messages = messages.replace("{4}", String.valueOf(transferLimit));
+		
 		label.setText(messages);
 	}
 	
