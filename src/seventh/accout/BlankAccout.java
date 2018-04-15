@@ -19,6 +19,8 @@ public class BlankAccout {
 	private float depositLimit;
 	// 每日取款限额
 	private float withdrawalsLimit;
+	// 每日转账限额
+	private float transferLimit;
 	// 目标账号
 	private long targetCard;
 
@@ -108,6 +110,16 @@ public class BlankAccout {
 	public void setDepositLimit(float depositLimit) {
 		this.depositLimit = depositLimit;
 	}
+
+	public float getTransferLimit() {
+		return transferLimit;
+	}
+
+
+	public void setTransferLimit(float transferLimit) {
+		this.transferLimit = transferLimit;
+	}
+
 
 	public float getWithdrawalsLimit() {
 		return withdrawalsLimit;
