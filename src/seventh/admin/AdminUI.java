@@ -613,32 +613,73 @@ public class AdminUI {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO 弹出消息窗口，将按钮设为销户，然后输入密码进行确认，更改用户状态
 			// 获取卡号
 			String cardNums = textField_carNum.getText().trim();
 			long cardNum = Long.parseLong(cardNums);
 			// 判断卡号是否存在，如果存在进入下一步，不存在则进行提示
 			if (BlankAccout.getInstance().getAccountDAO().getCardExit(cardNum)) {
-				float balance = BlankAccout.getInstance().getAccountDAO().getCardBalance(cardNum);
-				// 检查该卡的类型，如果是信用卡，则需要检查是否有未还透支。
-				if (BlankAccout.getInstance().getAccountDAO().getCardType(cardNum).equals("信用卡")) {
-					// 获取该卡的余额和透支额
-					float overdraft = BlankAccout.getInstance().getAccountDAO().getCardOverdraft(cardNum);
-					if (balance + overdraft >= 5000) {
-						// TODO 显示客户信息，让客户确认是否要销户
-						JOptionPane.showMessageDialog(null, "你的信用卡已经销户成功", "提示", JOptionPane.INFORMATION_MESSAGE);
+				// 如果该卡属于建设银行，则继续，否则进行提示
+				if (BlankAccout.getInstance().getAccountDAO().getBanks(cardNum)) {
+					float balance = BlankAccout.getInstance().getAccountDAO().getCardBalance(cardNum);
+					// 检查该卡的类型，如果是信用卡，则需要检查是否有未还透支。
+					if (BlankAccout.getInstance().getAccountDAO().getCardType(cardNum).equals("信用卡")) {
+						// 获取该卡的余额和透支额
+						float overdraft = BlankAccout.getInstance().getAccountDAO().getCardOverdraft(cardNum);
+						if (balance + overdraft >= 5000) {
+							// 调用销户方法
+							accountCancellation(cardNum);
+						} else {
+							JOptionPane.showMessageDialog(null, "您有未还清的透支，请偿还之后再进行销户", "拒绝", JOptionPane.ERROR_MESSAGE);
+						}
+						// 如果是储蓄卡
 					} else {
-						JOptionPane.showMessageDialog(null, "您有未还清的透支，请偿还之后再进行销户", "拒绝", JOptionPane.ERROR_MESSAGE);
-					}
-					// 如果是储蓄卡，
-				} else {
-					// TODO 显示客户信息，让客户确认是否要销户
-					JOptionPane.showMessageDialog(null, "你的储蓄卡已经销户成功", "提示", JOptionPane.INFORMATION_MESSAGE);
+						// TODO 显示客户信息，让客户确认是否要销户
+						accountCancellation(cardNum);
+					} 
+				}else {
+					JOptionPane.showMessageDialog(null, "该卡不属于建设银行", "错误", JOptionPane.ERROR_MESSAGE);
 				}
 			} else {
 				JOptionPane.showMessageDialog(null, "输入的卡号不存在", "错误", JOptionPane.ERROR_MESSAGE);
 			}
 
+		}
+		
+		/** 
+		 * 对输入的银行卡进行检查和销户操作
+		 * @param cardNum
+		 */
+		private void accountCancellation(long cardNum) {
+			if (BlankAccout.getInstance().getAccountDAO().getCardStatu(cardNum).equals("正常")) {
+				JShowInfo jSM = new JShowInfo();
+				jSM.setBtnText("销户");
+				//TODO 获取用户信息
+				String[] info = new String[7];// 获取用户信息
+				String[] info_Data = { "张三", "信用卡", "男", "正常", "440823199602133837", "13724867853",
+						"广东省广州市海珠区仑头路21号" };
+				info = info_Data;
+				jSM.addComponentData(info);
+				// 选择销户操作，输入验证密码
+				if (jSM.showJSM()) {
+					Long[] result = showPasswordDialog();
+					// 调用数据库方法，判断卡号是否对应密码
+					if (result[0] == 0) {
+						if (BlankAccout.getInstance().getAccountDAO().checkPawd(cardNum, result[1])) {
+							// 调用数据库方法设置账户状态为销户
+							JOptionPane.showMessageDialog(null, "销户成功", "提示",
+									JOptionPane.INFORMATION_MESSAGE);
+							BlankAccout.getInstance().getAccountDAO().updateStatus(cardNum, "销户");
+							// 清空卡号输入框
+							textField_carNum.setText("");
+						} else {
+							JOptionPane.showMessageDialog(null, "密码错误", "错误",
+									JOptionPane.ERROR_MESSAGE);
+						}
+					}
+				}
+			}else {
+				JOptionPane.showMessageDialog(null, "您的卡状态不正常，拒绝销户", "拒绝", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 
 	}
