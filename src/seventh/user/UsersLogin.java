@@ -65,6 +65,7 @@ public class UsersLogin {
 		frameUserLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		ATMButton button_1 = new ATMButton("<html><center>确认<br>Confirm<center></html>");
+		button_1.setForeground(new Color(0, 128, 0));
 		button_1.addActionListener(new UserLogin());
 		frameUserLogin.getContentPane().setLayout(null);
 		button_1.setBounds(875, 550, 200, 80);
@@ -149,7 +150,12 @@ public class UsersLogin {
 
 		private void login() {
 			frameUserLogin.setVisible(false);
-			MainFrame.main(null);
+//			MainFrame.main(null);
+//			MainFrame.startCountdown();
+			MainFrame mainFrame = new MainFrame();
+			mainFrame.getFrameMain().setVisible(true);
+			// 设置倒计时
+			mainFrame.startCountdown();
 			// 设置今日取款限额，设置透支额度，设置今日转账限额，设置账户余额，设置所属银行，设置银行卡类型
 			BlankAccout.getInstance().setWithdrawalsLimit(BlankAccout.getInstance().getTradingrecDAO()
 					.getWithdrawalsLimit(BlankAccout.getInstance().getCardNum()));

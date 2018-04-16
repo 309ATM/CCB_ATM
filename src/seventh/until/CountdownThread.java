@@ -19,9 +19,11 @@ public class CountdownThread extends Thread {
 
 	private boolean runFlag = true;
 	// TODO 设置倒计时时间
-	private int time = 60;
+	private int time = 15;
 
 	public void run() {
+		// 清空上次倒计时的显示数字
+		label.setText("");
 		runFlag = true;
 		while (runFlag) {
 			try {

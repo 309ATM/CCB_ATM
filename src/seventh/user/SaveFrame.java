@@ -17,6 +17,7 @@ import javax.swing.UIManager;
 
 import seventh.accout.BlankAccout;
 import seventh.until.ATMButton;
+import seventh.until.CountdownThread;
 
 /**
  * 存款
@@ -31,11 +32,27 @@ public class SaveFrame {
 	private String File = "E:\\Code\\java\\CCB_ATM";
 	private JLabel label_message;
 	// private String File = ".";
-
+	
 	public JFrame getFrameSave() {
 		return frameSave;
 	}
 
+	// 声明线程变量
+		private JLabel countdownLabel;
+		private CountdownThread time;
+
+		// 开始倒计时
+		public void startCountdown() {
+			time = new CountdownThread();
+			time.setCom(frameSave, countdownLabel);
+			time.start();
+		}
+
+		// 停止倒计时
+		public void stopCountdown() {
+			time.stopThread();
+			time = null;
+		}
 	/**
 	 * Launch the application.
 	 */
@@ -71,6 +88,12 @@ public class SaveFrame {
 		frameSave.setBounds(360, 150, 1095, 750);
 		frameSave.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frameSave.getContentPane().setLayout(null);
+		
+		countdownLabel = new JLabel("");
+		countdownLabel.setForeground(Color.RED);
+		countdownLabel.setFont(new Font("黑体", Font.BOLD, 40));
+		countdownLabel.setBounds(1020, 61, 55, 53);
+		frameSave.getContentPane().add(countdownLabel);
 
 		JLabel label = new JLabel("请输入金额");
 		label.setForeground(Color.WHITE);
@@ -157,7 +180,11 @@ public class SaveFrame {
 					message[1] = moneys; // 存款数
 					message[2] = Float.toString(BlankAccout.getInstance().getBalance());// 账户余额
 					message[3] = Float.toString(BlankAccout.getInstance().getDepositLimit());// 今日可存款额度
-
+					
+					// 停止当前倒计时
+					stopCountdown();
+					messageFrame.startCountdown();
+					
 					messageFrame.getFrameMessage().setVisible(true);
 					messageFrame.showMessage(message);
 					frameSave.dispose();
@@ -173,6 +200,12 @@ public class SaveFrame {
 		public void actionPerformed(ActionEvent e) {
 			MainFrame.frameMain.setVisible(true);
 			frameSave.setVisible(false);
+
+			// 开始主界面倒计时
+			MainFrame.startCountdown();
+			// 停止当前倒计时
+			stopCountdown();
+			
 			textField_money.setText("");
 			label_message.setText("");
 		}

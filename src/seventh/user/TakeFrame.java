@@ -14,6 +14,7 @@ import javax.swing.UIManager;
 
 import seventh.accout.BlankAccout;
 import seventh.until.ATMButton;
+import seventh.until.CountdownThread;
 
 import javax.swing.SwingConstants;
 import java.awt.Color;
@@ -33,6 +34,23 @@ public class TakeFrame {
 	// private String File = "E:\\Code\\java\\CCB_ATM";
 	private String File = ".";
 	private JLabel label_message;
+
+	// 声明线程变量
+	private JLabel countdownLabel;
+	private CountdownThread time;
+
+	// 开始倒计时
+	public void startCountdown() {
+		time = new CountdownThread();
+		time.setCom(frameTake, countdownLabel);
+		time.start();
+	}
+
+	// 停止倒计时
+	public void stopCountdown() {
+		time.stopThread();
+		time = null;
+	}
 
 	/**
 	 * Launch the application.
@@ -73,6 +91,12 @@ public class TakeFrame {
 		frameTake.setBounds(360, 150, 1095, 750);
 		frameTake.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frameTake.getContentPane().setLayout(null);
+
+		countdownLabel = new JLabel("");
+		countdownLabel.setForeground(Color.RED);
+		countdownLabel.setFont(new Font("黑体", Font.BOLD, 40));
+		countdownLabel.setBounds(1020, 61, 55, 53);
+		frameTake.getContentPane().add(countdownLabel);
 
 		ATMButton btn_100 = new ATMButton("100");
 		btn_100.addActionListener(new withdrawal("100"));
@@ -226,6 +250,11 @@ public class TakeFrame {
 			message[1] = moneys; // 取款数
 			message[2] = Float.toString(BlankAccout.getInstance().getBalance());// 账户余额
 			message[3] = Float.toString(BlankAccout.getInstance().getWithdrawalsLimit());// 今日可取款额度
+			
+			// 停止当前倒计时
+			stopCountdown();
+			messageFrame.startCountdown();
+			
 			messageFrame.getFrameMessage().setVisible(true);
 			messageFrame.showMessage(message);
 			frameTake.dispose();
@@ -258,6 +287,10 @@ public class TakeFrame {
 			message[1] = moneys; // 取款数
 			message[2] = Float.toString(BlankAccout.getInstance().getBalance());// 账户余额
 			message[3] = Float.toString(BlankAccout.getInstance().getOverdraft());// 今日可透支取款额度
+			
+			// 停止当前倒计时
+			stopCountdown();
+			messageFrame.startCountdown();
 			messageFrame.getFrameMessage().setVisible(true);
 			messageFrame.showMessage(message);
 			frameTake.dispose();
@@ -270,6 +303,12 @@ public class TakeFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			MainFrame.frameMain.setVisible(true);
+			
+			// 开始主界面倒计时
+			MainFrame.startCountdown();
+			// 停止当前倒计时
+			stopCountdown();
+			
 			frameTake.dispose();
 			textField_money.setText("");
 			label_message.setText("");

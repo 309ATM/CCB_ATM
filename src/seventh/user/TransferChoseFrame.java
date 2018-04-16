@@ -2,9 +2,11 @@ package seventh.user;
 
 import seventh.accout.BlankAccout;
 import seventh.until.ATMButton;
+import seventh.until.CountdownThread;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,6 +26,23 @@ public class TransferChoseFrame {
 
 	public JFrame getFrameTransferChose() {
 		return frameTransferChose;
+	}
+
+	// 声明线程变量
+	private JLabel countdownLabel;
+	private CountdownThread time;
+
+	// 开始倒计时
+	public void startCountdown() {
+		time = new CountdownThread();
+		time.setCom(frameTransferChose, countdownLabel);
+		time.start();
+	}
+
+	// 停止倒计时
+	public void stopCountdown() {
+		time.stopThread();
+		time = null;
 	}
 
 	/**
@@ -49,10 +68,10 @@ public class TransferChoseFrame {
 	public TransferChoseFrame() {
 		initialize();
 		transferFrame.getFrameTransfer().setVisible(false);
-		if(!BlankAccout.getInstance().getBlank()){
+		if (!BlankAccout.getInstance().getBlank()) {
 			button.setVisible(false);
 		}
-		
+
 	}
 
 	/**
@@ -66,7 +85,13 @@ public class TransferChoseFrame {
 		frameTransferChose.setBounds(360, 150, 1095, 750);
 		frameTransferChose.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frameTransferChose.getContentPane().setLayout(null);
-
+		
+		countdownLabel = new JLabel("");
+		countdownLabel.setForeground(Color.RED);
+		countdownLabel.setFont(new Font("黑体", Font.BOLD, 40));
+		countdownLabel.setBounds(1020, 61, 55, 53);
+		frameTransferChose.getContentPane().add(countdownLabel);
+		
 		button = new ATMButton("<html><center>建行转建行<br>Transfer</center></html>");
 		button.addActionListener(new ToTransfer());
 		button.setBounds(14, 330, 200, 80);
@@ -99,6 +124,9 @@ public class TransferChoseFrame {
 			} else {
 				transferFrame.isCross = false;
 			}
+			// 停止当前倒计时
+			stopCountdown();
+			transferFrame.startCountdown();
 			transferFrame.getFrameTransfer().setVisible(true);
 			frameTransferChose.dispose();
 		}
@@ -108,6 +136,12 @@ public class TransferChoseFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			MainFrame.frameMain.setVisible(true);
+
+			// 开始主界面倒计时
+			MainFrame.startCountdown();
+			// 停止当前倒计时
+			stopCountdown();
+			
 			frameTransferChose.dispose();
 		}
 	}

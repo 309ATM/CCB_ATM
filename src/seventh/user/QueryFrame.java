@@ -23,13 +23,25 @@ public class QueryFrame {
 
 	private JFrame frameQuery;
 	private JLabel label;
-	//private String File = "E:\\Code\\java\\CCB_ATM";
+	// private String File = "E:\\Code\\java\\CCB_ATM";
 	private String File = ".";
-	
-	
+
 	// 声明线程变量
 	private JLabel countdownLabel;
 	private CountdownThread time;
+
+	// 开始倒计时
+	public void startCountdown() {
+		time = new CountdownThread();
+		time.setCom(frameQuery, countdownLabel);
+		time.start();
+	}
+
+	// 停止倒计时
+	public void stopCountdown() {
+		time.stopThread();
+		time = null;
+	}
 
 	/**
 	 * Launch the application.
@@ -46,10 +58,11 @@ public class QueryFrame {
 			}
 		});
 	}
-	
+
 	public JFrame getFrameQuery() {
 		return frameQuery;
 	}
+
 	/**
 	 * Create the application.
 	 */
@@ -74,7 +87,7 @@ public class QueryFrame {
 		button_1.setBounds(875, 550, 200, 80);
 		frameQuery.getContentPane().add(button_1);
 		
-		countdownLabel = new JLabel("60");
+		countdownLabel = new JLabel("");
 		countdownLabel.setForeground(Color.RED);
 		countdownLabel.setFont(new Font("黑体", Font.BOLD, 40));
 		countdownLabel.setBounds(1020, 61, 55, 53);
@@ -96,42 +109,32 @@ public class QueryFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			MainFrame.frameMain.setVisible(true);
+			
+			// 开始主界面倒计时
+			MainFrame.startCountdown();
+			// 停止当前倒计时
+			stopCountdown();
+			
 			frameQuery.dispose();
 		}
 	}
 
 	public void showMessage() {
-		float balance= BlankAccout.getInstance().getBalance();
+		float balance = BlankAccout.getInstance().getBalance();
 		float overdraft = BlankAccout.getInstance().getOverdraft();
 		float withdrawalsLimit = BlankAccout.getInstance().getWithdrawalsLimit();
-		float depositLimit = BlankAccout.getInstance().getDepositLimit(); 
-		float transferLimit = BlankAccout.getInstance().getTransferLimit(); 
-		
-		
-		String messages = "<html>您的余额为：{0}元<br>"
-				+ "您的透支额度为：{1}元<br>"
-				+ "您今日存款限额还剩：{2}元<br>"
-				+ "您今日取款限额还剩：{3}元<br>"
-				+ "您今日转账限额还剩：{4}元";//显示信息还要修改
-		messages = messages.replace("{0}", String.valueOf(balance));//message[0-3]换成上面的money等
+		float depositLimit = BlankAccout.getInstance().getDepositLimit();
+		float transferLimit = BlankAccout.getInstance().getTransferLimit();
+
+		String messages = "<html>您的余额为：{0}元<br>" + "您的透支额度为：{1}元<br>" + "您今日存款限额还剩：{2}元<br>" + "您今日取款限额还剩：{3}元<br>"
+				+ "您今日转账限额还剩：{4}元";// 显示信息还要修改
+		messages = messages.replace("{0}", String.valueOf(balance));// message[0-3]换成上面的money等
 		messages = messages.replace("{1}", String.valueOf(overdraft));
 		messages = messages.replace("{2}", String.valueOf(depositLimit));
 		messages = messages.replace("{3}", String.valueOf(withdrawalsLimit));
 		messages = messages.replace("{4}", String.valueOf(transferLimit));
-		
+
 		label.setText(messages);
 	}
-	
-	// 开始倒计时
-	public void startCountdown() {
-		time = new CountdownThread();
-		time.setCom(frameQuery, countdownLabel);
-		time.start();
-	}
-	
-	// 停止倒计时
-	public void stopCountdown() {
-		time.stopThread();
-		time = null;
-	}
+
 }
