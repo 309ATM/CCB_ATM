@@ -770,7 +770,7 @@ public class AdminUI {
 				String[] info = new String[7];// 获取用户信息
 				String[] info_Data = { "张三", "信用卡", "男", "正常", "440823199602133837", "13724867853", "广东省广州市海珠区仑头路21号" };
 				info = info_Data;
-				jSM.addComponentData(info);
+				jSM.StatusOpera(info);
 				// 选择销户操作，输入验证密码
 				if (jSM.showJSM()) {
 					Long[] result = showPasswordDialog("请输入密码:");
@@ -813,7 +813,7 @@ public class AdminUI {
 					String[] info = BlankAccout.getInstance().getUserDao().getUserInformation(idCard);
 					// 显示用户信息
 					JShowInfo jSM = new JShowInfo();
-					jSM.addComponentData2(info);
+					jSM.QueryUserInfo(info);
 					jSM.showJSM();
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(null, "用户不存在", "提示", JOptionPane.INFORMATION_MESSAGE);
@@ -833,7 +833,7 @@ public class AdminUI {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// 获取输入的身份证号
-			String idCard = textField_queryInfo.getText();// 440981199611046654
+			String idCard = textField_changeInfo.getText();// 440981199611046654
 			if (!idCard.isEmpty()) {// 输入不为空
 				// 判断身份证号是否存在
 				try {
@@ -841,15 +841,24 @@ public class AdminUI {
 					String[] info = BlankAccout.getInstance().getUserDao().getUserInformation(idCard);
 					// 显示用户信息
 					JShowInfo jSM = new JShowInfo();
-					jSM.changeInfo(info);
+					jSM.ChangeUserInfo(info);
 					//用户修改信息，按下确定键
 					if(jSM.showJSM()){
 						//对输入信息的合法性作判断
-						//提醒输入密码
+						jSM.ConfirmChange();
+						//TODO 提醒输入密码，用户没有密码，可以使用短信动态密码验证
 						//调用数据库修改信息的方法，将新的数据写入数据库
+						try{
+							String[] info2 = jSM.info;
+							info2[0] = info[2];
+							BlankAccout.getInstance().getUserDao().updateUserInformation(info2);
+							JOptionPane.showMessageDialog(null, "修改成功", "提示", JOptionPane.INFORMATION_MESSAGE);
+						}catch (Exception e1) {
+							JOptionPane.showMessageDialog(null, "修改失败", "提示", JOptionPane.ERROR_MESSAGE);
+						}
 					}
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, "用户不存在", "提示", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "用户不存在", "提示", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		}
@@ -876,7 +885,7 @@ public class AdminUI {
 					// "广东省广州市海珠区仑头路21号" };
 					// info = info_Data;
 					info = BlankAccout.getInstance().getConnectTable().getUserMessage(card);
-					jSM.addComponentData(info);
+					jSM.StatusOpera(info);
 					if (jSM.showJSM()) { // 选择解挂操作，输入验证密码
 						Long[] result = showPasswordDialog("请输入密码:");
 						// 调用数据库方法，判断卡号是否对应密码
@@ -905,7 +914,7 @@ public class AdminUI {
 					// "广东省广州市海珠区仑头路21号" };
 					// info = info_Data;
 					info = BlankAccout.getInstance().getConnectTable().getUserMessage(card);
-					jSM.addComponentData(info);
+					jSM.StatusOpera(info);
 					if (jSM.showJSM()) { // 选择挂失操作，输入验证密码
 						Long[] result = showPasswordDialog("请输入密码:");
 						// 调用数据库方法，判断卡号是否对应密码
@@ -958,7 +967,7 @@ public class AdminUI {
 					// "广东省广州市海珠区仑头路21号" };
 					// info = info_Data;
 					info = BlankAccout.getInstance().getConnectTable().getUserMessage(card);
-					jSM.addComponentData(info);
+					jSM.StatusOpera(info);
 					if (jSM.showJSM()) { // 选择解冻操作，输入验证密码
 						Long[] result = showPasswordDialog("请输入密码:");
 						// 调用数据库方法，判断卡号是否对应密码
@@ -986,7 +995,7 @@ public class AdminUI {
 					// "广东省广州市海珠区仑头路21号" };
 					// info = info_Data;
 					info = BlankAccout.getInstance().getConnectTable().getUserMessage(card);
-					jSM.addComponentData(info);
+					jSM.StatusOpera(info);
 					if (jSM.showJSM()) { // 选择冻结操作，输入验证密码
 						Long[] result = showPasswordDialog("请输入密码:");
 						// 调用数据库方法，判断卡号是否对应密码
