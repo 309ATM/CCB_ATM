@@ -233,6 +233,48 @@ public final class JShowInfo extends JDialog {
 	}
 	
 	/**
+	 * 添加组件数据2
+	 */
+	public void addComponentData2(String[] info){
+		text_name.setText(info[0]);
+		text_sex.setText(info[1]);
+		text_idcard.setText(info[2]);
+		text_phone.setText(info[3]);
+		text_address_1.setText(info[4]);
+		
+		label_type.setVisible(false);
+		label_Status.setVisible(false);
+		
+		text_status.setVisible(false);
+		text_type.setVisible(false);
+	}
+	
+	/**
+	 * 用户修改信息
+	 */
+	public void changeInfo(String[] info){
+		text_name.setText(info[0]);
+		text_sex.setText(info[1]);
+		text_idcard.setText(info[2]);
+		text_phone.setText(info[3]);
+		text_address_1.setText(info[4]);
+		
+		label_type.setVisible(false);
+		label_Status.setVisible(false);
+		
+		text_status.setVisible(false);
+		text_type.setVisible(false);
+		
+		text_name.setEditable(true);
+		text_sex.setEditable(true);
+		text_idcard.setEditable(true);
+		text_phone.setEditable(true);
+		text_address_1.setEditable(true);
+		
+		
+	}
+	
+	/**
 	 * 添加监听
 	 */
 	private void addListener() {
