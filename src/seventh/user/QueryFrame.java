@@ -1,5 +1,6 @@
 package seventh.user;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -12,8 +13,7 @@ import javax.swing.JLabel;
 
 import seventh.accout.BlankAccout;
 import seventh.until.ATMButton;
-
-import java.awt.Color;
+import seventh.until.CountdownThread;
 
 /**
  * 查询余额
@@ -25,6 +25,11 @@ public class QueryFrame {
 	private JLabel label;
 	//private String File = "E:\\Code\\java\\CCB_ATM";
 	private String File = ".";
+	
+	
+	// 声明线程变量
+	private JLabel countdownLabel;
+	private CountdownThread time;
 
 	/**
 	 * Launch the application.
@@ -68,6 +73,12 @@ public class QueryFrame {
 		button_1.addActionListener(new Back());
 		button_1.setBounds(875, 550, 200, 80);
 		frameQuery.getContentPane().add(button_1);
+		
+		countdownLabel = new JLabel("60");
+		countdownLabel.setForeground(Color.RED);
+		countdownLabel.setFont(new Font("黑体", Font.BOLD, 40));
+		countdownLabel.setBounds(1020, 61, 55, 53);
+		frameQuery.getContentPane().add(countdownLabel);
 
 		label = new JLabel("您的余额信息：");
 		label.setForeground(Color.WHITE);
@@ -111,5 +122,16 @@ public class QueryFrame {
 		label.setText(messages);
 	}
 	
+	// 开始倒计时
+	public void startCountdown() {
+		time = new CountdownThread();
+		time.setCom(frameQuery, countdownLabel);
+		time.start();
+	}
 	
+	// 停止倒计时
+	public void stopCountdown() {
+		time.stopThread();
+		time = null;
+	}
 }

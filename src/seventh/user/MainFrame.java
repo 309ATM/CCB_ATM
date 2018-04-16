@@ -151,6 +151,7 @@ public class MainFrame {
 		public void actionPerformed(ActionEvent e) {
 			queryFrame.getFrameQuery().setVisible(true);
 			queryFrame.showMessage();
+			queryFrame.startCountdown();
 			frameMain.setVisible(false);
 		}
 	}
