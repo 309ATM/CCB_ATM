@@ -235,7 +235,7 @@ public class AccountDAO extends DAO<Account>{
 	 * @param card
 	 * @param newPasswd
 	 * @param oldPasswd
-	 * @return
+	 * @return true
 	 */
 	public boolean updatePasswd(long card,long newPasswd,long oldPasswd){
 		String sql = "update account set passwd = ? where cardnum = ? and passwd = ?";
