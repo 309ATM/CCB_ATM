@@ -1,6 +1,7 @@
 package seventh.user;
 
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +13,7 @@ import javax.swing.UIManager;
 
 import seventh.accout.BlankAccout;
 import seventh.until.ATMButton;
+import seventh.until.CountdownThread;
 
 import java.awt.Color;
 
@@ -23,15 +25,33 @@ public class MainFrame {
 
 	public static String card;
 	public static JFrame frameMain;
+
 	private TakeChoseFrame takeChoseFrame = new TakeChoseFrame();
 	private SaveFrame saveFrame = new SaveFrame();
 	private TransferChoseFrame transferChoseFrame = new TransferChoseFrame();
 	private QueryFrame queryFrame = new QueryFrame();
 	private HistoryFrame historyFrame = new HistoryFrame();
 	private String File = "E:\\Code\\java\\CCB_ATM";
-//	private String File = ".";
+	// private String File = ".";
 	private ATMButton btnQu;
 	private ATMButton btnZhuan;
+
+	// 声明线程变量
+	private static JLabel countdownLabel;
+	private static CountdownThread time;
+
+	// 开始倒计时
+	public static void startCountdown() {
+		time = new CountdownThread();
+		time.setCom(frameMain, countdownLabel);
+		time.start();
+	}
+
+	// 停止倒计时
+	public static void stopCountdown() {
+		time.stopThread();
+		time = null;
+	}
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -48,6 +68,10 @@ public class MainFrame {
 		});
 	}
 
+	public static JFrame getFrameMain() {
+		return frameMain;
+	}
+
 	public MainFrame() {
 		initialize();
 		takeChoseFrame.getFrameChose().setVisible(false);
@@ -60,8 +84,7 @@ public class MainFrame {
 	private void initialize() {
 		frameMain = new JFrame();
 		frameMain.setTitle("\u5EFA\u8BBE\u94F6\u884CATM");
-		frameMain.setIconImage(
-				Toolkit.getDefaultToolkit().getImage(File + "\\img\\CCB.png"));
+		frameMain.setIconImage(Toolkit.getDefaultToolkit().getImage(File + "\\img\\CCB.png"));
 		frameMain.setResizable(false);
 		frameMain.setBounds(360, 150, 1095, 750);
 		frameMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -102,27 +125,34 @@ public class MainFrame {
 		lblBg.setIcon(new ImageIcon(File + "\\img\\ATM_bg.png"));
 		lblBg.setBounds(3, 0, 1086, 715);
 		frameMain.getContentPane().add(lblBg);
-		
+
+		countdownLabel = new JLabel("60");
+		countdownLabel.setForeground(Color.RED);
+		countdownLabel.setFont(new Font("黑体", Font.BOLD, 40));
+		countdownLabel.setBounds(1020, 61, 55, 53);
+		frameMain.getContentPane().add(countdownLabel);
+
 		cardLock();
 	}
 
 	public void cardLock() {
-		//这部分我写
 		String status = BlankAccout.getInstance().getStatus();
-		if(status.equals("冻结")) {
-			//调用MainFrame的方法，隐藏部分控件，实现功能消除
+		if (status.equals("冻结")) {
+			// 调用MainFrame的方法，隐藏部分控件，实现功能消除
 			btnQu.setVisible(false);
 			btnZhuan.setVisible(false);
-			//label提示账户已冻结
+			// label提示账户已冻结
 		}
-		
+
 	}
-	
-	
+
 	class ToTake implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			takeChoseFrame.getFrameChose().setVisible(true);
+			// 开始倒计时，停止当前窗口倒计时
+			takeChoseFrame.startCountdown();
+			stopCountdown();
 			frameMain.setVisible(false);
 
 		}
@@ -132,6 +162,9 @@ public class MainFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			saveFrame.getFrameSave().setVisible(true);
+			// 开始倒计时，停止当前窗口倒计时
+			saveFrame.startCountdown();
+			stopCountdown();
 			frameMain.setVisible(false);
 
 		}
@@ -141,6 +174,9 @@ public class MainFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			transferChoseFrame.getFrameTransferChose().setVisible(true);
+			// 开始倒计时，停止当前窗口倒计时
+			transferChoseFrame.startCountdown();
+			stopCountdown();
 			frameMain.dispose();
 
 		}
@@ -151,7 +187,9 @@ public class MainFrame {
 		public void actionPerformed(ActionEvent e) {
 			queryFrame.getFrameQuery().setVisible(true);
 			queryFrame.showMessage();
+			// 开始倒计时，停止当前窗口倒计时
 			queryFrame.startCountdown();
+			stopCountdown();
 			frameMain.setVisible(false);
 		}
 	}
@@ -159,6 +197,7 @@ public class MainFrame {
 	class Exit implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			stopCountdown();
 			UsersLogin.main(null);
 			frameMain.dispose();
 		}
@@ -168,6 +207,9 @@ public class MainFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			historyFrame.getFrameHistory().setVisible(true);
+			// 开始倒计时，停止当前窗口倒计时
+			historyFrame.startCountdown();
+			stopCountdown();
 			frameMain.setVisible(false);
 		}
 	}

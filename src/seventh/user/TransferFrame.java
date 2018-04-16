@@ -13,6 +13,8 @@ import javax.swing.JTextField;
 
 import seventh.accout.BlankAccout;
 import seventh.until.ATMButton;
+import seventh.until.CountdownThread;
+
 import java.awt.Color;
 import javax.swing.SwingConstants;
 
@@ -35,6 +37,23 @@ public class TransferFrame {
 	private ATMButton btn_transfer;
 	private JLabel label_message;
 	private MessageFrame messageFrame = new MessageFrame();
+
+	// 声明线程变量
+	private JLabel countdownLabel;
+	private CountdownThread time;
+
+	// 开始倒计时
+	public void startCountdown() {
+		time = new CountdownThread();
+		time.setCom(frameTransfer, countdownLabel);
+		time.start();
+	}
+
+	// 停止倒计时
+	public void stopCountdown() {
+		time.stopThread();
+		time = null;
+	}
 
 	/**
 	 * Launch the application.
@@ -75,6 +94,13 @@ public class TransferFrame {
 		frameTransfer.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frameTransfer.getContentPane().setLayout(null);
 
+		countdownLabel = new JLabel("");
+		countdownLabel.setForeground(Color.RED);
+		countdownLabel.setFont(new Font("黑体", Font.BOLD, 40));
+		countdownLabel.setBounds(1020, 61, 55, 53);
+		frameTransfer.getContentPane().add(countdownLabel);
+
+		
 		ATMButton btn_exit = new ATMButton("<html><center>退出<br>Confirm</center></html>");
 		btn_exit.setForeground(new Color(255, 0, 0));
 		btn_exit.addActionListener(new Back());
@@ -229,6 +255,10 @@ public class TransferFrame {
 						message[4] = String.valueOf(money * 0.1);
 						message[2] = Float.toString(BlankAccout.getInstance().getBalance());// 账户余额
 						message[3] = Long.toString(BlankAccout.getInstance().getTargetCard());// 目标账号
+
+						// 停止当前倒计时
+						stopCountdown();
+						messageFrame.startCountdown();
 						messageFrame.getFrameMessage().setVisible(true);
 						messageFrame.showMessage(message);
 						frameTransfer.dispose();
@@ -282,6 +312,11 @@ public class TransferFrame {
 						message[1] = moneys; // 转账金额
 						message[2] = Float.toString(BlankAccout.getInstance().getBalance());// 账户余额
 						message[3] = Long.toString(BlankAccout.getInstance().getTargetCard());// 目标账号
+
+						// 停止当前倒计时
+						stopCountdown();
+						messageFrame.startCountdown();
+						
 						messageFrame.getFrameMessage().setVisible(true);
 						messageFrame.showMessage(message);
 						frameTransfer.dispose();
@@ -323,6 +358,12 @@ public class TransferFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			MainFrame.frameMain.setVisible(true);
+
+			// 开始主界面倒计时
+			MainFrame.startCountdown();
+			// 停止当前倒计时
+			stopCountdown();
+			
 			frameTransfer.dispose();
 			label_message.setText("");
 			label_tip.setText("请输入转入账号，无误后继续");

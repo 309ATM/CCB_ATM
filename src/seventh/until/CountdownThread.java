@@ -22,6 +22,8 @@ public class CountdownThread extends Thread {
 	private int time = 60;
 
 	public void run() {
+		// 清空上次倒计时的显示数字
+		label.setText("");
 		runFlag = true;
 		while (runFlag) {
 			try {

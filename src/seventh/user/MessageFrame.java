@@ -1,6 +1,7 @@
 package seventh.user;
 
 import seventh.until.ATMButton;
+import seventh.until.CountdownThread;
 
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -23,6 +24,23 @@ public class MessageFrame {
 
 	private String File = "E:\\Code\\java\\CCB_ATM";
 	// private String File = ".";
+
+	// 声明线程变量
+	private JLabel countdownLabel;
+	private CountdownThread time;
+
+	// 开始倒计时
+	public void startCountdown() {
+		time = new CountdownThread();
+		time.setCom(frameMessage, countdownLabel);
+		time.start();
+	}
+
+	// 停止倒计时
+	public void stopCountdown() {
+		time.stopThread();
+		time = null;
+	}
 
 	/**
 	 * Launch the application.
@@ -91,6 +109,12 @@ public class MessageFrame {
 		frameMessage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frameMessage.getContentPane().setLayout(null);
 
+		countdownLabel = new JLabel("");
+		countdownLabel.setForeground(Color.RED);
+		countdownLabel.setFont(new Font("黑体", Font.BOLD, 40));
+		countdownLabel.setBounds(1020, 61, 55, 53);
+		frameMessage.getContentPane().add(countdownLabel);
+
 		label_message = new JLabel();
 		label_message.setForeground(new Color(255, 255, 255));
 		label_message.setFont(new Font("幼圆", Font.BOLD, 24));
@@ -124,15 +148,28 @@ public class MessageFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (message[0].equals("取款") || message[0].equals("透支取款")) {
-				TakeChoseFrame.main(null);
+//				TakeChoseFrame.main(null);
+				// 停止当前倒计时，开启下一个的倒计时
+				stopCountdown();
+				TakeChoseFrame takeChoseFrame = new TakeChoseFrame();
+				takeChoseFrame.getFrameChose().setVisible(true);
+				takeChoseFrame.startCountdown();
 				frameMessage.setVisible(false);
 			}
 			if (message[0].equals("存款")) {
-				SaveFrame.main(null);
+//				SaveFrame.main(null);
+				stopCountdown();
+				SaveFrame saveFrame = new SaveFrame();
+				saveFrame.getFrameSave().setVisible(true);
+				saveFrame.startCountdown();
 				frameMessage.setVisible(false);
 			}
-			if (message[0].equals("转账")) {
-				TransferChoseFrame.main(null);
+			if (message[0].equals("转账") || message[0].equals("跨行转账")) {
+//				TransferChoseFrame.main(null);
+				stopCountdown();
+				TransferChoseFrame transferChoseFrame = new TransferChoseFrame();
+				transferChoseFrame.getFrameTransferChose().setVisible(true);
+				transferChoseFrame.startCountdown();
 				frameMessage.setVisible(false);
 			}
 		}
@@ -146,6 +183,10 @@ public class MessageFrame {
 			MainFrame.frameMain.setVisible(true);
 			frameMessage.setVisible(false);
 			label_message.setText("");
+			// 开始主界面倒计时
+			MainFrame.startCountdown();
+			// 停止当前倒计时
+			stopCountdown();
 		}
 	}
 

@@ -20,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 
 import seventh.accout.BlankAccout;
 import seventh.until.ATMButton;
+import seventh.until.CountdownThread;
 
 import java.awt.Font;
 import java.awt.Color;
@@ -40,6 +41,23 @@ public class HistoryFrame {
 	private JTable table;
 	private String File = "E:\\Code\\java\\CCB_ATM";
 	// private String File = ".";
+
+	// 声明线程变量
+	private JLabel countdownLabel;
+	private CountdownThread time;
+
+	// 开始倒计时
+	public void startCountdown() {
+		time = new CountdownThread();
+		time.setCom(frameHistory, countdownLabel);
+		time.start();
+	}
+
+	// 停止倒计时
+	public void stopCountdown() {
+		time.stopThread();
+		time = null;
+	}
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -72,6 +90,12 @@ public class HistoryFrame {
 		frameHistory.setBounds(360, 150, 1095, 750);
 		frameHistory.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frameHistory.getContentPane().setLayout(null);
+
+		countdownLabel = new JLabel("");
+		countdownLabel.setForeground(Color.RED);
+		countdownLabel.setFont(new Font("黑体", Font.BOLD, 40));
+		countdownLabel.setBounds(1020, 61, 55, 53);
+		frameHistory.getContentPane().add(countdownLabel);
 
 		ATMButton button_1 = new ATMButton("<html>退出<br>Exit</html>");
 		button_1.setForeground(Color.RED);
@@ -107,7 +131,7 @@ public class HistoryFrame {
 		table.setRowHeight(50); // 设置行高
 		table.getTableHeader().setFont(new Font("幼圆", Font.BOLD, 18)); // 设置表头字体
 		table.setFont(new Font("幼圆", Font.BOLD, 18)); // 设置表格字体
-		
+
 		table.setRowMargin(5);// 设置相邻两行单元格的距离
 		table.setRowSelectionAllowed(true);// 设置可否被选择.默认为false
 		table.setSelectionBackground(Color.white);// 设置所选择行的背景色
@@ -206,6 +230,12 @@ public class HistoryFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			MainFrame.frameMain.setVisible(true);
+
+			// 开始主界面倒计时
+			MainFrame.startCountdown();
+			// 停止当前倒计时
+			stopCountdown();
+			
 			frameHistory.dispose();
 
 		}

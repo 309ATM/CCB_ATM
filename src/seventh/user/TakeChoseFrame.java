@@ -2,6 +2,7 @@ package seventh.user;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.UIManager;
 
 import seventh.until.ATMButton;
+import seventh.until.CountdownThread;
 
 /**
  * 取款选择
@@ -24,6 +26,10 @@ public class TakeChoseFrame {
 	// private String File = "E:\\Code\\java\\CCB_ATM";
 	private String File = ".";
 
+	// 声明线程变量
+	private JLabel countdownLabel;
+	private CountdownThread time;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -82,10 +88,17 @@ public class TakeChoseFrame {
 		button_2.setBounds(915, 550, 160, 70);
 		frameChose.getContentPane().add(button_2);
 
+		countdownLabel = new JLabel("");
+		countdownLabel.setForeground(Color.RED);
+		countdownLabel.setFont(new Font("黑体", Font.BOLD, 40));
+		countdownLabel.setBounds(1020, 61, 55, 53);
+		frameChose.getContentPane().add(countdownLabel);
+		
 		JLabel lblBg = new JLabel("");
 		lblBg.setIcon(new ImageIcon(File + "\\img\\ATM_bg.png"));
 		lblBg.setBounds(3, 0, 1086, 715);
 		frameChose.getContentPane().add(lblBg);
+		
 	}
 
 	class ToTake implements ActionListener {
@@ -98,6 +111,9 @@ public class TakeChoseFrame {
 				takeFrame.isOverdeaft = false;
 			}
 			takeFrame.getFrameTake().setVisible(true);
+			// 停止当前倒计时
+			stopCountdown();
+			takeFrame.startCountdown();
 			frameChose.dispose();
 		}
 	}
@@ -106,7 +122,24 @@ public class TakeChoseFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			MainFrame.frameMain.setVisible(true);
+			//开始主界面倒计时
+			MainFrame.startCountdown();
+			// 停止当前倒计时
+			stopCountdown();
 			frameChose.dispose();
 		}
 	}
+	
+	// 开始倒计时
+		public void startCountdown() {
+			time = new CountdownThread();
+			time.setCom(frameChose, countdownLabel);
+			time.start();
+		}
+		
+		// 停止倒计时
+		public void stopCountdown() {
+			time.stopThread();
+			time = null;
+		}
 }
