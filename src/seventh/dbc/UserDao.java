@@ -14,9 +14,9 @@ public class UserDao extends DAO<User>{
 	/**
 	 * 修改用户信息
 	 */
-	public void updateUserInformation(String name,String sex,String idCard,String phone,String address) {
-		String sql = "update users set name=?,sex=?,phone=?,address=? where idCard=?";
-		update(sql, name,sex,phone,address,idCard);
+	public void updateUserInformation(String[] info) {
+		String sql = "update users set name=?,sex=?,idCard=?,phone=?,address=? where idCard=?";
+		update(sql, info[1],info[2],info[3],info[4],info[5],info[0]);
 	}
 	
 	/**
