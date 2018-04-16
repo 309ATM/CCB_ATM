@@ -44,6 +44,10 @@ import org.junit.Test;
  * @author Admin
  *
  */
+/**
+ * @author Admin
+ *
+ */
 @SuppressWarnings("rawtypes")
 public class AdminUI {
 
@@ -269,7 +273,7 @@ public class AdminUI {
 		tabbedPane_Acc.addTab("查询信息", null, panel_queryInfo, null);
 		panel_queryInfo.setLayout(null);
 
-		JLabel lblTips1 = new JLabel("请输入卡号");
+		JLabel lblTips1 = new JLabel("请输入身份证号");
 		lblTips1.setFont(new Font("幼圆", Font.PLAIN, 18));
 		lblTips1.setBounds(45, 13, 171, 43);
 		panel_queryInfo.add(lblTips1);
@@ -284,6 +288,7 @@ public class AdminUI {
 		panel_queryInfo.add(textField_queryInfo);
 
 		JButton btn_query = new JButton("\u786E\u8BA4");
+		btn_query.addActionListener(new queryUserInfo());
 		btn_query.setFont(new Font("幼圆", Font.PLAIN, 18));
 		btn_query.setBounds(458, 258, 69, 29);
 		panel_queryInfo.add(btn_query);
@@ -299,7 +304,7 @@ public class AdminUI {
 		panel_OpenAcc.setLayout(null);
 		panel_changeInfo.setLayout(null);
 
-		JLabel lblTips2 = new JLabel("请输入卡号");
+		JLabel lblTips2 = new JLabel("请输入身份证号");
 		lblTips2.setFont(new Font("幼圆", Font.PLAIN, 18));
 		lblTips2.setBounds(45, 13, 171, 43);
 		panel_changeInfo.add(lblTips2);
@@ -314,6 +319,7 @@ public class AdminUI {
 		panel_changeInfo.add(textField_changeInfo);
 
 		JButton btn_change = new JButton("确认");
+		btn_change.addActionListener(new changeUserInfo());
 		btn_change.setFont(new Font("幼圆", Font.PLAIN, 18));
 		btn_change.setBounds(458, 258, 69, 29);
 		panel_changeInfo.add(btn_change);
@@ -742,8 +748,8 @@ public class AdminUI {
 					} else {
 						// TODO 显示客户信息，让客户确认是否要销户
 						accountCancellation(cardNum);
-					} 
-				}else {
+					}
+				} else {
 					JOptionPane.showMessageDialog(null, "该卡不属于建设银行", "错误", JOptionPane.ERROR_MESSAGE);
 				}
 			} else {
@@ -751,19 +757,18 @@ public class AdminUI {
 			}
 
 		}
-		
-		/** 
+
+		/**
 		 * 对输入的银行卡进行检查和销户操作
+		 * 
 		 * @param cardNum
 		 */
 		private void accountCancellation(long cardNum) {
 			if (BlankAccout.getInstance().getAccountDAO().getCardStatu(cardNum).equals("正常")) {
 				JShowInfo jSM = new JShowInfo();
 				jSM.setBtnText("销户");
-				//TODO 获取用户信息
 				String[] info = new String[7];// 获取用户信息
-				String[] info_Data = { "张三", "信用卡", "男", "正常", "440823199602133837", "13724867853",
-						"广东省广州市海珠区仑头路21号" };
+				String[] info_Data = { "张三", "信用卡", "男", "正常", "440823199602133837", "13724867853", "广东省广州市海珠区仑头路21号" };
 				info = info_Data;
 				jSM.addComponentData(info);
 				// 选择销户操作，输入验证密码
@@ -773,19 +778,79 @@ public class AdminUI {
 					if (result[0] == 0) {
 						if (BlankAccout.getInstance().getAccountDAO().checkPawd(cardNum, result[1])) {
 							// 调用数据库方法设置账户状态为销户
-							JOptionPane.showMessageDialog(null, "销户成功", "提示",
-									JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(null, "销户成功", "提示", JOptionPane.INFORMATION_MESSAGE);
 							BlankAccout.getInstance().getAccountDAO().updateStatus(cardNum, "销户");
 							// 清空卡号输入框
 							textField_delAccount.setText("");
 						} else {
-							JOptionPane.showMessageDialog(null, "密码错误", "错误",
-									JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, "密码错误", "错误", JOptionPane.ERROR_MESSAGE);
 						}
 					}
 				}
-			}else {
+			} else {
 				JOptionPane.showMessageDialog(null, "您的卡状态不正常，拒绝销户", "拒绝", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+
+	}
+
+	/**
+	 * 查询用户信息功能 的按钮事件监听器
+	 * 
+	 * @author Jachin
+	 *
+	 */
+	class queryUserInfo implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// 获取输入的身份证号
+			String idCard = textField_queryInfo.getText();// 440981199611046654
+			if (!idCard.isEmpty()) {// 输入不为空
+				// 判断身份证号是否存在
+				try {
+					// 调用数据库方法，根据身份证查询用户信息
+					String[] info = BlankAccout.getInstance().getUserDao().getUserInformation(idCard);
+					// 显示用户信息
+					JShowInfo jSM = new JShowInfo();
+					jSM.addComponentData2(info);
+					jSM.showJSM();
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "用户不存在", "提示", JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+
+		}
+
+	}
+
+	/** 用户修改信息功能按钮事件监听器
+	 * @author Jachin
+	 *
+	 */
+	class changeUserInfo implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// 获取输入的身份证号
+			String idCard = textField_queryInfo.getText();// 440981199611046654
+			if (!idCard.isEmpty()) {// 输入不为空
+				// 判断身份证号是否存在
+				try {
+					// 调用数据库方法，根据身份证查询用户信息
+					String[] info = BlankAccout.getInstance().getUserDao().getUserInformation(idCard);
+					// 显示用户信息
+					JShowInfo jSM = new JShowInfo();
+					jSM.changeInfo(info);
+					//用户修改信息，按下确定键
+					if(jSM.showJSM()){
+						//对输入信息的合法性作判断
+						//提醒输入密码
+						//调用数据库修改信息的方法，将新的数据写入数据库
+					}
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "用户不存在", "提示", JOptionPane.INFORMATION_MESSAGE);
+				}
 			}
 		}
 
@@ -984,6 +1049,124 @@ public class AdminUI {
 	}
 
 	/**
+	 * 用户修改密码监听器
+	 * 
+	 * @author SAM
+	 *
+	 */
+	class changeUserPasswd implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String card = textField_chaUserPass.getText().trim();
+			Long cardNum = 0L;
+			boolean flagF = true;
+			try {
+				cardNum = Long.parseLong(card);
+			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(null, "请输入正确账号", "确认", JOptionPane.ERROR_MESSAGE);
+				flagF = false;
+			}
+			// 判断卡号是否存在
+			if (flagF) {
+				Boolean flag = BlankAccout.getInstance().getAccountDAO().getCardExit(cardNum);
+				if (flag) {
+					// 用户输入旧密码
+					Long[] result = showPasswordDialog("请输入旧密码:");
+					if (result[0] == 0) {
+						// 数据库对比密码
+						long OldPasswd = result[1];
+						if (BlankAccout.getInstance().getAccountDAO().checkPawd(cardNum, OldPasswd)) {
+							// 用户输入新密码
+							Long[] result2 = showPasswordDialog("请输入新密码");
+							long NewPasswd = result2[1];
+							// 数据库修改密码
+							if (result2[0] == 0) {
+								// 确认新密码
+								Long[] result3 = showPasswordDialog("确认新密码");
+								if (result3[0] == 0) {
+									if (result3[1] == NewPasswd) {
+										BlankAccout.getInstance().getAccountDAO().updatePasswd(cardNum, OldPasswd,
+												NewPasswd);
+										JOptionPane.showMessageDialog(null, "密码修改成功", "确认",
+												JOptionPane.INFORMATION_MESSAGE);
+									} else {
+										JOptionPane.showMessageDialog(null, "两次输入密码不一致", "错误",
+												JOptionPane.ERROR_MESSAGE);
+									} // if6
+								} // else{}//if5
+
+							} // else{}//if4
+						} else {
+							JOptionPane.showMessageDialog(null, "密码错误", "错误", JOptionPane.ERROR_MESSAGE);
+						} // if3
+					} // else{}//if2
+				} else {
+					JOptionPane.showMessageDialog(null, "账号不存在", "错误", JOptionPane.ERROR_MESSAGE);
+				} // if1
+			}
+		}
+	}
+
+	/**
+	 * 管理员修改密码功能
+	 * 
+	 * @author SAM
+	 *
+	 */
+	class changeAdminPasswd implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String AccountId = "";
+			boolean flagF = true;
+			try {
+				AccountId = textField_chaAdminPass.getText().trim();
+			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(null, "请输入正确密码", "确认", JOptionPane.ERROR_MESSAGE);
+				flagF = false;
+			}
+			// 判断管理员账号是否存在
+			if (flagF) {
+				Boolean flag = BlankAccout.getInstance().getAdminDAO().getAccountExit(AccountId);
+				if (flag) {
+					// 用户输入旧密码
+					Long[] result = showPasswordDialog("请输入旧密码:");
+					if (result[0] == 0) {
+						// 数据库对比密码
+						String OldPasswd = String.valueOf(result[1]);
+						if (BlankAccout.getInstance().getAdminDAO().cheeckAdmin(AccountId, OldPasswd)) {
+							// 管理员输入新密码
+							Long[] result2 = showPasswordDialog("请输入新密码");
+							String NewPasswd = String.valueOf(result2[1]);
+							// 数据库修改密码
+							if (result2[0] == 0) {
+								// 确认新密码
+								Long[] result3 = showPasswordDialog("确认新密码");
+								String NewPasswdDemo = String.valueOf(result3[1]);
+								if (result3[0] == 0) {
+									if (NewPasswdDemo.equals(NewPasswd)) {
+										// 调用数据库方法修改管理员密码
+										BlankAccout.getInstance().getAdminDAO().updateAccountPasswd(AccountId,
+												OldPasswd, NewPasswd);
+										JOptionPane.showMessageDialog(null, "密码修改成功", "确认",
+												JOptionPane.INFORMATION_MESSAGE);
+									} else {
+										JOptionPane.showMessageDialog(null, "两次输入密码不一致", "错误",
+												JOptionPane.ERROR_MESSAGE);
+									} // if6
+								} // else{}//if5
+							} // else{}//if4
+						} else {
+							JOptionPane.showMessageDialog(null, "密码错误", "错误", JOptionPane.ERROR_MESSAGE);
+						} // if3
+					} // else{}//if2
+				} else {
+					JOptionPane.showMessageDialog(null, "账号不存在", "错误", JOptionPane.ERROR_MESSAGE);
+				} // if1
+			}
+		}
+	}
+
+	/**
 	 * 输入密码界面，密码显示为圆点
 	 * 
 	 * @return Long[] reslut,第一个是 判断用户是否按下取消(等于2)，第二个是用户输入的密码
@@ -1016,119 +1199,4 @@ public class AdminUI {
 
 		return messages;
 	}
-	
-	/**用户修改密码监听器
-	 * @author SAM
-	 *
-	 */
-	class changeUserPasswd implements ActionListener{
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			String card = textField_chaUserPass.getText().trim();
-			Long cardNum = 0L;
-			boolean flagF = true;
-			try{
-				cardNum= Long.parseLong(card);
-			}catch(Exception e1)
-			{
-				JOptionPane.showMessageDialog(null, "请输入正确账号", "确认",
-						JOptionPane.ERROR_MESSAGE);
-				flagF = false;
-			}
-			//判断卡号是否存在
-			if(flagF){
-			Boolean flag = BlankAccout.getInstance().getAccountDAO().getCardExit(cardNum);
-			if(flag){
-				//用户输入旧密码
-				Long[] result = showPasswordDialog("请输入旧密码:");
-				if(result[0] == 0){
-					//数据库对比密码
-					long OldPasswd = result[1];
-					if(BlankAccout.getInstance().getAccountDAO().checkPawd(cardNum, OldPasswd)){
-						//用户输入新密码
-						Long[] result2 = showPasswordDialog("请输入新密码");
-						long NewPasswd = result2[1];
-							//数据库修改密码
-							if(result2[0] == 0){
-								//确认新密码
-								Long[] result3 = showPasswordDialog("请重复输入新密码");
-								if(result3[0] == 0){
-									if(result3[1] == NewPasswd){
-										BlankAccout.getInstance().getAccountDAO().updatePasswd(cardNum, OldPasswd, NewPasswd);
-										JOptionPane.showMessageDialog(null, "密码修改成功", "确认",
-												JOptionPane.INFORMATION_MESSAGE);
-									}else{
-										JOptionPane.showMessageDialog(null, "新密码输入错误", "错误",
-												JOptionPane.ERROR_MESSAGE);
-									}//if6
-								}//else{}//if5
-								
-							}//else{}//if4
-					}else{
-						JOptionPane.showMessageDialog(null, "密码错误", "错误",
-								JOptionPane.ERROR_MESSAGE);
-					}//if3
-				}//else{}//if2
-			}else{
-				JOptionPane.showMessageDialog(null, "账号不存在", "错误",
-						JOptionPane.ERROR_MESSAGE);
-			}//if1
-		  }	
-		}
-	}
-	
-	class changeAdminPasswd implements ActionListener{
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			String AccountId = "";
-			boolean flagF = true;
-			try{
-				AccountId= textField_chaAdminPass.getText().trim();
-			}catch(Exception e1){
-				JOptionPane.showMessageDialog(null, "请输入正确密码", "确认",
-						JOptionPane.ERROR_MESSAGE);
-				flagF = false;
-			}
-			//判断管理员账号是否存在
-			if(flagF){
-			Boolean flag = BlankAccout.getInstance().getAdminDAO().getAccountExit(AccountId);
-			if(flag){
-				//用户输入旧密码
-				Long[] result = showPasswordDialog("请输入旧密码:");
-				if(result[0] == 0){
-					//数据库对比密码
-					String OldPasswd = String.valueOf(result[1]);
-					if(BlankAccout.getInstance().getAdminDAO().cheeckAdmin(AccountId, OldPasswd)){
-						//用户输入新密码
-						Long[] result2 = showPasswordDialog("请输入新密码");
-						String NewPasswd = String.valueOf(result2[1]);
-							//数据库修改密码
-							if(result2[0] == 0){
-								//确认新密码
-								Long[] result3 = showPasswordDialog("请重复输入新密码");
-								String NewPasswdDemo = String.valueOf(result3[1]);
-								if(result3[0] == 0){
-									if(NewPasswdDemo.equals(NewPasswd)){
-										BlankAccout.getInstance().getAdminDAO().updateAccountPasswd(AccountId, OldPasswd, NewPasswd);
-										JOptionPane.showMessageDialog(null, "密码修改成功", "确认",
-												JOptionPane.INFORMATION_MESSAGE);
-									}else{
-										JOptionPane.showMessageDialog(null, "新密码输入错误", "错误",
-												JOptionPane.ERROR_MESSAGE);
-									}//if6
-								}//else{}//if5
-							}//else{}//if4
-					}else{
-						JOptionPane.showMessageDialog(null, "密码错误", "错误",
-								JOptionPane.ERROR_MESSAGE);
-					}//if3
-				}//else{}//if2
-			}else{
-				JOptionPane.showMessageDialog(null, "账号不存在", "错误",
-						JOptionPane.ERROR_MESSAGE);
-			}//if1
-		   }
-		}
-	}
-	
 }
