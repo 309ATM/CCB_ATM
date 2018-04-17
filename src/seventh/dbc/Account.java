@@ -17,7 +17,7 @@ public class Account {
 
 	private float overdraft;
 	
-	private int loginTime;
+	private String loginTime;
 	
 	
 	public long getCardnum() {
@@ -81,11 +81,11 @@ public class Account {
 	}
 
 	
-	public int getLoginTime() {
+	public String getLoginTime() {
 		return loginTime;
 	}
 
-	public void setLoginTime(int loginTime) {
+	public void setLoginTime(String loginTime) {
 		this.loginTime = loginTime;
 	}
 
