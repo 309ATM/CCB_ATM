@@ -276,6 +276,7 @@ public class AccountDAO extends DAO<Account>{
 		try{
 			String sql = "update account set balance = balance-? where cardnum = ?";
 			update(sql,Money,card);
+			//return true;
 		}catch(Exception e){
 			System.out.println("出错");
 		}
@@ -294,5 +295,19 @@ public class AccountDAO extends DAO<Account>{
 	}
 	
 	
+	/**获取登录次数
+	 * @param CardNum
+	 * @return 次数
+	 */
+	public String getLoginTime(long CardNum){
+		String sql = "select logintime from account where cardnum = ?";
+		String n = getForValue(sql, CardNum);
+		return n;
+	}
+	
+	public void setLoginTime(long CardNum,String LoginTime){
+		String sql = "update account set logintime = ? whre cardnum = ?";
+		update(sql,LoginTime,CardNum);
+	}
 
 }
