@@ -744,9 +744,9 @@ public class AdminUI {
 						} else {
 							JOptionPane.showMessageDialog(null, "您有未还清的透支，请偿还之后再进行销户", "拒绝", JOptionPane.ERROR_MESSAGE);
 						}
-						// 如果是储蓄卡
+						// 如果是储蓄卡,则可以直接进行销户
 					} else {
-						// TODO 显示客户信息，让客户确认是否要销户
+						// 调用销户方法
 						accountCancellation(cardNum);
 					}
 				} else {
@@ -768,8 +768,7 @@ public class AdminUI {
 				JShowInfo jSM = new JShowInfo();
 				jSM.setBtnText("销户");
 				String[] info = new String[7];// 获取用户信息
-				String[] info_Data = { "张三", "信用卡", "男", "正常", "440823199602133837", "13724867853", "广东省广州市海珠区仑头路21号" };
-				info = info_Data;
+				info = BlankAccout.getInstance().getConnectTable().getUserMessage(cardNum);
 				jSM.StatusOpera(info);
 				// 选择销户操作，输入验证密码
 				if (jSM.showJSM()) {
@@ -880,10 +879,6 @@ public class AdminUI {
 					JShowInfo jSM = new JShowInfo();
 					jSM.setBtnText("解挂");
 					String[] info = new String[7];// 获取用户信息
-					// String[] info_Data = { "张三", "信用卡", "男", "挂失",
-					// "440823199602133837", "13724867853",
-					// "广东省广州市海珠区仑头路21号" };
-					// info = info_Data;
 					info = BlankAccout.getInstance().getConnectTable().getUserMessage(card);
 					jSM.StatusOpera(info);
 					if (jSM.showJSM()) { // 选择解挂操作，输入验证密码
@@ -961,11 +956,6 @@ public class AdminUI {
 					JShowInfo jSM = new JShowInfo();
 					jSM.setBtnText("解冻");
 					String[] info = new String[7];// 获取用户信息
-					// TODO 从数据库获取用户信息
-					// String[] info_Data = { "张三", "信用卡", "男", "冻结",
-					// "440823199602133837", "13724867853",
-					// "广东省广州市海珠区仑头路21号" };
-					// info = info_Data;
 					info = BlankAccout.getInstance().getConnectTable().getUserMessage(card);
 					jSM.StatusOpera(info);
 					if (jSM.showJSM()) { // 选择解冻操作，输入验证密码
