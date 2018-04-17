@@ -83,6 +83,7 @@ public class QueryFrame {
 		frameQuery.getContentPane().setLayout(null);
 
 		ATMButton button_1 = new ATMButton("<html><center>ÍË³ö<br>Confirm</center></html>");
+		button_1.setForeground(new Color(255, 0, 0));
 		button_1.addActionListener(new Back());
 		button_1.setBounds(875, 550, 200, 80);
 		frameQuery.getContentPane().add(button_1);
