@@ -148,14 +148,8 @@ public class UsersLogin {
 
 		}
 
+		@SuppressWarnings("static-access")
 		private void login() {
-			frameUserLogin.setVisible(false);
-//			MainFrame.main(null);
-//			MainFrame.startCountdown();
-			MainFrame mainFrame = new MainFrame();
-			mainFrame.getFrameMain().setVisible(true);
-			// 设置倒计时
-			mainFrame.startCountdown();
 			// 设置今日取款限额，设置透支额度，设置今日转账限额，设置账户余额，设置所属银行，设置银行卡类型
 			BlankAccout.getInstance().setWithdrawalsLimit(BlankAccout.getInstance().getTradingrecDAO()
 					.getWithdrawalsLimit(BlankAccout.getInstance().getCardNum()));
@@ -169,9 +163,13 @@ public class UsersLogin {
 					BlankAccout.getInstance().getAccountDAO().getCardBalance(BlankAccout.getInstance().getCardNum()));
 			BlankAccout.getInstance().setBlank(
 					BlankAccout.getInstance().getAccountDAO().getBanks(BlankAccout.getInstance().getCardNum()));
-			
-			frameUserLogin.dispose();
 
+			frameUserLogin.setVisible(false);
+			MainFrame mainFrame = new MainFrame();
+			mainFrame.getFrameMain().setVisible(true);
+			// 设置倒计时
+			mainFrame.startCountdown();
+			frameUserLogin.dispose();
 		}
 	}
 }
