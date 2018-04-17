@@ -306,7 +306,7 @@ public class AccountDAO extends DAO<Account>{
 	}
 	
 	public void setLoginTime(long CardNum,String LoginTime){
-		String sql = "update account set logintime = ? whre cardnum = ?";
+		String sql = "update account set logintime = ? where cardnum = ?";
 		update(sql,LoginTime,CardNum);
 	}
 
