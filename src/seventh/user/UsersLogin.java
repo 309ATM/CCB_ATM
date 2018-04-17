@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -102,7 +104,7 @@ public class UsersLogin {
 		label_message.setHorizontalAlignment(SwingConstants.CENTER);
 		label_message.setForeground(Color.RED);
 		label_message.setFont(new Font("幼圆", Font.BOLD, 20));
-		label_message.setBounds(380, 420, 288, 43);
+		label_message.setBounds(380, 420, 294, 43);
 		frameUserLogin.getContentPane().add(label_message);
 
 		JLabel lblBg = new JLabel("");
@@ -120,22 +122,50 @@ public class UsersLogin {
 			if (!card.isEmpty()) {
 				if (!pawd.isEmpty()) {
 					if (BlankAccout.getInstance().getAccountDAO().getCardExit(Long.parseLong(card))) {
-						if (accountDAO.checkPawd(Long.parseLong(card), Long.parseLong(pawd))) {
-							// 如果账号密码正确，就获取账户状态
-							String status = BlankAccout.getInstance().getAccountDAO()
-									.getCardStatu(Long.parseLong(card));
-							if (status.equals("正常") || status.equals("冻结")) {
-								// 将用户账号保存下来
-								BlankAccout.getInstance().setCardNum(Long.parseLong(card));
-								BlankAccout.getInstance().setStatus(status);
-								login();
-							} else {
-								label_message.setText("该账户已" + status);
-							}
-
-						} else {
-							label_message.setText("密码不正确");
+						// 验证卡号是否存在
+						String loginTime = BlankAccout.getInstance().getAccountDAO().getLoginTime(Long.parseLong(card));
+						String newLoginTime = "";
+						int loginCount = loginTime.charAt(10);//48-51
+						loginTime = loginTime.substring(0, 10);
+						// 对比日期，如果不是今天的登陆信息，则下一步
+						SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+						String today = df.format(new Date());
+						if (!loginTime.equals(today)) {
+							//重设日期和次数
+							loginTime = today;
+							loginCount = 48;
 						}
+						if (loginTime.equals(today)) {
+							// 如果卡号存在，则判断登陆失败信息
+							if (loginCount < 51) {
+								//如果登陆失败次数小于3，判断密码
+								if (accountDAO.checkPawd(Long.parseLong(card), Long.parseLong(pawd))) {
+									newLoginTime = today + (char)(0);
+									System.out.println(newLoginTime);
+									//
+									// 如果账号密码正确，就获取账户状态
+									String status = BlankAccout.getInstance().getAccountDAO()
+											.getCardStatu(Long.parseLong(card));
+									if (status.equals("正常") || status.equals("冻结")) {
+										// 将用户账号保存下来
+										BlankAccout.getInstance().setCardNum(Long.parseLong(card));
+										BlankAccout.getInstance().setStatus(status);
+										login();
+									} else {
+										label_message.setText("该账户已" + status);
+									}
+
+								} else {
+									label_message.setText("密码不正确");
+									newLoginTime = today + (char)(loginCount + 1);
+									BlankAccout.getInstance().getAccountDAO().setLoginTime(Long.parseLong(card), newLoginTime);
+								}
+							} else {
+								// 登陆失败3次了，今日内不可再登陆
+								label_message.setText("今日允许输入密码次数已超3次");
+							}
+						}
+
 					} else {
 						label_message.setText("账户不存在");
 					}
