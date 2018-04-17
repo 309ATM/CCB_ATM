@@ -23,7 +23,7 @@ public class QueryFrame {
 
 	private JFrame frameQuery;
 	private JLabel label;
-	// private String File = "E:\\Code\\java\\CCB_ATM";
+	//private String File = "E:\\Code\\java\\CCB_ATM";
 	private String File = ".";
 
 	// 声明线程变量

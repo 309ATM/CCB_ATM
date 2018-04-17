@@ -22,8 +22,8 @@ public class MessageFrame {
 	private JLabel label_message;
 	private String[] message;
 
-	private String File = "E:\\Code\\java\\CCB_ATM";
-	// private String File = ".";
+	//private String File = "E:\\Code\\java\\CCB_ATM";
+	private String File = ".";
 
 	// 声明线程变量
 	private JLabel countdownLabel;

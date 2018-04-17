@@ -20,9 +20,9 @@ public class TransferChoseFrame {
 
 	private JFrame frameTransferChose;
 	private TransferFrame transferFrame = new TransferFrame();
-	private String File = "E:\\Code\\java\\CCB_ATM";
+//	private String File = "E:\\Code\\java\\CCB_ATM";
 	private ATMButton button;
-	// private String File = ".";
+	 private String File = ".";
 
 	public JFrame getFrameTransferChose() {
 		return frameTransferChose;

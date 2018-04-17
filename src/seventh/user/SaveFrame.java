@@ -29,9 +29,9 @@ public class SaveFrame {
 	private MessageFrame messageFrame = new MessageFrame();
 	private String[] message = new String[4];
 	private JTextField textField_money;
-	private String File = "E:\\Code\\java\\CCB_ATM";
+	//private String File = "E:\\Code\\java\\CCB_ATM";
 	private JLabel label_message;
-	// private String File = ".";
+	private String File = ".";
 	
 	public JFrame getFrameSave() {
 		return frameSave;

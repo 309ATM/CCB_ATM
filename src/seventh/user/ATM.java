@@ -22,8 +22,8 @@ public class ATM {
 
 	private JFrame frameUserLoginCard;
 	private UsersLogin usersLoginPwsd = new UsersLogin();
-	private String File = "E:\\Code\\java\\CCB_ATM";
-//	 private String File = ".";
+	//private String File = "E:\\Code\\java\\CCB_ATM";
+	private String File = ".";
 
 	/**
 	 * Launch the application.

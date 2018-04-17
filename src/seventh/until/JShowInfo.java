@@ -48,7 +48,9 @@ public final class JShowInfo extends JDialog {
 	public boolean isConfirm; // 判断用户按下取消按钮还是确定按钮
 	public String[] info;
 	private JButton btn_change;
-
+	private String File = ".";
+//	private String File = "E:\\Code\\java\\CCB_ATM";
+	
 	public static void main(String[] args) {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -188,7 +190,7 @@ public final class JShowInfo extends JDialog {
 		btn_change.setBounds(212, 527, 113, 42);
 
 		label_bg = new JLabel("");
-		label_bg.setIcon(new ImageIcon("E:\\Code\\java\\CCB_ATM\\img\\UserInformation.png"));
+		label_bg.setIcon(new ImageIcon(File   + "\\img\\UserInformation.png"));
 		label_bg.setBounds(0, 0, 707, 603);
 	}
 

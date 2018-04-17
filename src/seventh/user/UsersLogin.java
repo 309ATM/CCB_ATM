@@ -183,17 +183,24 @@ public class UsersLogin {
 			// 设置今日取款限额，设置透支额度，设置今日转账限额，设置账户余额，设置所属银行，设置银行卡类型
 			BlankAccout.getInstance().setWithdrawalsLimit(BlankAccout.getInstance().getTradingrecDAO()
 					.getWithdrawalsLimit(BlankAccout.getInstance().getCardNum()));
+			
 			BlankAccout.getInstance().setDepositLimit(BlankAccout.getInstance().getTradingrecDAO()
 					.getDepositLimit(BlankAccout.getInstance().getCardNum()));
+			
 			BlankAccout.getInstance().setTransferLimit(BlankAccout.getInstance().getTradingrecDAO()
 					.getTransferLimit(BlankAccout.getInstance().getCardNum()));
+			
 			BlankAccout.getInstance().setOverdraft((BlankAccout.getInstance().getAccountDAO()
 					.getCardOverdraft(BlankAccout.getInstance().getCardNum())));
+			
 			BlankAccout.getInstance().setBalance(
 					BlankAccout.getInstance().getAccountDAO().getCardBalance(BlankAccout.getInstance().getCardNum()));
+			
 			BlankAccout.getInstance().setBlank(
 					BlankAccout.getInstance().getAccountDAO().getBanks(BlankAccout.getInstance().getCardNum()));
-
+			
+			//添加设置银行卡类型
+			
 			frameUserLogin.setVisible(false);
 			MainFrame mainFrame = new MainFrame();
 			mainFrame.getFrameMain().setVisible(true);

@@ -72,10 +72,10 @@ public class AdminUI {
 	private JTable table;
 	private String[] date;
 
-	private String File = "E:\\Code\\java\\CCB_ATM";
+	//private String File = "E:\\Code\\java\\CCB_ATM";
 	private JTextField textField_lock;
 	private JTextField textField_chaAdminPass;
-	// private String File = ".";
+	private String File = ".";
 
 	/**
 	 * Launch the application.

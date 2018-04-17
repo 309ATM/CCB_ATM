@@ -39,8 +39,8 @@ public class HistoryFrame {
 
 	private JFrame frameHistory;
 	private JTable table;
-	private String File = "E:\\Code\\java\\CCB_ATM";
-	// private String File = ".";
+	//private String File = "E:\\Code\\java\\CCB_ATM";
+	private String File = ".";
 
 	// 声明线程变量
 	private JLabel countdownLabel;

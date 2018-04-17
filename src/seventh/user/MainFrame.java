@@ -31,8 +31,8 @@ public class MainFrame {
 	private TransferChoseFrame transferChoseFrame = new TransferChoseFrame();
 	private QueryFrame queryFrame = new QueryFrame();
 	private HistoryFrame historyFrame = new HistoryFrame();
-	private String File = "E:\\Code\\java\\CCB_ATM";
-	// private String File = ".";
+	//private String File = "E:\\Code\\java\\CCB_ATM";
+	private String File = ".";
 	private ATMButton btnQu;
 	private ATMButton btnZhuan;
 

@@ -29,6 +29,7 @@ public class TakeChoseFrame {
 	// 声明线程变量
 	private JLabel countdownLabel;
 	private CountdownThread time;
+	private ATMButton overdeaftButton;
 	
 	/**
 	 * Launch the application.
@@ -57,6 +58,7 @@ public class TakeChoseFrame {
 	public TakeChoseFrame() {
 		initialize();
 		takeFrame.getFrameTake().setVisible(false);
+		//添加卡类型判断及按钮隐藏
 	}
 
 	/**
@@ -76,7 +78,7 @@ public class TakeChoseFrame {
 		button.setBounds(14, 330, 160, 70);
 		frameChose.getContentPane().add(button);
 		
-		ATMButton overdeaftButton = new ATMButton("<html><center>透支取款<br>Overdraft</center></html>");
+		overdeaftButton = new ATMButton("<html><center>透支取款<br>Overdraft</center></html>");
 		overdeaftButton.setActionCommand("透支取款");
 		overdeaftButton.addActionListener(new ToTake());
 		overdeaftButton.setBounds(915, 330, 160, 70);

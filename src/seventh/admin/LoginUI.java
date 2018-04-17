@@ -32,8 +32,8 @@ public class LoginUI {
 	private JTextField textAdminPswd;
 	private JButton buttonLogin;
 	private JLabel labelMainBG;
-	private String File = "E:\\Code\\java\\CCB_ATM";
-	// private String File = ".";
+	 //private String File = "E:\\Code\\java\\CCB_ATM";
+	private String File = ".";
 
 	/**
 	 * 启动后台管理系统
