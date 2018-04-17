@@ -120,17 +120,17 @@ public class MainFrame {
 		button_2.addActionListener(new Exit());
 		button_2.setBounds(875, 550, 200, 80);
 		frameMain.getContentPane().add(button_2);
+		
+				countdownLabel = new JLabel("60");
+				countdownLabel.setForeground(Color.RED);
+				countdownLabel.setFont(new Font("ºÚÌå", Font.BOLD, 40));
+				countdownLabel.setBounds(1020, 61, 55, 53);
+				frameMain.getContentPane().add(countdownLabel);
 
 		JLabel lblBg = new JLabel("");
 		lblBg.setIcon(new ImageIcon(File + "\\img\\ATM_bg.png"));
 		lblBg.setBounds(3, 0, 1086, 715);
 		frameMain.getContentPane().add(lblBg);
-
-		countdownLabel = new JLabel("60");
-		countdownLabel.setForeground(Color.RED);
-		countdownLabel.setFont(new Font("ºÚÌå", Font.BOLD, 40));
-		countdownLabel.setBounds(1020, 61, 55, 53);
-		frameMain.getContentPane().add(countdownLabel);
 
 		cardLock();
 	}
