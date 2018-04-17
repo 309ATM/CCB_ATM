@@ -19,6 +19,7 @@ import javax.swing.UIManager;
 import seventh.accout.BlankAccout;
 import seventh.dbc.AccountDAO;
 import seventh.until.ATMButton;
+import seventh.until.NumLimit;
 
 import java.awt.Color;
 
@@ -30,8 +31,8 @@ public class UsersLogin {
 
 	private JFrame frameUserLogin;
 	private JPasswordField textUserPswd;
-	// private String File = "E:\\Code\\java\\CCB_ATM";
-	private String File = ".";
+	 private String File = "E:\\Code\\java\\CCB_ATM";
+//	private String File = ".";
 	private JTextField textField_CardNumber;
 	private JLabel label_message;
 	private AccountDAO accountDAO = new AccountDAO();
@@ -85,7 +86,7 @@ public class UsersLogin {
 		textField_CardNumber.setFont(new Font("微软雅黑 Light", Font.PLAIN, 28));
 		textField_CardNumber.setBounds(380, 219, 294, 53);
 		frameUserLogin.getContentPane().add(textField_CardNumber);
-		textField_CardNumber.setColumns(10);
+		textField_CardNumber.addKeyListener(new NumLimit());
 
 		JLabel lblInputpasswd = new JLabel("请输入6位密码:");
 		lblInputpasswd.setHorizontalAlignment(SwingConstants.CENTER);
@@ -98,7 +99,7 @@ public class UsersLogin {
 		textUserPswd.setFont(new Font("微软雅黑 Light", Font.PLAIN, 40));
 		textUserPswd.setBounds(380, 339, 294, 53);
 		frameUserLogin.getContentPane().add(textUserPswd);
-		textUserPswd.setColumns(10);
+		textUserPswd.addKeyListener(new NumLimit());
 
 		label_message = new JLabel("");
 		label_message.setHorizontalAlignment(SwingConstants.CENTER);
@@ -125,22 +126,22 @@ public class UsersLogin {
 						// 验证卡号是否存在
 						String loginTime = BlankAccout.getInstance().getAccountDAO().getLoginTime(Long.parseLong(card));
 						String newLoginTime = "";
-						int loginCount = loginTime.charAt(10);//48-51
+						int loginCount = loginTime.charAt(10);// 48-51
 						loginTime = loginTime.substring(0, 10);
 						// 对比日期，如果不是今天的登陆信息，则下一步
 						SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 						String today = df.format(new Date());
 						if (!loginTime.equals(today)) {
-							//重设日期和次数
+							// 重设日期和次数
 							loginTime = today;
 							loginCount = 48;
 						}
 						if (loginTime.equals(today)) {
 							// 如果卡号存在，则判断登陆失败信息
 							if (loginCount < 51) {
-								//如果登陆失败次数小于3，判断密码
+								// 如果登陆失败次数小于3，判断密码
 								if (accountDAO.checkPawd(Long.parseLong(card), Long.parseLong(pawd))) {
-									newLoginTime = today + (char)(0);
+									newLoginTime = today + (char) (0);
 									System.out.println(newLoginTime);
 									//
 									// 如果账号密码正确，就获取账户状态
@@ -157,8 +158,9 @@ public class UsersLogin {
 
 								} else {
 									label_message.setText("密码不正确");
-									newLoginTime = today + (char)(loginCount + 1);
-									BlankAccout.getInstance().getAccountDAO().setLoginTime(Long.parseLong(card), newLoginTime);
+									newLoginTime = today + (char) (loginCount + 1);
+									BlankAccout.getInstance().getAccountDAO().setLoginTime(Long.parseLong(card),
+											newLoginTime);
 								}
 							} else {
 								// 登陆失败3次了，今日内不可再登陆
@@ -180,26 +182,28 @@ public class UsersLogin {
 
 		@SuppressWarnings("static-access")
 		private void login() {
-			// 设置今日取款限额，设置透支额度，设置今日转账限额，设置账户余额，设置所属银行，设置银行卡类型
+			Long card = BlankAccout.getInstance().getCardNum();
+			// 设置今日取款限额，设置透支额度，设置转账限额，设置今日转账限额，设置账户余额，设置所属银行，设置银行卡类型
 			BlankAccout.getInstance().setWithdrawalsLimit(BlankAccout.getInstance().getTradingrecDAO()
-					.getWithdrawalsLimit(BlankAccout.getInstance().getCardNum()));
+					.getWithdrawalsLimit(card));
 			
 			BlankAccout.getInstance().setDepositLimit(BlankAccout.getInstance().getTradingrecDAO()
-					.getDepositLimit(BlankAccout.getInstance().getCardNum()));
+					.getDepositLimit(card));
 			
 			BlankAccout.getInstance().setTransferLimit(BlankAccout.getInstance().getTradingrecDAO()
-					.getTransferLimit(BlankAccout.getInstance().getCardNum()));
+					.getTransferLimit(card));
 			
 			BlankAccout.getInstance().setOverdraft((BlankAccout.getInstance().getAccountDAO()
-					.getCardOverdraft(BlankAccout.getInstance().getCardNum())));
+					.getCardOverdraft(card)));
 			
 			BlankAccout.getInstance().setBalance(
-					BlankAccout.getInstance().getAccountDAO().getCardBalance(BlankAccout.getInstance().getCardNum()));
+					BlankAccout.getInstance().getAccountDAO().getCardBalance(card));
 			
 			BlankAccout.getInstance().setBlank(
-					BlankAccout.getInstance().getAccountDAO().getBanks(BlankAccout.getInstance().getCardNum()));
+					BlankAccout.getInstance().getAccountDAO().getBanks(card));
 			
 			//添加设置银行卡类型
+			
 			
 			frameUserLogin.setVisible(false);
 			MainFrame mainFrame = new MainFrame();

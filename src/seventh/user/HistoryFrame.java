@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -39,7 +38,7 @@ public class HistoryFrame {
 
 	private JFrame frameHistory;
 	private JTable table;
-	//private String File = "E:\\Code\\java\\CCB_ATM";
+	// private String File = "E:\\Code\\java\\CCB_ATM";
 	private String File = ".";
 
 	// 声明线程变量
@@ -235,7 +234,7 @@ public class HistoryFrame {
 			MainFrame.startCountdown();
 			// 停止当前倒计时
 			stopCountdown();
-			
+
 			frameHistory.dispose();
 
 		}

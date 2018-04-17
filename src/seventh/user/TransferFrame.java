@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 import seventh.accout.BlankAccout;
 import seventh.until.ATMButton;
 import seventh.until.CountdownThread;
+import seventh.until.NumLimit;
 
 import java.awt.Color;
 import javax.swing.SwingConstants;
@@ -100,7 +101,6 @@ public class TransferFrame {
 		countdownLabel.setBounds(1020, 61, 55, 53);
 		frameTransfer.getContentPane().add(countdownLabel);
 
-		
 		ATMButton btn_exit = new ATMButton("<html><center>退出<br>Confirm</center></html>");
 		btn_exit.setForeground(new Color(255, 0, 0));
 		btn_exit.addActionListener(new Back());
@@ -111,7 +111,7 @@ public class TransferFrame {
 		textField_money.setFont(new Font("微软雅黑 Light", Font.PLAIN, 40));
 		textField_money.setBounds(321, 284, 451, 53);
 		frameTransfer.getContentPane().add(textField_money);
-		textField_money.setColumns(10);
+		textField_money.addKeyListener(new NumLimit());
 
 		btn_transfer = new ATMButton("<html><center>转账<br>Transfer</center></html>");
 		btn_transfer.setForeground(new Color(0, 128, 0));
@@ -241,9 +241,9 @@ public class TransferFrame {
 						// 转入卡号
 						Long cardIn = BlankAccout.getInstance().getTargetCard();
 						// 转账金额
-						money = (float) (money * 0.99);
+						money = (float) (money * 99 / 100);
 						// 手续费
-						fee = (float) (money * 0.01);
+						fee = (float) (money / 100);
 						// 卡转出后余额
 						float balanceOut = balance;
 						// 卡转入后余额
@@ -252,7 +252,7 @@ public class TransferFrame {
 						// 设置消息，传给交互界面
 						message[0] = "跨行转账";
 						message[1] = moneys; // 转账金额
-						message[4] = String.valueOf(money * 0.1);
+						message[4] = Float.toString(fee);
 						message[2] = Float.toString(BlankAccout.getInstance().getBalance());// 账户余额
 						message[3] = Long.toString(BlankAccout.getInstance().getTargetCard());// 目标账号
 
@@ -316,7 +316,7 @@ public class TransferFrame {
 						// 停止当前倒计时
 						stopCountdown();
 						messageFrame.startCountdown();
-						
+
 						messageFrame.getFrameMessage().setVisible(true);
 						messageFrame.showMessage(message);
 						frameTransfer.dispose();
@@ -363,16 +363,13 @@ public class TransferFrame {
 			MainFrame.startCountdown();
 			// 停止当前倒计时
 			stopCountdown();
-			
+
 			frameTransfer.dispose();
 			label_message.setText("");
 			label_tip.setText("请输入转入账号，无误后继续");
 			btn_transfer.setVisible(true);
 			textField_money.setText("");
 			btn_confirm.setVisible(false);
-
 		}
-
 	}
-
 }

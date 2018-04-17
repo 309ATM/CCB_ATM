@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.UIManager;
 
+import seventh.accout.BlankAccout;
 import seventh.until.ATMButton;
 import seventh.until.CountdownThread;
 
@@ -58,7 +59,10 @@ public class TakeChoseFrame {
 	public TakeChoseFrame() {
 		initialize();
 		takeFrame.getFrameTake().setVisible(false);
-		//添加卡类型判断及按钮隐藏
+		//卡类型判断及按钮隐藏
+		if(BlankAccout.getInstance().getAccountDAO().getCardType(BlankAccout.getInstance().getCardNum()).equals("储蓄卡")){
+			overdeaftButton.setVisible(false);
+		}
 	}
 
 	/**

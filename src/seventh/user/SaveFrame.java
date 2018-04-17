@@ -18,6 +18,7 @@ import javax.swing.UIManager;
 import seventh.accout.BlankAccout;
 import seventh.until.ATMButton;
 import seventh.until.CountdownThread;
+import seventh.until.NumLimit;
 
 /**
  * ´æ¿î
@@ -113,7 +114,7 @@ public class SaveFrame {
 		textField_money.setFont(new Font("Î¢ÈíÑÅºÚ Light", Font.PLAIN, 40));
 		textField_money.setBounds(380, 330, 294, 53);
 		frameSave.getContentPane().add(textField_money);
-		textField_money.setColumns(10);
+		textField_money.addKeyListener(new NumLimit());
 
 		ATMButton btn_confirm = new ATMButton("<html><center>È·ÈÏ<br>Exit</center></html>");
 		btn_confirm.setForeground(new Color(0, 128, 0));
