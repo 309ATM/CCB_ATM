@@ -241,7 +241,7 @@ public class TransferFrame {
 						// 转入卡号
 						Long cardIn = BlankAccout.getInstance().getTargetCard();
 						// 转账金额
-						money = (float) (money * 99 / 100);
+						// money = (float) (money * 99 / 100);
 						// 手续费
 						fee = (float) (money / 100);
 						// 卡转出后余额
