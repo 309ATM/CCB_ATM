@@ -142,8 +142,8 @@ public class UsersLogin {
 								// 如果登陆失败次数小于3，判断密码
 								if (accountDAO.checkPawd(Long.parseLong(card), Long.parseLong(pawd))) {
 									newLoginTime = today + (char) (0);
-									System.out.println(newLoginTime);
-									//
+									BlankAccout.getInstance().getAccountDAO().setLoginTime(Long.parseLong(card),
+											newLoginTime);
 									// 如果账号密码正确，就获取账户状态
 									String status = BlankAccout.getInstance().getAccountDAO()
 											.getCardStatu(Long.parseLong(card));
