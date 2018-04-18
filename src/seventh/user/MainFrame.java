@@ -11,7 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.UIManager;
 
-import seventh.accout.BlankAccout;
+import seventh.accout.BankAccout;
 import seventh.until.ATMButton;
 import seventh.until.CountdownThread;
 
@@ -145,7 +145,7 @@ public class MainFrame {
 	 * 判断账户状态，如果冻结，则不能使用取款和转账功能
 	 */
 	public void cardLock() {
-		String status = BlankAccout.getInstance().getStatus();
+		String status = BankAccout.getInstance().getStatus();
 		if (status.equals("冻结")) {
 			// 调用MainFrame的方法，隐藏部分控件，实现功能消除
 			btnQu.setVisible(false);

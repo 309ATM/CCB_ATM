@@ -6,7 +6,7 @@ import seventh.dbc.TradingrecDAO;
 import seventh.dbc.UserDao;
 import seventh.dbc.ConnectTable;
 
-public class BlankAccout {
+public class BankAccout {
 	private long cardNum;
 	private String status;
 	private String accountType;
@@ -33,7 +33,7 @@ public class BlankAccout {
 	private ConnectTable connectTable;
 	
 	// 设置单例模式
-	private BlankAccout() {
+	private BankAccout() {
 		accountDAO = new AccountDAO();
 		adminDAO = new AdminDAO();
 		tradingrecDAO = new TradingrecDAO();
@@ -42,10 +42,10 @@ public class BlankAccout {
 	}
 
 	private static class LazyHolder {
-		private static final BlankAccout INSTANCE = new BlankAccout();
+		private static final BankAccout INSTANCE = new BankAccout();
 	}
 	
-	public static final BlankAccout getInstance() {
+	public static final BankAccout getInstance() {
 		return LazyHolder.INSTANCE;
 	}
 

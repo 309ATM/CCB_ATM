@@ -17,7 +17,7 @@ import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import seventh.accout.BlankAccout;
+import seventh.accout.BankAccout;
 import seventh.until.ATMButton;
 import seventh.until.CountdownThread;
 
@@ -176,20 +176,20 @@ public class HistoryFrame {
 		final String[] columnNames = { "账户", "日期", "交易金额", "交易类型", "目标账户", "手续费" };
 		if (month == 1) {
 			// 调用数据库方法获取记录
-			String[][] rowData = BlankAccout.getInstance().getTradingrecDAO()
-					.getSpecifiedRecording(BlankAccout.getInstance().getCardNum(), getDate(1));
+			String[][] rowData = BankAccout.getInstance().getTradingrecDAO()
+					.getSpecifiedRecording(BankAccout.getInstance().getCardNum(), getDate(1));
 			table.setModel(new DefaultTableModel(rowData, columnNames));
 		}
 		if (month == 3) {
 			// 调用数据库方法获取记录
-			String[][] rowData = BlankAccout.getInstance().getTradingrecDAO()
-					.getSpecifiedRecording(BlankAccout.getInstance().getCardNum(), getDate(3));
+			String[][] rowData = BankAccout.getInstance().getTradingrecDAO()
+					.getSpecifiedRecording(BankAccout.getInstance().getCardNum(), getDate(3));
 			table.setModel(new DefaultTableModel(rowData, columnNames));
 		}
 		if (month == 6) {
 			// 调用数据库方法获取记录
-			String[][] rowData = BlankAccout.getInstance().getTradingrecDAO()
-					.getSpecifiedRecording(BlankAccout.getInstance().getCardNum(), getDate(6));
+			String[][] rowData = BankAccout.getInstance().getTradingrecDAO()
+					.getSpecifiedRecording(BankAccout.getInstance().getCardNum(), getDate(6));
 			table.setModel(new DefaultTableModel(rowData, columnNames));
 		}
 		// 设置文字居中

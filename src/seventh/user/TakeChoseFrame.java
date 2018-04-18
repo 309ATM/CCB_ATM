@@ -12,7 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.UIManager;
 
-import seventh.accout.BlankAccout;
+import seventh.accout.BankAccout;
 import seventh.until.ATMButton;
 import seventh.until.CountdownThread;
 
@@ -60,7 +60,7 @@ public class TakeChoseFrame {
 		initialize();
 		takeFrame.getFrameTake().setVisible(false);
 		//¿¨ÀàÐÍÅÐ¶Ï¼°°´Å¥Òþ²Ø
-		if(BlankAccout.getInstance().getAccountDAO().getCardType(BlankAccout.getInstance().getCardNum()).equals("´¢Ðî¿¨")){
+		if(BankAccout.getInstance().getAccountDAO().getCardType(BankAccout.getInstance().getCardNum()).equals("´¢Ðî¿¨")){
 			overdeaftButton.setVisible(false);
 		}
 	}

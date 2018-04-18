@@ -31,7 +31,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import seventh.accout.BlankAccout;
+import seventh.accout.BankAccout;
 import seventh.until.JDateChooser;
 import seventh.until.JShowInfo;
 import org.junit.Test;
@@ -567,7 +567,7 @@ public class AdminUI {
 		// 调用数据库方法获取记录
 		// function(BlankAccout.getInstance().getCardNum(),getDate(6));
 		// 这部分数据从数据库里获取
-		String[][] rowData = BlankAccout.getInstance().getTradingrecDAO().getSpecifiedRecording(card, date);
+		String[][] rowData = BankAccout.getInstance().getTradingrecDAO().getSpecifiedRecording(card, date);
 
 		table.setModel(new DefaultTableModel(rowData, columnNames));
 		// 设置文字居中
@@ -700,9 +700,9 @@ public class AdminUI {
 								overdraft = 5000;
 							}
 							// 调用数据库方法，传入用户信息，在 user 和 account 表中插入录入数据
-							BlankAccout.getInstance().getUserDao().insertUserInformation(name, sex, idCard, phone,
+							BankAccout.getInstance().getUserDao().insertUserInformation(name, sex, idCard, phone,
 									address);
-							BlankAccout.getInstance().getAccountDAO().setAccount(idCard, Long.parseLong(cardnum),
+							BankAccout.getInstance().getAccountDAO().setAccount(idCard, Long.parseLong(cardnum),
 									Long.parseLong(password), "正常", cardType, "建设银行", 0, overdraft, 0);
 						} else {
 							JOptionPane.showMessageDialog(null, "两次密码不一致", "错误", JOptionPane.ERROR_MESSAGE);
@@ -730,14 +730,14 @@ public class AdminUI {
 			String cardNums = textField_delAccount.getText().trim();
 			long cardNum = Long.parseLong(cardNums);
 			// 判断卡号是否存在，如果存在进入下一步，不存在则进行提示
-			if (BlankAccout.getInstance().getAccountDAO().getCardExit(cardNum)) {
+			if (BankAccout.getInstance().getAccountDAO().getCardExit(cardNum)) {
 				// 如果该卡属于建设银行，则继续，否则进行提示
-				if (BlankAccout.getInstance().getAccountDAO().getBanks(cardNum)) {
-					float balance = BlankAccout.getInstance().getAccountDAO().getCardBalance(cardNum);
+				if (BankAccout.getInstance().getAccountDAO().getBanks(cardNum)) {
+					float balance = BankAccout.getInstance().getAccountDAO().getCardBalance(cardNum);
 					// 检查该卡的类型，如果是信用卡，则需要检查是否有未还透支。
-					if (BlankAccout.getInstance().getAccountDAO().getCardType(cardNum).equals("信用卡")) {
+					if (BankAccout.getInstance().getAccountDAO().getCardType(cardNum).equals("信用卡")) {
 						// 获取该卡的余额和透支额
-						float overdraft = BlankAccout.getInstance().getAccountDAO().getCardOverdraft(cardNum);
+						float overdraft = BankAccout.getInstance().getAccountDAO().getCardOverdraft(cardNum);
 						if (balance + overdraft >= 5000) {
 							// 调用销户方法
 							accountCancellation(cardNum);
@@ -764,21 +764,21 @@ public class AdminUI {
 		 * @param cardNum
 		 */
 		private void accountCancellation(long cardNum) {
-			if (BlankAccout.getInstance().getAccountDAO().getCardStatu(cardNum).equals("正常")) {
+			if (BankAccout.getInstance().getAccountDAO().getCardStatu(cardNum).equals("正常")) {
 				JShowInfo jSM = new JShowInfo();
 				jSM.setBtnText("销户");
 				String[] info = new String[7];// 获取用户信息
-				info = BlankAccout.getInstance().getConnectTable().getUserMessage(cardNum);
+				info = BankAccout.getInstance().getConnectTable().getUserMessage(cardNum);
 				jSM.StatusOpera(info);
 				// 选择销户操作，输入验证密码
 				if (jSM.showJSM()) {
 					Long[] result = showPasswordDialog("请输入密码:");
 					// 调用数据库方法，判断卡号是否对应密码
 					if (result[0] == 0) {
-						if (BlankAccout.getInstance().getAccountDAO().checkPawd(cardNum, result[1])) {
+						if (BankAccout.getInstance().getAccountDAO().checkPawd(cardNum, result[1])) {
 							// 调用数据库方法设置账户状态为销户
 							JOptionPane.showMessageDialog(null, "销户成功", "提示", JOptionPane.INFORMATION_MESSAGE);
-							BlankAccout.getInstance().getAccountDAO().updateStatus(cardNum, "销户");
+							BankAccout.getInstance().getAccountDAO().updateStatus(cardNum, "销户");
 							// 清空卡号输入框
 							textField_delAccount.setText("");
 						} else {
@@ -809,7 +809,7 @@ public class AdminUI {
 				// 判断身份证号是否存在
 				try {
 					// 调用数据库方法，根据身份证查询用户信息
-					String[] info = BlankAccout.getInstance().getUserDao().getUserInformation(idCard);
+					String[] info = BankAccout.getInstance().getUserDao().getUserInformation(idCard);
 					// 显示用户信息
 					JShowInfo jSM = new JShowInfo();
 					jSM.QueryUserInfo(info);
@@ -837,7 +837,7 @@ public class AdminUI {
 				// 判断身份证号是否存在
 				try {
 					// 调用数据库方法，根据身份证查询用户信息
-					String[] info = BlankAccout.getInstance().getUserDao().getUserInformation(idCard);
+					String[] info = BankAccout.getInstance().getUserDao().getUserInformation(idCard);
 					// 显示用户信息
 					JShowInfo jSM = new JShowInfo();
 					jSM.ChangeUserInfo(info);
@@ -850,7 +850,7 @@ public class AdminUI {
 						try{
 							String[] info2 = jSM.info;
 							info2[0] = info[2];
-							BlankAccout.getInstance().getUserDao().updateUserInformation(info2);
+							BankAccout.getInstance().getUserDao().updateUserInformation(info2);
 							JOptionPane.showMessageDialog(null, "修改成功", "提示", JOptionPane.INFORMATION_MESSAGE);
 						}catch (Exception e1) {
 							JOptionPane.showMessageDialog(null, "修改失败", "提示", JOptionPane.ERROR_MESSAGE);
@@ -870,25 +870,25 @@ public class AdminUI {
 			String cards = textField_loss.getText();
 			Long card = Long.parseLong(cards);
 			// 调用数据库方法判断卡号是否存在
-			Boolean flag = BlankAccout.getInstance().getAccountDAO().getCardExit(card);
+			Boolean flag = BankAccout.getInstance().getAccountDAO().getCardExit(card);
 			if (flag) {
 				// 调用数据库方法获取账户状态
-				String cardStatus = BlankAccout.getInstance().getAccountDAO().getCardStatu(card);
+				String cardStatus = BankAccout.getInstance().getAccountDAO().getCardStatu(card);
 				// 1.如果挂失了，则提问是否要解挂
 				if (cardStatus.equals("挂失")) {
 					JShowInfo jSM = new JShowInfo();
 					jSM.setBtnText("解挂");
 					String[] info = new String[7];// 获取用户信息
-					info = BlankAccout.getInstance().getConnectTable().getUserMessage(card);
+					info = BankAccout.getInstance().getConnectTable().getUserMessage(card);
 					jSM.StatusOpera(info);
 					if (jSM.showJSM()) { // 选择解挂操作，输入验证密码
 						Long[] result = showPasswordDialog("请输入密码:");
 						// 调用数据库方法，判断卡号是否对应密码
 						if (result[0] == 0) {
-							if (BlankAccout.getInstance().getAccountDAO().checkPawd(card, result[1])) {
+							if (BankAccout.getInstance().getAccountDAO().checkPawd(card, result[1])) {
 								// 调用数据库方法设置账户状态为正常
 								JOptionPane.showMessageDialog(null, "解挂成功", "提示", JOptionPane.INFORMATION_MESSAGE);
-								BlankAccout.getInstance().getAccountDAO().updateStatus(card, "正常");
+								BankAccout.getInstance().getAccountDAO().updateStatus(card, "正常");
 								// 清空卡号输入框
 								textField_loss.setText("");
 							} else {
@@ -908,16 +908,16 @@ public class AdminUI {
 					// "440823199602133837", "13724867853",
 					// "广东省广州市海珠区仑头路21号" };
 					// info = info_Data;
-					info = BlankAccout.getInstance().getConnectTable().getUserMessage(card);
+					info = BankAccout.getInstance().getConnectTable().getUserMessage(card);
 					jSM.StatusOpera(info);
 					if (jSM.showJSM()) { // 选择挂失操作，输入验证密码
 						Long[] result = showPasswordDialog("请输入密码:");
 						// 调用数据库方法，判断卡号是否对应密码
 						if (result[0] == 0) {
-							if (BlankAccout.getInstance().getAccountDAO().checkPawd(card, result[1])) {
+							if (BankAccout.getInstance().getAccountDAO().checkPawd(card, result[1])) {
 								// 调用数据库方法设置账户状态为挂失
 								JOptionPane.showMessageDialog(null, "挂失成功", "提示", JOptionPane.INFORMATION_MESSAGE);
-								BlankAccout.getInstance().getAccountDAO().updateStatus(card, "挂失");
+								BankAccout.getInstance().getAccountDAO().updateStatus(card, "挂失");
 								// 清空卡号输入框
 								textField_loss.setText("");
 							} else {
@@ -947,25 +947,25 @@ public class AdminUI {
 			String cards = textField_lock.getText();
 			Long card = Long.parseLong(cards);
 			// 调用数据库方法判断卡号是否存在
-			Boolean flag = BlankAccout.getInstance().getAccountDAO().getCardExit(card);
+			Boolean flag = BankAccout.getInstance().getAccountDAO().getCardExit(card);
 			if (flag) {
 				// 调用数据库方法获取账户状态
-				String cardStatus = BlankAccout.getInstance().getAccountDAO().getCardStatu(card);
+				String cardStatus = BankAccout.getInstance().getAccountDAO().getCardStatu(card);
 				// 1.如果冻结了，则提问是否要解冻
 				if (cardStatus.equals("冻结")) {
 					JShowInfo jSM = new JShowInfo();
 					jSM.setBtnText("解冻");
 					String[] info = new String[7];// 获取用户信息
-					info = BlankAccout.getInstance().getConnectTable().getUserMessage(card);
+					info = BankAccout.getInstance().getConnectTable().getUserMessage(card);
 					jSM.StatusOpera(info);
 					if (jSM.showJSM()) { // 选择解冻操作，输入验证密码
 						Long[] result = showPasswordDialog("请输入密码:");
 						// 调用数据库方法，判断卡号是否对应密码
 						if (result[0] == 0) {
-							if (BlankAccout.getInstance().getAccountDAO().checkPawd(card, result[1])) {
+							if (BankAccout.getInstance().getAccountDAO().checkPawd(card, result[1])) {
 								// 调用数据库方法设置账户状态为正常
 								JOptionPane.showMessageDialog(null, "解冻成功", "提示", JOptionPane.INFORMATION_MESSAGE);
-								BlankAccout.getInstance().getAccountDAO().updateStatus(card, "正常");
+								BankAccout.getInstance().getAccountDAO().updateStatus(card, "正常");
 								// 清空卡号输入框
 								textField_queryBalance.setText("");
 							} else {
@@ -984,16 +984,16 @@ public class AdminUI {
 					// "440823199602133837", "13724867853",
 					// "广东省广州市海珠区仑头路21号" };
 					// info = info_Data;
-					info = BlankAccout.getInstance().getConnectTable().getUserMessage(card);
+					info = BankAccout.getInstance().getConnectTable().getUserMessage(card);
 					jSM.StatusOpera(info);
 					if (jSM.showJSM()) { // 选择冻结操作，输入验证密码
 						Long[] result = showPasswordDialog("请输入密码:");
 						// 调用数据库方法，判断卡号是否对应密码
 						if (result[0] == 0) {
-							if (BlankAccout.getInstance().getAccountDAO().checkPawd(card, result[1])) {
+							if (BankAccout.getInstance().getAccountDAO().checkPawd(card, result[1])) {
 								// 调用数据库方法设置账户状态为冻结
 								JOptionPane.showMessageDialog(null, "冻结成功", "提示", JOptionPane.INFORMATION_MESSAGE);
-								BlankAccout.getInstance().getAccountDAO().updateStatus(card, "冻结");
+								BankAccout.getInstance().getAccountDAO().updateStatus(card, "冻结");
 								// 清空卡号输入框
 								textField_loss.setText("");
 							} else {
@@ -1026,13 +1026,13 @@ public class AdminUI {
 			String cards = textField_queryBalance.getText().trim();
 			Long card = Long.parseLong(cards);
 			// 判断卡号是否存在
-			Boolean flag = BlankAccout.getInstance().getAccountDAO().getCardExit(card);
+			Boolean flag = BankAccout.getInstance().getAccountDAO().getCardExit(card);
 			if (flag) {
 				// 用户输入密码
 				Long[] result = showPasswordDialog("请输入密码:");
 				if (result[0] == 0) {
 
-					if (BlankAccout.getInstance().getAccountDAO().checkPawd(card, result[1])) {
+					if (BankAccout.getInstance().getAccountDAO().checkPawd(card, result[1])) {
 						// 调用数据库方法，获取该卡号余额信息
 						JOptionPane.showMessageDialog(null, showMessage(card), "账户余额信息",
 								JOptionPane.INFORMATION_MESSAGE);
@@ -1067,14 +1067,14 @@ public class AdminUI {
 			}
 			// 判断卡号是否存在
 			if (flagF) {
-				Boolean flag = BlankAccout.getInstance().getAccountDAO().getCardExit(cardNum);
+				Boolean flag = BankAccout.getInstance().getAccountDAO().getCardExit(cardNum);
 				if (flag) {
 					// 用户输入旧密码
 					Long[] result = showPasswordDialog("请输入旧密码:");
 					if (result[0] == 0) {
 						// 数据库对比密码
 						long OldPasswd = result[1];
-						if (BlankAccout.getInstance().getAccountDAO().checkPawd(cardNum, OldPasswd)) {
+						if (BankAccout.getInstance().getAccountDAO().checkPawd(cardNum, OldPasswd)) {
 							// 用户输入新密码
 							Long[] result2 = showPasswordDialog("请输入新密码");
 							long NewPasswd = result2[1];
@@ -1084,7 +1084,7 @@ public class AdminUI {
 								Long[] result3 = showPasswordDialog("确认新密码");
 								if (result3[0] == 0) {
 									if (result3[1] == NewPasswd) {
-										BlankAccout.getInstance().getAccountDAO().updatePasswd(cardNum, OldPasswd,
+										BankAccout.getInstance().getAccountDAO().updatePasswd(cardNum, OldPasswd,
 												NewPasswd);
 										JOptionPane.showMessageDialog(null, "密码修改成功", "确认",
 												JOptionPane.INFORMATION_MESSAGE);
@@ -1125,14 +1125,14 @@ public class AdminUI {
 			}
 			// 判断管理员账号是否存在
 			if (flagF) {
-				Boolean flag = BlankAccout.getInstance().getAdminDAO().getAccountExit(AccountId);
+				Boolean flag = BankAccout.getInstance().getAdminDAO().getAccountExit(AccountId);
 				if (flag) {
 					// 用户输入旧密码
 					Long[] result = showPasswordDialog("请输入旧密码:");
 					if (result[0] == 0) {
 						// 数据库对比密码
 						String OldPasswd = String.valueOf(result[1]);
-						if (BlankAccout.getInstance().getAdminDAO().cheeckAdmin(AccountId, OldPasswd)) {
+						if (BankAccout.getInstance().getAdminDAO().cheeckAdmin(AccountId, OldPasswd)) {
 							// 管理员输入新密码
 							Long[] result2 = showPasswordDialog("请输入新密码");
 							String NewPasswd = String.valueOf(result2[1]);
@@ -1144,7 +1144,7 @@ public class AdminUI {
 								if (result3[0] == 0) {
 									if (NewPasswdDemo.equals(NewPasswd)) {
 										// 调用数据库方法修改管理员密码
-										BlankAccout.getInstance().getAdminDAO().updateAccountPasswd(AccountId,
+										BankAccout.getInstance().getAdminDAO().updateAccountPasswd(AccountId,
 												OldPasswd, NewPasswd);
 										JOptionPane.showMessageDialog(null, "密码修改成功", "确认",
 												JOptionPane.INFORMATION_MESSAGE);
@@ -1185,10 +1185,10 @@ public class AdminUI {
 	}
 
 	public String showMessage(Long card) {
-		float balance = BlankAccout.getInstance().getAccountDAO().getCardBalance(card);
-		float overdraft = BlankAccout.getInstance().getAccountDAO().getCardOverdraft(card);
-		float withdrawalsLimit = BlankAccout.getInstance().getTradingrecDAO().getWithdrawalsLimit(card);
-		float depositLimit = BlankAccout.getInstance().getTradingrecDAO().getDepositLimit(card);
+		float balance = BankAccout.getInstance().getAccountDAO().getCardBalance(card);
+		float overdraft = BankAccout.getInstance().getAccountDAO().getCardOverdraft(card);
+		float withdrawalsLimit = BankAccout.getInstance().getTradingrecDAO().getWithdrawalsLimit(card);
+		float depositLimit = BankAccout.getInstance().getTradingrecDAO().getDepositLimit(card);
 
 		String messages = "<html><p align=\"left\">您的余额为：{0}元<br>您的透支额度为：{1}元<br>您今日存款限额还剩：{2}元<br>您今日取款限额还剩：{3}元</p></html>";// 显示信息还要修改
 		messages = messages.replace("{0}", String.valueOf(balance));// message[0-3]换成上面的money等

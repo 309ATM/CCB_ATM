@@ -15,7 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
-import seventh.accout.BlankAccout;
+import seventh.accout.BankAccout;
 import seventh.until.ATMButton;
 import seventh.until.CountdownThread;
 import seventh.until.NumLengthLimit;
@@ -145,13 +145,13 @@ public class SaveFrame {
 	public void deposit(Long card, float money, float fees) {
 		// 存款方法
 		// 更改 bank account 中的值
-		BlankAccout.getInstance().setBalance(BlankAccout.getInstance().getBalance() + money - fees);
-		BlankAccout.getInstance().setTargetCard(BlankAccout.getInstance().getCardNum());
+		BankAccout.getInstance().setBalance(BankAccout.getInstance().getBalance() + money - fees);
+		BankAccout.getInstance().setTargetCard(BankAccout.getInstance().getCardNum());
 		// 更新数据库的余额部分，增加交易记录
-		BlankAccout.getInstance().getAccountDAO().setCardBalance(BlankAccout.getInstance().getCardNum(),
-				BlankAccout.getInstance().getBalance());
-		BlankAccout.getInstance().getTradingrecDAO().insertRecording(BlankAccout.getInstance().getCardNum(), money,
-				"存款", BlankAccout.getInstance().getTargetCard(), fees);
+		BankAccout.getInstance().getAccountDAO().setCardBalance(BankAccout.getInstance().getCardNum(),
+				BankAccout.getInstance().getBalance());
+		BankAccout.getInstance().getTradingrecDAO().insertRecording(BankAccout.getInstance().getCardNum(), money,
+				"存款", BankAccout.getInstance().getTargetCard(), fees);
 
 	}
 
@@ -171,26 +171,26 @@ public class SaveFrame {
 					label_message.setText("金额数必须是100的正整数倍");
 				} else if (money > 10000) {
 					label_message.setText("单笔存款最多为10,000元");
-				} else if (money > BlankAccout.getInstance().getDepositLimit()) {
+				} else if (money > BankAccout.getInstance().getDepositLimit()) {
 					label_message.setText("存款数额大于今日限额");
 				} else {
 					// 判断银行，手续费计算
-					if (BlankAccout.getInstance().getBlank() == true) {
+					if (BankAccout.getInstance().getBlank() == true) {
 						// 直接调用数据库存款方法
-						deposit(BlankAccout.getInstance().getCardNum(), money, 0);
+						deposit(BankAccout.getInstance().getCardNum(), money, 0);
 					} else {
 						// 非本行，计算手续费
 						float fees = 0;
 						fees = money * 1 / 100;
-						deposit(BlankAccout.getInstance().getCardNum(), money, fees);
+						deposit(BankAccout.getInstance().getCardNum(), money, fees);
 					}
-					BlankAccout.getInstance().setDepositLimit(BlankAccout.getInstance().getDepositLimit() - money);
+					BankAccout.getInstance().setDepositLimit(BankAccout.getInstance().getDepositLimit() - money);
 
 					textField_money.setText("");
 					message[0] = "存款";
 					message[1] = moneys; // 存款数
-					message[2] = Float.toString(BlankAccout.getInstance().getBalance());// 账户余额
-					message[3] = Float.toString(BlankAccout.getInstance().getDepositLimit());// 今日可存款额度
+					message[2] = Float.toString(BankAccout.getInstance().getBalance());// 账户余额
+					message[3] = Float.toString(BankAccout.getInstance().getDepositLimit());// 今日可存款额度
 					
 					// 停止当前倒计时
 					stopCountdown();

@@ -1,6 +1,6 @@
 package seventh.user;
 
-import seventh.accout.BlankAccout;
+import seventh.accout.BankAccout;
 import seventh.until.ATMButton;
 import seventh.until.CountdownThread;
 
@@ -72,7 +72,7 @@ public class TransferChoseFrame {
 	public TransferChoseFrame() {
 		initialize();
 		transferFrame.getFrameTransfer().setVisible(false);
-		if (!BlankAccout.getInstance().getBlank()) {
+		if (!BankAccout.getInstance().getBlank()) {
 			button.setVisible(false);
 		}
 

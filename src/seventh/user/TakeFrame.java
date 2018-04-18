@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
-import seventh.accout.BlankAccout;
+import seventh.accout.BankAccout;
 import seventh.until.ATMButton;
 import seventh.until.CountdownThread;
 import seventh.until.NumLengthLimit;
@@ -199,7 +199,7 @@ public class TakeFrame {
 						label_message.setText("金额数必须是100的正整数倍");
 					} else if (money > 5000) {
 						label_message.setText("单笔取款最多为5000元");
-					} else if (money > BlankAccout.getInstance().getWithdrawalsLimit()) {
+					} else if (money > BankAccout.getInstance().getWithdrawalsLimit()) {
 						label_message.setText("取款数额大于今日限额");
 					} else {
 						// 取款方法
@@ -210,7 +210,7 @@ public class TakeFrame {
 						label_message.setText("金额数必须是100的整数倍");
 					} else if (money > 5000) {
 						label_message.setText("透支上限为5000元");
-					} else if (money > BlankAccout.getInstance().getOverdraft()) {
+					} else if (money > BankAccout.getInstance().getOverdraft()) {
 						label_message.setText("透支数额大于可用透支额度");
 					} else {
 						// 透支取款方法
@@ -235,24 +235,24 @@ public class TakeFrame {
 		float money = Float.parseFloat(moneys);
 		float fees = 0;// 手续费
 
-		if (BlankAccout.getInstance().getBlank() != true) {
+		if (BankAccout.getInstance().getBlank() != true) {
 			fees = money * 1 / 100;
 		}
-		if (BlankAccout.getInstance().getBalance() > (money + fees)) {
+		if (BankAccout.getInstance().getBalance() > (money + fees)) {
 			// 设置目标账号为自己
-			BlankAccout.getInstance().setTargetCard(BlankAccout.getInstance().getCardNum());
+			BankAccout.getInstance().setTargetCard(BankAccout.getInstance().getCardNum());
 			// 修改今日取款额度
-			BlankAccout.getInstance().setWithdrawalsLimit(BlankAccout.getInstance().getWithdrawalsLimit() - money);
+			BankAccout.getInstance().setWithdrawalsLimit(BankAccout.getInstance().getWithdrawalsLimit() - money);
 			// 修改余额
-			BlankAccout.getInstance().setBalance(BlankAccout.getInstance().getBalance() - (money + fees));
-			BlankAccout.getInstance().getTradingrecDAO().insertRecording(BlankAccout.getInstance().getCardNum(), money,
-					"取款", BlankAccout.getInstance().getTargetCard(), fees);
-			BlankAccout.getInstance().getAccountDAO().loadBalance(BlankAccout.getInstance().getCardNum(), money - fees);
+			BankAccout.getInstance().setBalance(BankAccout.getInstance().getBalance() - (money + fees));
+			BankAccout.getInstance().getTradingrecDAO().insertRecording(BankAccout.getInstance().getCardNum(), money,
+					"取款", BankAccout.getInstance().getTargetCard(), fees);
+			BankAccout.getInstance().getAccountDAO().loadBalance(BankAccout.getInstance().getCardNum(), money - fees);
 			// 取款成功，发送消息给取款成功提示界面
 			message[0] = "取款";
 			message[1] = moneys; // 取款数
-			message[2] = Float.toString(BlankAccout.getInstance().getBalance());// 账户余额
-			message[3] = Float.toString(BlankAccout.getInstance().getWithdrawalsLimit());// 今日可取款额度
+			message[2] = Float.toString(BankAccout.getInstance().getBalance());// 账户余额
+			message[3] = Float.toString(BankAccout.getInstance().getWithdrawalsLimit());// 今日可取款额度
 			
 			// 停止当前倒计时
 			stopCountdown();
@@ -273,26 +273,26 @@ public class TakeFrame {
 	public void Overdraft(String moneys) {
 		float money = Float.parseFloat(moneys);
 		float fees = 0;// 手续费
-		if (BlankAccout.getInstance().getBlank() != true) {
+		if (BankAccout.getInstance().getBlank() != true) {
 			fees = money * 1 / 100;
 		}
-		if (BlankAccout.getInstance().getOverdraft() > money + fees) {
+		if (BankAccout.getInstance().getOverdraft() > money + fees) {
 			// 设置目标账号为自己
-			BlankAccout.getInstance().setTargetCard(BlankAccout.getInstance().getCardNum());
+			BankAccout.getInstance().setTargetCard(BankAccout.getInstance().getCardNum());
 			// 修改透支额
-			BlankAccout.getInstance().setOverdraft(BlankAccout.getInstance().getOverdraft() - money - fees);
+			BankAccout.getInstance().setOverdraft(BankAccout.getInstance().getOverdraft() - money - fees);
 			// 修改今日取款额度
-			BlankAccout.getInstance().setWithdrawalsLimit(BlankAccout.getInstance().getWithdrawalsLimit() - money);
+			BankAccout.getInstance().setWithdrawalsLimit(BankAccout.getInstance().getWithdrawalsLimit() - money);
 			// 调用数据库方法，交易记录表增加一项，修改数据库中的透支额
-			BlankAccout.getInstance().getTradingrecDAO().insertRecording(BlankAccout.getInstance().getCardNum(), money,
-					"透支取款", BlankAccout.getInstance().getTargetCard(), fees);
-			BlankAccout.getInstance().getAccountDAO().setCardOverdraft(BlankAccout.getInstance().getCardNum(),
-					BlankAccout.getInstance().getOverdraft());
+			BankAccout.getInstance().getTradingrecDAO().insertRecording(BankAccout.getInstance().getCardNum(), money,
+					"透支取款", BankAccout.getInstance().getTargetCard(), fees);
+			BankAccout.getInstance().getAccountDAO().setCardOverdraft(BankAccout.getInstance().getCardNum(),
+					BankAccout.getInstance().getOverdraft());
 			// 取款成功，发送消息给取款成功提示界面
 			message[0] = "透支取款";
 			message[1] = moneys; // 取款数
-			message[2] = Float.toString(BlankAccout.getInstance().getBalance());// 账户余额
-			message[3] = Float.toString(BlankAccout.getInstance().getOverdraft());// 今日可透支取款额度
+			message[2] = Float.toString(BankAccout.getInstance().getBalance());// 账户余额
+			message[3] = Float.toString(BankAccout.getInstance().getOverdraft());// 今日可透支取款额度
 			
 			// 停止当前倒计时
 			stopCountdown();

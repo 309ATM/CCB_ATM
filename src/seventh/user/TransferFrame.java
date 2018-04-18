@@ -11,7 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import seventh.accout.BlankAccout;
+import seventh.accout.BankAccout;
 import seventh.until.ATMButton;
 import seventh.until.CountdownThread;
 import seventh.until.NumLengthLimit;
@@ -159,13 +159,13 @@ public class TransferFrame {
 			String inputCard = textField_money.getText();// 获取输入要卡号
 			if (!inputCard.isEmpty()) {
 				Long card = Long.parseLong(inputCard);
-				BlankAccout.getInstance().setTargetCard(card);
+				BankAccout.getInstance().setTargetCard(card);
 				// 判断输入卡号是否存在
-				if (BlankAccout.getInstance().getAccountDAO().getCardExit(card)) {
+				if (BankAccout.getInstance().getAccountDAO().getCardExit(card)) {
 					if (isCross) {// 跨行按钮
-						if (BlankAccout.getInstance().getBlank()) {
+						if (BankAccout.getInstance().getBlank()) {
 							// 1.建行用户跨行转
-							if (!BlankAccout.getInstance().getAccountDAO().getBanks(card)) {// 输入不能是本行卡号
+							if (!BankAccout.getInstance().getAccountDAO().getBanks(card)) {// 输入不能是本行卡号
 								// 界面更改
 								label_tip.setText("请输入转账金额，确认键转账");
 								btn_transfer.setVisible(false);
@@ -180,7 +180,7 @@ public class TransferFrame {
 						} else {
 							// 2.非建行用户转
 							// TODO 不能转给自己的提示信息怎么写
-							if (BlankAccout.getInstance().getCardNum() == BlankAccout.getInstance().getTargetCard()) {
+							if (BankAccout.getInstance().getCardNum() == BankAccout.getInstance().getTargetCard()) {
 								label_message.setText("请输入其他人的账号");
 							} else {
 								// 界面跳转
@@ -195,8 +195,8 @@ public class TransferFrame {
 
 					} else {// 建行转建行按钮
 							// 只需要判断输入卡号是不是建行以及不能输入自己的卡号
-						if (BlankAccout.getInstance().getAccountDAO().getBanks(card)) {
-							if (BlankAccout.getInstance().getCardNum() == BlankAccout.getInstance().getTargetCard()) {
+						if (BankAccout.getInstance().getAccountDAO().getBanks(card)) {
+							if (BankAccout.getInstance().getCardNum() == BankAccout.getInstance().getTargetCard()) {
 								// TODO 不能转给自己的提示信息怎么写
 								label_message.setText("请输入其他人的账号");
 							} else {
@@ -231,22 +231,22 @@ public class TransferFrame {
 		public void actionPerformed(ActionEvent e) {
 			label_message.setText("");
 			// 进入输入金额的界面，首先判断转账限额是否足够
-			if (BlankAccout.getInstance().getTransferLimit() > 0) {
+			if (BankAccout.getInstance().getTransferLimit() > 0) {
 				String moneys = textField_money.getText();
 				float money = Float.parseFloat(moneys);
 				float fee = 0;
 				// 输入转账金额的合法性判断，如果都没问题
 				if (fees) {// 跨行，收取手续费
 					// 检查账户余额，收取手续费后，余额足够的话
-					float balance = BlankAccout.getInstance().getBalance();// 用户转账前的余额
+					float balance = BankAccout.getInstance().getBalance();// 用户转账前的余额
 					balance = (float) (balance - money * 1.01);// 按手续费收取后的余额
 					if (balance >= 0) {
 						// 余额足够，则从余额中扣除转账金额
-						BlankAccout.getInstance().setBalance(balance);
+						BankAccout.getInstance().setBalance(balance);
 						// 转出卡号
-						Long cardOut = BlankAccout.getInstance().getCardNum();
+						Long cardOut = BankAccout.getInstance().getCardNum();
 						// 转入卡号
-						Long cardIn = BlankAccout.getInstance().getTargetCard();
+						Long cardIn = BankAccout.getInstance().getTargetCard();
 						// 转账金额
 						// money = (float) (money * 99 / 100);
 						// 手续费
@@ -254,14 +254,14 @@ public class TransferFrame {
 						// 卡转出后余额
 						float balanceOut = balance;
 						// 卡转入后余额
-						float balanceIn = BlankAccout.getInstance().getAccountDAO().getCardBalance(cardIn) + money;
+						float balanceIn = BankAccout.getInstance().getAccountDAO().getCardBalance(cardIn) + money;
 
 						// 设置消息，传给交互界面
 						message[0] = "跨行转账";
 						message[1] = moneys; // 转账金额
 						message[4] = Float.toString(fee);
-						message[2] = Float.toString(BlankAccout.getInstance().getBalance());// 账户余额
-						message[3] = Long.toString(BlankAccout.getInstance().getTargetCard());// 目标账号
+						message[2] = Float.toString(BankAccout.getInstance().getBalance());// 账户余额
+						message[3] = Long.toString(BankAccout.getInstance().getTargetCard());// 目标账号
 
 						// 停止当前倒计时
 						stopCountdown();
@@ -277,20 +277,20 @@ public class TransferFrame {
 						textField_money.setDocument(new NumLengthLimit(18));
 
 						// 设置转账转出方的余额，转出卡号+余额
-						BlankAccout.getInstance().getAccountDAO().setCardBalance(cardOut, balanceOut);
+						BankAccout.getInstance().getAccountDAO().setCardBalance(cardOut, balanceOut);
 						// 设置转账转入方的余额，转入卡号+余额
-						BlankAccout.getInstance().getAccountDAO().setCardBalance(cardIn, balanceIn);
+						BankAccout.getInstance().getAccountDAO().setCardBalance(cardIn, balanceIn);
 
 						// 修改今日转账额度
-						BlankAccout.getInstance()
-								.setWithdrawalsLimit(BlankAccout.getInstance().getTransferLimit() - money);
+						BankAccout.getInstance()
+								.setWithdrawalsLimit(BankAccout.getInstance().getTransferLimit() - money);
 
 						// 下面是将记录插入交易历史记录表
 						// 卡转出的记录
-						BlankAccout.getInstance().getTradingrecDAO().insertRecording(cardOut, money, "转账转出", cardIn,
+						BankAccout.getInstance().getTradingrecDAO().insertRecording(cardOut, money, "转账转出", cardIn,
 								fee);
 						// 卡转入的记录
-						BlankAccout.getInstance().getTradingrecDAO().insertRecording(cardIn, money, "转账转入", cardOut,
+						BankAccout.getInstance().getTradingrecDAO().insertRecording(cardIn, money, "转账转入", cardOut,
 								fee);
 
 					} else {
@@ -299,27 +299,27 @@ public class TransferFrame {
 					}
 				} else {// 本行转账，不收手续费
 						// 检查账户余额，足够的话
-					float balance = BlankAccout.getInstance().getBalance();
+					float balance = BankAccout.getInstance().getBalance();
 					balance = balance - money; // 转账后的余额
 					if (balance >= 0) {
 						// 余额足够，则从余额中扣除转账金额
-						BlankAccout.getInstance().setBalance(balance);
+						BankAccout.getInstance().setBalance(balance);
 						// 转出卡号
-						Long cardOut = BlankAccout.getInstance().getCardNum();
+						Long cardOut = BankAccout.getInstance().getCardNum();
 						// 转入卡号
-						Long cardIn = BlankAccout.getInstance().getTargetCard();
+						Long cardIn = BankAccout.getInstance().getTargetCard();
 						// 转账金额就是输入的金额money
 						// 手续费就是fee = 0
 						// 卡转出后的余额
 						float balanceOut = balance;
 						// 卡转入后的余额
-						float balanceIn = BlankAccout.getInstance().getAccountDAO().getCardBalance(cardIn) + money;
+						float balanceIn = BankAccout.getInstance().getAccountDAO().getCardBalance(cardIn) + money;
 
 						// 转账成功，发送消息给转账成功提示界面
 						message[0] = "转账";
 						message[1] = moneys; // 转账金额
-						message[2] = Float.toString(BlankAccout.getInstance().getBalance());// 账户余额
-						message[3] = Long.toString(BlankAccout.getInstance().getTargetCard());// 目标账号
+						message[2] = Float.toString(BankAccout.getInstance().getBalance());// 账户余额
+						message[3] = Long.toString(BankAccout.getInstance().getTargetCard());// 目标账号
 
 						// 停止当前倒计时
 						stopCountdown();
@@ -335,20 +335,20 @@ public class TransferFrame {
 						textField_money.setDocument(new NumLengthLimit(18));
 
 						// 设置转账转出方的余额，转出卡号+余额
-						BlankAccout.getInstance().getAccountDAO().setCardBalance(cardOut, balanceOut);
+						BankAccout.getInstance().getAccountDAO().setCardBalance(cardOut, balanceOut);
 						// 设置转账转入方的余额，转入卡号+余额
-						BlankAccout.getInstance().getAccountDAO().setCardBalance(cardIn, balanceIn);
+						BankAccout.getInstance().getAccountDAO().setCardBalance(cardIn, balanceIn);
 
 						// 修改今日转账额度
-						BlankAccout.getInstance()
-								.setWithdrawalsLimit(BlankAccout.getInstance().getTransferLimit() - money);
+						BankAccout.getInstance()
+								.setWithdrawalsLimit(BankAccout.getInstance().getTransferLimit() - money);
 
 						// 下面是将记录插入交易历史记录表
 						// 卡转出的记录
-						BlankAccout.getInstance().getTradingrecDAO().insertRecording(cardOut, money, "转账转出", cardIn,
+						BankAccout.getInstance().getTradingrecDAO().insertRecording(cardOut, money, "转账转出", cardIn,
 								fee);
 						// 卡转入的记录
-						BlankAccout.getInstance().getTradingrecDAO().insertRecording(cardIn, money, "转账转入", cardOut,
+						BankAccout.getInstance().getTradingrecDAO().insertRecording(cardIn, money, "转账转入", cardOut,
 								fee);
 
 					} else {

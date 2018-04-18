@@ -11,7 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import seventh.accout.BlankAccout;
+import seventh.accout.BankAccout;
 import seventh.until.ATMButton;
 import seventh.until.CountdownThread;
 
@@ -112,11 +112,11 @@ public class QueryFrame {
 	 * 当日可存款、取款、转账额度
 	 */
 	public void showMessage() {
-		float balance = BlankAccout.getInstance().getBalance();
-		float overdraft = BlankAccout.getInstance().getOverdraft();
-		float withdrawalsLimit = BlankAccout.getInstance().getWithdrawalsLimit();
-		float depositLimit = BlankAccout.getInstance().getDepositLimit();
-		float transferLimit = BlankAccout.getInstance().getTransferLimit();
+		float balance = BankAccout.getInstance().getBalance();
+		float overdraft = BankAccout.getInstance().getOverdraft();
+		float withdrawalsLimit = BankAccout.getInstance().getWithdrawalsLimit();
+		float depositLimit = BankAccout.getInstance().getDepositLimit();
+		float transferLimit = BankAccout.getInstance().getTransferLimit();
 
 		String messages = "<html>您的余额为：{0}元<br>" + "您的透支额度为：{1}元<br>" + "您今日存款限额还剩：{2}元<br>" + "您今日取款限额还剩：{3}元<br>"
 				+ "您今日转账限额还剩：{4}元";// 显示信息还要修改

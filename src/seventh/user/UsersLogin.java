@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
-import seventh.accout.BlankAccout;
+import seventh.accout.BankAccout;
 import seventh.dbc.AccountDAO;
 import seventh.until.ATMButton;
 import seventh.until.NumLengthLimit;
@@ -128,9 +128,9 @@ public class UsersLogin {
 			label_message.setText("");
 			if (!card.isEmpty()) {
 				if (!pawd.isEmpty()) {
-					if (BlankAccout.getInstance().getAccountDAO().getCardExit(Long.parseLong(card))) {
+					if (BankAccout.getInstance().getAccountDAO().getCardExit(Long.parseLong(card))) {
 						// 验证卡号是否存在
-						String loginTime = BlankAccout.getInstance().getAccountDAO().getLoginTime(Long.parseLong(card));
+						String loginTime = BankAccout.getInstance().getAccountDAO().getLoginTime(Long.parseLong(card));
 						String newLoginTime = "";
 						int loginCount = loginTime.charAt(10);// 48-51
 						loginTime = loginTime.substring(0, 10);
@@ -148,15 +148,15 @@ public class UsersLogin {
 								// 如果登陆失败次数小于3，判断密码
 								if (accountDAO.checkPawd(Long.parseLong(card), Long.parseLong(pawd))) {
 									newLoginTime = today + (char) (0);
-									BlankAccout.getInstance().getAccountDAO().setLoginTime(Long.parseLong(card),
+									BankAccout.getInstance().getAccountDAO().setLoginTime(Long.parseLong(card),
 											newLoginTime);
 									// 如果账号密码正确，就获取账户状态
-									String status = BlankAccout.getInstance().getAccountDAO()
+									String status = BankAccout.getInstance().getAccountDAO()
 											.getCardStatu(Long.parseLong(card));
 									if (status.equals("正常") || status.equals("冻结")) {
 										// 将用户账号保存下来
-										BlankAccout.getInstance().setCardNum(Long.parseLong(card));
-										BlankAccout.getInstance().setStatus(status);
+										BankAccout.getInstance().setCardNum(Long.parseLong(card));
+										BankAccout.getInstance().setStatus(status);
 										login();
 									} else {
 										label_message.setText("该账户已" + status);
@@ -165,7 +165,7 @@ public class UsersLogin {
 								} else {
 									label_message.setText("密码不正确");
 									newLoginTime = today + (char) (loginCount + 1);
-									BlankAccout.getInstance().getAccountDAO().setLoginTime(Long.parseLong(card),
+									BankAccout.getInstance().getAccountDAO().setLoginTime(Long.parseLong(card),
 											newLoginTime);
 								}
 							} else {
@@ -188,22 +188,22 @@ public class UsersLogin {
 
 		@SuppressWarnings("static-access")
 		private void login() {
-			Long card = BlankAccout.getInstance().getCardNum();
+			Long card = BankAccout.getInstance().getCardNum();
 			// 设置今日取款限额，设置透支额度，设置转账限额，设置今日转账限额，设置账户余额，设置所属银行，设置银行卡类型
-			BlankAccout.getInstance()
-					.setWithdrawalsLimit(BlankAccout.getInstance().getTradingrecDAO().getWithdrawalsLimit(card));
+			BankAccout.getInstance()
+					.setWithdrawalsLimit(BankAccout.getInstance().getTradingrecDAO().getWithdrawalsLimit(card));
 
-			BlankAccout.getInstance()
-					.setDepositLimit(BlankAccout.getInstance().getTradingrecDAO().getDepositLimit(card));
+			BankAccout.getInstance()
+					.setDepositLimit(BankAccout.getInstance().getTradingrecDAO().getDepositLimit(card));
 
-			BlankAccout.getInstance()
-					.setTransferLimit(BlankAccout.getInstance().getTradingrecDAO().getTransferLimit(card));
+			BankAccout.getInstance()
+					.setTransferLimit(BankAccout.getInstance().getTradingrecDAO().getTransferLimit(card));
 
-			BlankAccout.getInstance().setOverdraft((BlankAccout.getInstance().getAccountDAO().getCardOverdraft(card)));
+			BankAccout.getInstance().setOverdraft((BankAccout.getInstance().getAccountDAO().getCardOverdraft(card)));
 
-			BlankAccout.getInstance().setBalance(BlankAccout.getInstance().getAccountDAO().getCardBalance(card));
+			BankAccout.getInstance().setBalance(BankAccout.getInstance().getAccountDAO().getCardBalance(card));
 
-			BlankAccout.getInstance().setBlank(BlankAccout.getInstance().getAccountDAO().getBanks(card));
+			BankAccout.getInstance().setBlank(BankAccout.getInstance().getAccountDAO().getBanks(card));
 
 			// 添加设置银行卡类型
 
