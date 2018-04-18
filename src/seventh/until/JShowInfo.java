@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -49,8 +51,8 @@ public final class JShowInfo extends JDialog {
 	public String[] info;
 	private JButton btn_change;
 	private String File = ".";
-//	private String File = "E:\\Code\\java\\CCB_ATM";
-	
+	// private String File = "E:\\Code\\java\\CCB_ATM";
+
 	public static void main(String[] args) {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -190,7 +192,7 @@ public final class JShowInfo extends JDialog {
 		btn_change.setBounds(212, 527, 113, 42);
 
 		label_bg = new JLabel("");
-		label_bg.setIcon(new ImageIcon(File   + "\\img\\UserInformation.png"));
+		label_bg.setIcon(new ImageIcon(File + "\\img\\UserInformation.png"));
 		label_bg.setBounds(0, 0, 707, 603);
 	}
 
@@ -343,6 +345,20 @@ public final class JShowInfo extends JDialog {
 	 */
 	final class ButtonActionListener implements ActionListener {
 
+		public String getRandNum(int charCount) {
+			String charValue = "";
+			for (int i = 0; i < charCount; i++) {
+				char c = (char) (randomInt(0, 10) + '0');
+				charValue += String.valueOf(c);
+			}
+			return charValue;
+		}
+
+		public int randomInt(int from, int to) {
+			Random r = new Random();
+			return from + r.nextInt(to - from);
+		}
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == btn_confirm) {
@@ -355,9 +371,27 @@ public final class JShowInfo extends JDialog {
 			}
 			if (e.getSource() == btn_change) {
 				ConfirmChange();
-				if(info[0].equals("sucess")){
-					isConfirm = true;
-					closeJSM();
+				if (info[0].equals("sucess")) {
+					// 生成验证码
+					String code = getRandNum(6);
+					// 发送验证码
+					SendCode.sendSms(info[4], code);
+					// 输入框输入验证码
+					String input_ram = JOptionPane.showInputDialog(frame, "输入收到的验证码", "提示", JOptionPane.INFORMATION_MESSAGE);
+					
+					// 判断输入验证是否正确
+					if (input_ram != null) {
+						if (!input_ram.isEmpty()) {
+							if (code.equals(input_ram)) {
+								isConfirm = true;
+								closeJSM();
+							}else{
+								JOptionPane.showMessageDialog(frame, "验证码错误，重新获取","错误",JOptionPane.ERROR_MESSAGE);
+							}
+						}else{
+							JOptionPane.showMessageDialog(frame, "请输入验证码","错误",JOptionPane.ERROR_MESSAGE);
+						}
+					}
 				}
 			}
 		}
