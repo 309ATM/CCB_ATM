@@ -19,6 +19,7 @@ import javax.swing.UIManager;
 import seventh.accout.BlankAccout;
 import seventh.dbc.AccountDAO;
 import seventh.until.ATMButton;
+import seventh.until.NumLengthLimit;
 import seventh.until.NumLimit;
 
 import java.awt.Color;
@@ -31,8 +32,8 @@ public class UsersLogin {
 
 	private JFrame frameUserLogin;
 	private JPasswordField textUserPswd;
-	 private String File = "E:\\Code\\java\\CCB_ATM";
-//	private String File = ".";
+	// private String File = "E:\\Code\\java\\CCB_ATM";
+	private String File = ".";
 	private JTextField textField_CardNumber;
 	private JLabel label_message;
 	private AccountDAO accountDAO = new AccountDAO();
@@ -87,6 +88,7 @@ public class UsersLogin {
 		textField_CardNumber.setBounds(380, 219, 294, 53);
 		frameUserLogin.getContentPane().add(textField_CardNumber);
 		textField_CardNumber.addKeyListener(new NumLimit());
+		// textField_CardNumber.setDocument(new NumLengthLimit(18));
 
 		JLabel lblInputpasswd = new JLabel("请输入6位密码:");
 		lblInputpasswd.setHorizontalAlignment(SwingConstants.CENTER);
@@ -100,6 +102,7 @@ public class UsersLogin {
 		textUserPswd.setBounds(380, 339, 294, 53);
 		frameUserLogin.getContentPane().add(textUserPswd);
 		textUserPswd.addKeyListener(new NumLimit());
+		textUserPswd.setDocument(new NumLengthLimit(6));
 
 		label_message = new JLabel("");
 		label_message.setHorizontalAlignment(SwingConstants.CENTER);
@@ -184,27 +187,23 @@ public class UsersLogin {
 		private void login() {
 			Long card = BlankAccout.getInstance().getCardNum();
 			// 设置今日取款限额，设置透支额度，设置转账限额，设置今日转账限额，设置账户余额，设置所属银行，设置银行卡类型
-			BlankAccout.getInstance().setWithdrawalsLimit(BlankAccout.getInstance().getTradingrecDAO()
-					.getWithdrawalsLimit(card));
-			
-			BlankAccout.getInstance().setDepositLimit(BlankAccout.getInstance().getTradingrecDAO()
-					.getDepositLimit(card));
-			
-			BlankAccout.getInstance().setTransferLimit(BlankAccout.getInstance().getTradingrecDAO()
-					.getTransferLimit(card));
-			
-			BlankAccout.getInstance().setOverdraft((BlankAccout.getInstance().getAccountDAO()
-					.getCardOverdraft(card)));
-			
-			BlankAccout.getInstance().setBalance(
-					BlankAccout.getInstance().getAccountDAO().getCardBalance(card));
-			
-			BlankAccout.getInstance().setBlank(
-					BlankAccout.getInstance().getAccountDAO().getBanks(card));
-			
-			//添加设置银行卡类型
-			
-			
+			BlankAccout.getInstance()
+					.setWithdrawalsLimit(BlankAccout.getInstance().getTradingrecDAO().getWithdrawalsLimit(card));
+
+			BlankAccout.getInstance()
+					.setDepositLimit(BlankAccout.getInstance().getTradingrecDAO().getDepositLimit(card));
+
+			BlankAccout.getInstance()
+					.setTransferLimit(BlankAccout.getInstance().getTradingrecDAO().getTransferLimit(card));
+
+			BlankAccout.getInstance().setOverdraft((BlankAccout.getInstance().getAccountDAO().getCardOverdraft(card)));
+
+			BlankAccout.getInstance().setBalance(BlankAccout.getInstance().getAccountDAO().getCardBalance(card));
+
+			BlankAccout.getInstance().setBlank(BlankAccout.getInstance().getAccountDAO().getBanks(card));
+
+			// 添加设置银行卡类型
+
 			frameUserLogin.setVisible(false);
 			MainFrame mainFrame = new MainFrame();
 			mainFrame.getFrameMain().setVisible(true);

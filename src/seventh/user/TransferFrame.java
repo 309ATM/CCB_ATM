@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 import seventh.accout.BlankAccout;
 import seventh.until.ATMButton;
 import seventh.until.CountdownThread;
+import seventh.until.NumLengthLimit;
 import seventh.until.NumLimit;
 
 import java.awt.Color;
@@ -112,6 +113,7 @@ public class TransferFrame {
 		textField_money.setBounds(321, 284, 451, 53);
 		frameTransfer.getContentPane().add(textField_money);
 		textField_money.addKeyListener(new NumLimit());
+		textField_money.setDocument(new NumLengthLimit(18));
 
 		btn_transfer = new ATMButton("<html><center>转账<br>Transfer</center></html>");
 		btn_transfer.setForeground(new Color(0, 128, 0));
@@ -168,6 +170,7 @@ public class TransferFrame {
 								btn_transfer.setVisible(false);
 								textField_money.setText("");
 								btn_confirm.setVisible(true);
+								textField_money.setDocument(new NumLengthLimit(5));
 								fees = true;
 							} else {
 								// 提示不能输入本行卡号
@@ -184,6 +187,7 @@ public class TransferFrame {
 								btn_transfer.setVisible(false);
 								textField_money.setText("");
 								btn_confirm.setVisible(true);
+								textField_money.setDocument(new NumLengthLimit(5));
 								fees = true;
 							}
 						}
@@ -200,6 +204,7 @@ public class TransferFrame {
 								btn_transfer.setVisible(false);
 								textField_money.setText("");
 								btn_confirm.setVisible(true);
+								textField_money.setDocument(new NumLengthLimit(5));
 								fees = false;
 							}
 						} else {
@@ -267,6 +272,7 @@ public class TransferFrame {
 						textField_money.setText("");
 						btn_transfer.setVisible(true);
 						btn_confirm.setVisible(false);
+						textField_money.setDocument(new NumLengthLimit(18));
 
 						// 设置转账转出方的余额，转出卡号+余额
 						BlankAccout.getInstance().getAccountDAO().setCardBalance(cardOut, balanceOut);
@@ -324,6 +330,7 @@ public class TransferFrame {
 						textField_money.setText("");
 						btn_transfer.setVisible(true);
 						btn_confirm.setVisible(false);
+						textField_money.setDocument(new NumLengthLimit(18));
 
 						// 设置转账转出方的余额，转出卡号+余额
 						BlankAccout.getInstance().getAccountDAO().setCardBalance(cardOut, balanceOut);
@@ -370,6 +377,7 @@ public class TransferFrame {
 			btn_transfer.setVisible(true);
 			textField_money.setText("");
 			btn_confirm.setVisible(false);
+			textField_money.setDocument(new NumLengthLimit(18));
 		}
 	}
 }
