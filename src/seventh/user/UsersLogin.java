@@ -117,7 +117,10 @@ public class UsersLogin {
 		frameUserLogin.getContentPane().add(lblBg);
 	}
 
-	// ÓÃ»§µÇÂ½¼àÌıÆ÷
+	/** ÓÃ»§µÇÂ½¼àÌıÆ÷
+	 * @author Jachin
+	 *
+	 */
 	class UserLogin implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			String card = textField_CardNumber.getText();

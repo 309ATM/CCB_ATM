@@ -16,7 +16,7 @@ import seventh.until.ATMButton;
 import seventh.until.CountdownThread;
 
 /**
- * 查询余额
+ * ATM查询余额功能
  *
  */
 public class QueryFrame {
@@ -44,7 +44,7 @@ public class QueryFrame {
 	}
 
 	/**
-	 * Launch the application.
+	 * 主函数
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -64,14 +64,14 @@ public class QueryFrame {
 	}
 
 	/**
-	 * Create the application.
+	 * 初始化应用界面
 	 */
 	public QueryFrame() {
 		initialize();
 	}
 
 	/**
-	 * Initialize the contents of the frame.
+	 * 添加控件
 	 */
 	private void initialize() {
 		frameQuery = new JFrame();
@@ -106,20 +106,11 @@ public class QueryFrame {
 		frameQuery.getContentPane().add(lblBg);
 	}
 
-	class Back implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			MainFrame.frameMain.setVisible(true);
-			
-			// 开始主界面倒计时
-			MainFrame.startCountdown();
-			// 停止当前倒计时
-			stopCountdown();
-			
-			frameQuery.dispose();
-		}
-	}
-
+	/**
+	 * 显示用户余额信息
+	 * 包括当前可用余额、可透支额度
+	 * 当日可存款、取款、转账额度
+	 */
 	public void showMessage() {
 		float balance = BlankAccout.getInstance().getBalance();
 		float overdraft = BlankAccout.getInstance().getOverdraft();
@@ -138,4 +129,21 @@ public class QueryFrame {
 		label.setText(messages);
 	}
 
+	/** 退出按钮事件监听器
+	 * @author Admin
+	 *
+	 */
+	class Back implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			MainFrame.frameMain.setVisible(true);
+			
+			// 开始主界面倒计时
+			MainFrame.startCountdown();
+			// 停止当前倒计时
+			stopCountdown();
+			
+			frameQuery.dispose();
+		}
+	}
 }

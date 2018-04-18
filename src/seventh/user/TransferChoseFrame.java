@@ -16,6 +16,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.UIManager;
 
+/** 选择转账类型跳转界面，当前用户为建行，则可以选择行内转或跨行转，为其他银行用户，则只能选择跨行转，并会收取一定手续费。
+ * @author Admin
+ *
+ */
 public class TransferChoseFrame {
 
 	private JFrame frameTransferChose;
@@ -46,7 +50,7 @@ public class TransferChoseFrame {
 	}
 
 	/**
-	 * Launch the application.
+	 * 主函数
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -63,7 +67,7 @@ public class TransferChoseFrame {
 	}
 
 	/**
-	 * Create the application.
+	 * 初始化应用
 	 */
 	public TransferChoseFrame() {
 		initialize();
@@ -75,7 +79,7 @@ public class TransferChoseFrame {
 	}
 
 	/**
-	 * Initialize the contents of the frame.
+	 * 添加控件
 	 */
 	private void initialize() {
 		frameTransferChose = new JFrame();
@@ -115,6 +119,10 @@ public class TransferChoseFrame {
 		frameTransferChose.getContentPane().add(lblBg);
 	}
 
+	/** 按钮事件监听器，设置用户选择哪种转账类型，并跳转界面
+	 * @author Jachin
+	 *
+	 */
 	class ToTransfer implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -132,6 +140,10 @@ public class TransferChoseFrame {
 		}
 	}
 
+	/** 退出按钮事件监听器
+	 * @author Admin
+	 *
+	 */
 	class Back implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {

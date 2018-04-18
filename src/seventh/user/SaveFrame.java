@@ -22,7 +22,7 @@ import seventh.until.NumLengthLimit;
 import seventh.until.NumLimit;
 
 /**
- * 存款
+ * ATM存款功能
  *
  */
 public class SaveFrame {
@@ -56,7 +56,7 @@ public class SaveFrame {
 			time = null;
 		}
 	/**
-	 * Launch the application.
+	 * 主函数
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -73,14 +73,14 @@ public class SaveFrame {
 	}
 
 	/**
-	 * Create the application.
+	 * 初始化应用界面
 	 */
 	public SaveFrame() {
 		initialize();
 	}
 
 	/**
-	 * Initialize the contents of the frame.
+	 * 添加控件
 	 */
 	private void initialize() {
 		frameSave = new JFrame();
@@ -137,6 +137,11 @@ public class SaveFrame {
 		frameSave.getContentPane().add(lblBg);
 	}
 
+	/** 存款方法
+	 * @param card 存入卡号
+	 * @param money 存款金额
+	 * @param fees 手续费
+	 */
 	public void deposit(Long card, float money, float fees) {
 		// 存款方法
 		// 更改 bank account 中的值
@@ -150,7 +155,10 @@ public class SaveFrame {
 
 	}
 
-	// 存钱监听器
+	/** 存款按钮事件监听器
+	 * @author Admin
+	 *
+	 */
 	class SaveMoney implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			label_message.setText("");
@@ -198,6 +206,10 @@ public class SaveFrame {
 		}
 	}
 
+	/** 退出按钮事件监听器
+	 * @author Admin
+	 *
+	 */
 	class Back implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {

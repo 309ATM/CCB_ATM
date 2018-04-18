@@ -16,6 +16,11 @@ import javax.swing.UIManager;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
+/** 用户操作后消息显示界面
+ * 包括用户取款、存款、转账后显示当前交易明细，并且可以选择继续交易或者返回主界面
+ * @author Jachin
+ *
+ */
 public class MessageFrame {
 
 	private JFrame frameMessage;
@@ -43,7 +48,7 @@ public class MessageFrame {
 	}
 
 	/**
-	 * Launch the application.
+	 * 主函数
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -60,7 +65,7 @@ public class MessageFrame {
 	}
 
 	/**
-	 * Create the application.
+	 * 初始化函数
 	 */
 	public MessageFrame() {
 		initialize();
@@ -98,7 +103,7 @@ public class MessageFrame {
 	}
 
 	/**
-	 * Initialize the contents of the frame.
+	 * 添加控件
 	 */
 	private void initialize() {
 		frameMessage = new JFrame();
@@ -143,12 +148,15 @@ public class MessageFrame {
 
 	}
 
+	/** 用户选择继续交易按钮事件监听器
+	 * @author Jachin
+	 *
+	 */
 	class Continue implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (message[0].equals("取款") || message[0].equals("透支取款")) {
-//				TakeChoseFrame.main(null);
 				// 停止当前倒计时，开启下一个的倒计时
 				stopCountdown();
 				TakeChoseFrame takeChoseFrame = new TakeChoseFrame();
@@ -157,7 +165,6 @@ public class MessageFrame {
 				frameMessage.setVisible(false);
 			}
 			if (message[0].equals("存款")) {
-//				SaveFrame.main(null);
 				stopCountdown();
 				SaveFrame saveFrame = new SaveFrame();
 				saveFrame.getFrameSave().setVisible(true);
@@ -165,7 +172,6 @@ public class MessageFrame {
 				frameMessage.setVisible(false);
 			}
 			if (message[0].equals("转账") || message[0].equals("跨行转账")) {
-//				TransferChoseFrame.main(null);
 				stopCountdown();
 				TransferChoseFrame transferChoseFrame = new TransferChoseFrame();
 				transferChoseFrame.getFrameTransferChose().setVisible(true);
@@ -176,7 +182,9 @@ public class MessageFrame {
 
 	}
 
-	// 返回主菜单界面
+	/** 
+	 * 退出按钮事件监听器
+	 */
 	class Back implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {

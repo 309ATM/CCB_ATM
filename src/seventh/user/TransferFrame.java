@@ -20,9 +20,9 @@ import seventh.until.NumLimit;
 import java.awt.Color;
 import javax.swing.SwingConstants;
 
-/**
- * 转账
- *
+/** 
+ * ATM转账功能
+ * 
  */
 public class TransferFrame {
 
@@ -149,6 +149,7 @@ public class TransferFrame {
 
 	/**
 	 * 输入卡号后的 转账按钮 监听器
+	 * @author Jachin
 	 */
 	class TransferMoney implements ActionListener {
 		@Override
@@ -223,6 +224,7 @@ public class TransferFrame {
 
 	/**
 	 * 输入金额后的 确认按钮 监听器
+	 * @author Jachin
 	 */
 	class ConfirmTransfer implements ActionListener {
 		@Override
@@ -360,6 +362,10 @@ public class TransferFrame {
 		}
 	}
 
+	/** 退出按钮事件监听器
+	 * @author Jachin
+	 *
+	 */
 	class Back implements ActionListener {
 
 		@Override

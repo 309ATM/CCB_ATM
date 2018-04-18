@@ -22,7 +22,7 @@ import javax.swing.SwingConstants;
 import java.awt.Color;
 
 /**
- * 取款
+ * ATM取款功能
  *
  */
 public class TakeFrame {
@@ -55,7 +55,7 @@ public class TakeFrame {
 	}
 
 	/**
-	 * Launch the application.
+	 * 主函数
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -76,14 +76,14 @@ public class TakeFrame {
 	}
 
 	/**
-	 * Create the application.
+	 * 初始化应用
 	 */
 	public TakeFrame() {
 		initialize();
 	}
 
 	/**
-	 * Initialize the contents of the frame.
+	 * 添加控件
 	 */
 	private void initialize() {
 		frameTake = new JFrame();
@@ -227,9 +227,9 @@ public class TakeFrame {
 	}
 
 	/**
-	 * 调用数据库方法写入数据，修改 BankAccount
+	 * 普通取款
 	 * 
-	 * @param moneys
+	 * @param moneys 取款金额
 	 */
 	public void take(String moneys) {
 		float money = Float.parseFloat(moneys);
@@ -267,6 +267,9 @@ public class TakeFrame {
 
 	}
 
+	/** 透支取款
+	 * @param moneys 透支取款金额
+	 */
 	public void Overdraft(String moneys) {
 		float money = Float.parseFloat(moneys);
 		float fees = 0;// 手续费
@@ -302,6 +305,10 @@ public class TakeFrame {
 		}
 	}
 
+	/** 退出按钮事件监听器
+	 * @author Admin
+	 *
+	 */
 	class Back implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {

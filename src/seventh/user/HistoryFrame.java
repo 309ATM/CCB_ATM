@@ -31,7 +31,7 @@ import java.text.SimpleDateFormat;
 import java.awt.event.ItemEvent;
 
 /**
- * 查询历史记录
+ * ATM查询交易历史记录功能
  *
  */
 public class HistoryFrame {
@@ -58,6 +58,10 @@ public class HistoryFrame {
 		time = null;
 	}
 
+	
+	/**
+	 * 主函数
+	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -76,11 +80,17 @@ public class HistoryFrame {
 		return frameHistory;
 	}
 
+	/**
+	 * 初始化应用界面
+	 */
 	public HistoryFrame() {
 		initialize();
 		WriteData(1);
 	}
 
+	/**
+	 * 添加控件
+	 */
 	private void initialize() {
 		frameHistory = new JFrame();
 		frameHistory.setTitle("\u5EFA\u8BBE\u94F6\u884CATM");
@@ -115,6 +125,7 @@ public class HistoryFrame {
 		frameHistory.getContentPane().add(lblSelectTime);
 
 		String[] s = { "1个月", "3个月", "6个月" };
+		@SuppressWarnings("unchecked")
 		JComboBox comboBox = new JComboBox(s);
 		comboBox.addItemListener(new SelectTime());
 		comboBox.setFont(new Font("幼圆", Font.PLAIN, 18));
@@ -158,6 +169,9 @@ public class HistoryFrame {
 		frameHistory.getContentPane().add(lblBg);
 	}
 
+	/** 将用户查询的交易历史记录信息填写到二维表格
+	 * @param month 用户选择查询month个月内的交易历史记录
+	 */
 	public void WriteData(int month) {
 		final String[] columnNames = { "账户", "日期", "交易金额", "交易类型", "目标账户", "手续费" };
 		if (month == 1) {
@@ -196,6 +210,10 @@ public class HistoryFrame {
 		table.getColumnModel().getColumn(5).setPreferredWidth(20);
 	}
 
+	/** 判断用户选择查看哪一段时间内的交易历史记录
+	 * @author Jachin
+	 *
+	 */
 	class SelectTime implements ItemListener {
 
 		@Override
@@ -210,6 +228,10 @@ public class HistoryFrame {
 
 	}
 
+	/** 获取用户选择时间后具体的一段日期
+	 * @param month 查询month个月内的记录
+	 * @return String[] date = {month个月前的今天的日期，今天的日期}
+	 */
 	public String[] getDate(int month) {
 		Date dNow = new Date(); // 当前时间
 		Date dBefore = new Date();
@@ -224,6 +246,10 @@ public class HistoryFrame {
 		return date;
 	}
 
+	/** 退出按钮事件监听器
+	 * @author Jachin
+	 *
+	 */
 	class Back implements ActionListener {
 
 		@Override

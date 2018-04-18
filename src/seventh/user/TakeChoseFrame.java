@@ -17,7 +17,7 @@ import seventh.until.ATMButton;
 import seventh.until.CountdownThread;
 
 /**
- * 取款选择
+ * 取款类型选择界面，用户持卡类型为信用卡，则可以进行取款和透支取款，为储蓄卡，则只能进行取款
  *
  */
 public class TakeChoseFrame {
@@ -33,7 +33,7 @@ public class TakeChoseFrame {
 	private ATMButton overdeaftButton;
 	
 	/**
-	 * Launch the application.
+	 * 主函数
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -54,7 +54,7 @@ public class TakeChoseFrame {
 	}
 
 	/**
-	 * Create the application.
+	 * 初始化应用界面
 	 */
 	public TakeChoseFrame() {
 		initialize();
@@ -66,7 +66,7 @@ public class TakeChoseFrame {
 	}
 
 	/**
-	 * Initialize the contents of the frame.
+	 * 添加控件
 	 */
 	private void initialize() {
 		frameChose = new JFrame();
@@ -107,6 +107,10 @@ public class TakeChoseFrame {
 		
 	}
 
+	/** 设置用户选择的取款类型，并跳转取款界面
+	 * @author Admin
+	 *
+	 */
 	class ToTake implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -124,6 +128,10 @@ public class TakeChoseFrame {
 		}
 	}
 
+	/** 退出按钮事件监听器
+	 * @author Admin
+	 *
+	 */
 	class Back implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {

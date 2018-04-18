@@ -8,6 +8,10 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 
+/** 阿里云短信服务实现短信验证码
+ * @author Jachin
+ *
+ */
 public class SendCode {
 	public static SendSmsResponse sendSms(String phoneNumber,String code) {
 		SendSmsResponse sendSmsResponse = null;

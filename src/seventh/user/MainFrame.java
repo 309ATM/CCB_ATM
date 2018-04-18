@@ -18,7 +18,7 @@ import seventh.until.CountdownThread;
 import java.awt.Color;
 
 /**
- * ATM主菜单
+ * ATM主菜单界面 包括五大功能 用户取款、用户存款、用户转账、用户查询余额、用户查询交易历史明细
  *
  */
 public class MainFrame {
@@ -31,7 +31,7 @@ public class MainFrame {
 	private TransferChoseFrame transferChoseFrame = new TransferChoseFrame();
 	private QueryFrame queryFrame = new QueryFrame();
 	private HistoryFrame historyFrame = new HistoryFrame();
-	//private String File = "E:\\Code\\java\\CCB_ATM";
+	// private String File = "E:\\Code\\java\\CCB_ATM";
 	private String File = ".";
 	private ATMButton btnQu;
 	private ATMButton btnZhuan;
@@ -72,6 +72,9 @@ public class MainFrame {
 		return frameMain;
 	}
 
+	/**
+	 * 初始化应用界面
+	 */
 	public MainFrame() {
 		initialize();
 		takeChoseFrame.getFrameChose().setVisible(false);
@@ -81,6 +84,9 @@ public class MainFrame {
 		historyFrame.getFrameHistory().setVisible(false);
 	}
 
+	/**
+	 * 添加控件
+	 */
 	private void initialize() {
 		frameMain = new JFrame();
 		frameMain.setTitle("\u5EFA\u8BBE\u94F6\u884CATM");
@@ -120,12 +126,12 @@ public class MainFrame {
 		button_2.addActionListener(new Exit());
 		button_2.setBounds(875, 550, 200, 80);
 		frameMain.getContentPane().add(button_2);
-		
-				countdownLabel = new JLabel("60");
-				countdownLabel.setForeground(Color.RED);
-				countdownLabel.setFont(new Font("黑体", Font.BOLD, 40));
-				countdownLabel.setBounds(1020, 61, 55, 53);
-				frameMain.getContentPane().add(countdownLabel);
+
+		countdownLabel = new JLabel("60");
+		countdownLabel.setForeground(Color.RED);
+		countdownLabel.setFont(new Font("黑体", Font.BOLD, 40));
+		countdownLabel.setBounds(1020, 61, 55, 53);
+		frameMain.getContentPane().add(countdownLabel);
 
 		JLabel lblBg = new JLabel("");
 		lblBg.setIcon(new ImageIcon(File + "\\img\\ATM_bg.png"));
@@ -135,6 +141,9 @@ public class MainFrame {
 		cardLock();
 	}
 
+	/**
+	 * 判断账户状态，如果冻结，则不能使用取款和转账功能
+	 */
 	public void cardLock() {
 		String status = BlankAccout.getInstance().getStatus();
 		if (status.equals("冻结")) {
@@ -146,6 +155,10 @@ public class MainFrame {
 
 	}
 
+	/** 跳转至取款功能
+	 * @author Admin
+	 *
+	 */
 	class ToTake implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -158,6 +171,10 @@ public class MainFrame {
 		}
 	}
 
+	/** 跳转至存款功能
+	 * @author Admin
+	 *
+	 */
 	class ToSave implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -170,6 +187,10 @@ public class MainFrame {
 		}
 	}
 
+	/** 跳转至转账功能
+	 * @author Admin
+	 *
+	 */
 	class ToTransfer implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -182,6 +203,10 @@ public class MainFrame {
 		}
 	}
 
+	/** 跳转至查询余额功能
+	 * @author Admin
+	 *
+	 */
 	class ToQuery implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -193,16 +218,11 @@ public class MainFrame {
 			frameMain.setVisible(false);
 		}
 	}
-
-	class Exit implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			stopCountdown();
-			UsersLogin.main(null);
-			frameMain.dispose();
-		}
-	}
-
+	
+	/** 跳转至查询交易明细功能
+	 * @author Admin
+	 *
+	 */
 	class ToHistory implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -211,6 +231,19 @@ public class MainFrame {
 			historyFrame.startCountdown();
 			stopCountdown();
 			frameMain.setVisible(false);
+		}
+	}
+
+	/** 用户退卡
+	 * @author Admin
+	 *
+	 */
+	class Exit implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			stopCountdown();
+			UsersLogin.main(null);
+			frameMain.dispose();
 		}
 	}
 }
