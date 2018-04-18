@@ -231,9 +231,9 @@ public class TransferFrame {
 		public void actionPerformed(ActionEvent e) {
 			label_message.setText("");
 			// 进入输入金额的界面，首先判断转账限额是否足够
-			if (BankAccout.getInstance().getTransferLimit() > 0) {
-				String moneys = textField_money.getText();
-				float money = Float.parseFloat(moneys);
+			String moneys = textField_money.getText();
+			float money = Float.parseFloat(moneys);
+			if (BankAccout.getInstance().getTransferLimit() - money > 0) {
 				float fee = 0;
 				// 输入转账金额的合法性判断，如果都没问题
 				if (fees) {// 跨行，收取手续费
@@ -283,7 +283,7 @@ public class TransferFrame {
 
 						// 修改今日转账额度
 						BankAccout.getInstance()
-								.setWithdrawalsLimit(BankAccout.getInstance().getTransferLimit() - money);
+								.setTransferLimit(BankAccout.getInstance().getTransferLimit() - money);
 
 						// 下面是将记录插入交易历史记录表
 						// 卡转出的记录
@@ -341,7 +341,7 @@ public class TransferFrame {
 
 						// 修改今日转账额度
 						BankAccout.getInstance()
-								.setWithdrawalsLimit(BankAccout.getInstance().getTransferLimit() - money);
+								.setTransferLimit(BankAccout.getInstance().getTransferLimit() - money);
 
 						// 下面是将记录插入交易历史记录表
 						// 卡转出的记录
@@ -353,6 +353,7 @@ public class TransferFrame {
 
 					} else {
 						// 提醒用户余额不足
+						label_message.setText("您的余额不足");
 					}
 
 				}

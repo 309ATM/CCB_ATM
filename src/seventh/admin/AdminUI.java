@@ -61,8 +61,9 @@ public class AdminUI {
 	private JTextField textField_chaUserPass;
 	private JTextArea textArea_address;
 	private JTextField textField_query;
-	private JTextField textField_changeInfo;
 	private JTextField textField_queryInfo;
+	private JTextField textField_changeInfo;
+	private JTextField textField_OpenCard;
 	private JButton btn_begin;
 	private JButton btn_end;
 	private JButton btn_confirm;
@@ -72,10 +73,12 @@ public class AdminUI {
 	private JTable table;
 	private String[] date;
 
-	//private String File = "E:\\Code\\java\\CCB_ATM";
+	// private String File = "E:\\Code\\java\\CCB_ATM";
 	private JTextField textField_lock;
 	private JTextField textField_chaAdminPass;
 	private String File = ".";
+	private JButton btn_openCardChu;
+	private JButton btn_openCardXin;
 
 	/**
 	 * Launch the application.
@@ -267,6 +270,42 @@ public class AdminUI {
 		label_bg12.setIcon(ico_background);
 		label_bg12.setBounds(0, -29, 1065, 502);
 		panel_DelAcc.add(label_bg12);
+
+		// 开卡界面
+		JPanel panel_OpenCard = new JPanel();
+		tabbedPane_Acc.addTab("开卡", null, panel_OpenCard, null);
+		panel_OpenCard.setLayout(null);
+
+		JLabel lblTips5 = new JLabel("请输入身份证号");
+		lblTips5.setFont(new Font("幼圆", Font.PLAIN, 18));
+		lblTips5.setBounds(45, 13, 171, 43);
+		panel_OpenCard.add(lblTips5);
+
+		JSeparator separator_90 = new JSeparator();
+		separator_90.setBounds(14, 70, 1024, 2);
+		panel_OpenCard.add(separator_90);
+
+		textField_OpenCard = new JTextField();
+		textField_OpenCard.setFont(new Font("幼圆", Font.PLAIN, 18));
+		textField_OpenCard.setBounds(285, 155, 444, 43);
+		panel_OpenCard.add(textField_OpenCard);
+
+		btn_openCardChu = new JButton("开储蓄卡");
+		btn_openCardChu.setFont(new Font("幼圆", Font.PLAIN, 18));
+		btn_openCardChu.setBounds(358, 258, 105, 29);
+		panel_OpenCard.add(btn_openCardChu);
+		btn_openCardChu.addActionListener(new openCard());
+
+		btn_openCardXin = new JButton("开信用卡");
+		btn_openCardXin.setFont(new Font("幼圆", Font.PLAIN, 18));
+		btn_openCardXin.setBounds(558, 258, 105, 29);
+		panel_OpenCard.add(btn_openCardXin);
+		btn_openCardXin.addActionListener(new openCard());
+
+		JLabel label_bg15 = new JLabel("");
+		label_bg15.setIcon(ico_background);
+		label_bg15.setBounds(0, -29, 1065, 502);
+		panel_OpenCard.add(label_bg15);
 
 		// 查询用户信息界面
 		JPanel panel_queryInfo = new JPanel();
@@ -636,7 +675,9 @@ public class AdminUI {
 
 	}
 
-	// 录入用户信息的监听器
+	/**
+	 * 开户功能监听器
+	 */
 	class UserInformation implements ActionListener {
 		/**
 		 * 清空文本框
@@ -675,44 +716,55 @@ public class AdminUI {
 			} else if (idCard.length() != 18) {
 				JOptionPane.showMessageDialog(null, "身份证号码长度不正确", "错误", JOptionPane.ERROR_MESSAGE);
 			} else {
-				String password = JOptionPane.showInputDialog(null, "请设置密码", "提示", JOptionPane.INFORMATION_MESSAGE);
-				String confirmPassword = null;
-				// 如果用户取消输入密码，则不弹出确认密码的输入框
-				if (password != null) {
-					confirmPassword = JOptionPane.showInputDialog(null, "请再次输入密码", "提示",
-							JOptionPane.INFORMATION_MESSAGE);
-				}
-				try {
-					if (confirmPassword.length() == 6 && password.length() == 6) {
-						if (password.equals(confirmPassword)) {
-							// 生成卡号
-							String cardnum = generateCardNum();
-							// 透支额度默认为 0
-							float overdraft = 0;
-							System.out.println("姓名：" + name + "\n性别：" + sex + "\n手机号：" + phone + "\n身份证号：" + idCard
-									+ "\n账户类型：" + cardType + "\n家庭住址：" + address);
-							JOptionPane.showMessageDialog(null, "开户成功，您的卡号为：\n" + cardnum, "恭喜",
-									JOptionPane.INFORMATION_MESSAGE);
-							// 完成用户信息录入后清空所有文本框内容
-							setTextNone();
-							// 如果账号类型是信用卡，透支额度则设为5000
-							if (cardType == "信用卡") {
-								overdraft = 5000;
+				// // TODO 更改密码框
+				// String password = JOptionPane.showInputDialog(null, "请设置密码", "提示",
+				// JOptionPane.INFORMATION_MESSAGE);
+				// String confirmPassword = null;
+				// // 如果用户取消输入密码，则不弹出确认密码的输入框
+				// if (password != null) {
+				// confirmPassword = JOptionPane.showInputDialog(null, "请再次输入密码", "提示",
+				// JOptionPane.INFORMATION_MESSAGE);
+				// }
+				Long[] password = showPasswordDialog("请输入密码");
+				if (password[0] == 0) {
+					Long[] confirmPassword = showPasswordDialog("请确认密码");
+					if (confirmPassword[0] == 0) {
+
+						if (password[1].equals(confirmPassword[1])) {
+							try {
+								if (String.valueOf(confirmPassword[1]).length() == 6
+										&& String.valueOf(password[1]).length() == 6) {
+									if (password[1].equals(confirmPassword[1])) {
+										// 生成卡号
+										String cardnum = generateCardNum();
+										// 透支额度默认为 0
+										float overdraft = 0;
+										JOptionPane.showMessageDialog(null, "开户成功，您的卡号为：\n" + cardnum, "恭喜",
+												JOptionPane.INFORMATION_MESSAGE);
+										// 完成用户信息录入后清空所有文本框内容
+										setTextNone();
+										// 如果账号类型是信用卡，透支额度则设为5000
+										if (cardType == "信用卡") {
+											overdraft = 5000;
+										}
+										// 调用数据库方法，传入用户信息，在 user 和 account 表中插入录入数据
+										BankAccout.getInstance().getUserDao().insertUserInformation(name, sex, idCard,
+												phone, address);
+										BankAccout.getInstance().getAccountDAO().setAccount(idCard,
+												Long.parseLong(cardnum), password[1], "正常", cardType, "建设银行", 0,
+												overdraft, "2018-04-170");
+									} else {
+										JOptionPane.showMessageDialog(null, "两次密码不一致", "错误", JOptionPane.ERROR_MESSAGE);
+									}
+								} else {
+									JOptionPane.showMessageDialog(null, "请输入6位密码", "错误", JOptionPane.ERROR_MESSAGE);
+								}
+							} catch (Exception e) {
+								JOptionPane.showMessageDialog(null, "您取消了操作", "提示", JOptionPane.INFORMATION_MESSAGE);
+								e.printStackTrace();
 							}
-							// 调用数据库方法，传入用户信息，在 user 和 account 表中插入录入数据
-							BankAccout.getInstance().getUserDao().insertUserInformation(name, sex, idCard, phone,
-									address);
-							BankAccout.getInstance().getAccountDAO().setAccount(idCard, Long.parseLong(cardnum),
-									Long.parseLong(password), "正常", cardType, "建设银行", 0, overdraft, 0);
-						} else {
-							JOptionPane.showMessageDialog(null, "两次密码不一致", "错误", JOptionPane.ERROR_MESSAGE);
 						}
-					} else {
-						JOptionPane.showMessageDialog(null, "请输入6位密码", "错误", JOptionPane.ERROR_MESSAGE);
 					}
-				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "您取消了操作", "提示", JOptionPane.INFORMATION_MESSAGE);
-					e.printStackTrace();
 				}
 			}
 
@@ -793,6 +845,64 @@ public class AdminUI {
 
 	}
 
+	class openCard implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			String idCard = textField_OpenCard.getText();
+			// 检查该用户是否存在
+			if (BankAccout.getInstance().getUserDao().checkIdCardExit(idCard)) {
+				// 调用数据库方法，根据身份证查询用户信息
+				String[] info = BankAccout.getInstance().getUserDao().getUserInformation(idCard);
+				// 显示用户信息
+				JShowInfo jSM = new JShowInfo();
+				jSM.setBtnText("开卡");
+				jSM.QueryUserInfo(info);
+				if (jSM.showJSM()) {
+					Long[] result1 = showPasswordDialog("请输入密码");
+					if (result1[0] == 0) {
+						Long[] result2 = showPasswordDialog("请确认密码");
+						if (result2[0] == 0) {
+
+							if (result1[1].equals(result2[1])) {
+								// 生成卡号，插入 account 表
+								String cardnum = generateCardNum();
+
+								if (e.getSource() == btn_openCardChu) {
+									BankAccout.getInstance().getAccountDAO().setAccount(idCard, Long.parseLong(cardnum),
+											result2[1], "正常", "储蓄卡", "建设银行", 0, 0, "2018-04-170");
+								}
+								if (e.getSource() == btn_openCardXin) {
+									BankAccout.getInstance().getAccountDAO().setAccount(idCard, Long.parseLong(cardnum),
+											result2[1], "正常", "信用卡", "建设银行", 0, 5000, "2018-04-170");
+								}
+								JOptionPane.showMessageDialog(null, "开户成功，您的卡号为：\n" + cardnum, "恭喜",
+										JOptionPane.INFORMATION_MESSAGE);
+							} else {
+								JOptionPane.showMessageDialog(null, "两次密码不一致", "错误", JOptionPane.ERROR_MESSAGE);
+							}
+						}
+					}
+				}
+			} else {
+				JOptionPane.showMessageDialog(null, "用户不存在,请使用开户功能", "提示", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+
+		/**
+		 * 生成卡号
+		 * 
+		 * @return 一个 string 类型的卡号
+		 */
+		public String generateCardNum() {
+			// 用 621700 的固定开头和时间戳生成卡号
+			String cardNum = "621700" + String.valueOf(new Date().getTime()).substring(1);
+			return cardNum;
+		}
+
+	}
+
 	/**
 	 * 查询用户信息功能 的按钮事件监听器
 	 * 
@@ -823,7 +933,9 @@ public class AdminUI {
 
 	}
 
-	/** 用户修改信息功能按钮事件监听器
+	/**
+	 * 用户修改信息功能按钮事件监听器
+	 * 
 	 * @author Jachin
 	 *
 	 */
@@ -841,18 +953,18 @@ public class AdminUI {
 					// 显示用户信息
 					JShowInfo jSM = new JShowInfo();
 					jSM.ChangeUserInfo(info);
-					//用户修改信息，按下确定键
-					if(jSM.showJSM()){
-						//对输入信息的合法性作判断
+					// 用户修改信息，按下确定键
+					if (jSM.showJSM()) {
+						// 对输入信息的合法性作判断
 						jSM.ConfirmChange();
-						//TODO 提醒输入密码，用户没有密码，可以使用短信动态密码验证
-						//调用数据库修改信息的方法，将新的数据写入数据库
-						try{
+						// TODO 提醒输入密码，用户没有密码，可以使用短信动态密码验证
+						// 调用数据库修改信息的方法，将新的数据写入数据库
+						try {
 							String[] info2 = jSM.info;
 							info2[0] = info[2];
 							BankAccout.getInstance().getUserDao().updateUserInformation(info2);
 							JOptionPane.showMessageDialog(null, "修改成功", "提示", JOptionPane.INFORMATION_MESSAGE);
-						}catch (Exception e1) {
+						} catch (Exception e1) {
 							JOptionPane.showMessageDialog(null, "修改失败", "提示", JOptionPane.ERROR_MESSAGE);
 						}
 					}
@@ -1144,8 +1256,8 @@ public class AdminUI {
 								if (result3[0] == 0) {
 									if (NewPasswdDemo.equals(NewPasswd)) {
 										// 调用数据库方法修改管理员密码
-										BankAccout.getInstance().getAdminDAO().updateAccountPasswd(AccountId,
-												OldPasswd, NewPasswd);
+										BankAccout.getInstance().getAdminDAO().updateAccountPasswd(AccountId, OldPasswd,
+												NewPasswd);
 										JOptionPane.showMessageDialog(null, "密码修改成功", "确认",
 												JOptionPane.INFORMATION_MESSAGE);
 									} else {
