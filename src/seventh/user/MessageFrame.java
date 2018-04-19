@@ -25,6 +25,7 @@ public class MessageFrame {
 
 	private JFrame frameMessage;
 	private JLabel label_message;
+	private JLabel label_message_head;
 	private String[] message;
 
 	//private String File = "E:\\Code\\java\\CCB_ATM";
@@ -74,26 +75,29 @@ public class MessageFrame {
 	public void showMessage(String[] message) {
 		this.message = message;
 		if (message[0].equals("取款") | message[0].equals("透支取款") | message[0].equals("存款")) {
-			String messages = "<html>{0}成功<br>{0}{1}元<br>您当前可用余额：{2}<br>您今日可{0}额：{3}";
+			String messages = "<html>{0}{1}元<br>您当前可用余额：{2}<br>您今日可{0}额：{3}";
 			messages = messages.replace("{0}", message[0]);
 			messages = messages.replace("{1}", message[1]);
 			messages = messages.replace("{2}", message[2]);
 			messages = messages.replace("{3}", message[3]);
+			label_message_head.setText("<html>"+message[0]+"成功<br></html>");
 			label_message.setText(messages);
 		} else if (message[0].equals("转账")) {
-			String messages = "<html>{0}成功<br>{0}{1}元<br>转账目标：{3}<br>您当前可用余额：{2}";
+			String messages = "<html>{0}{1}元<br>转账目标：{3}<br>您当前可用余额：{2}";
 			messages = messages.replace("{0}", message[0]);
 			messages = messages.replace("{1}", message[1]);
 			messages = messages.replace("{2}", message[2]);
 			messages = messages.replace("{3}", message[3]);
+			label_message_head.setText("<html>"+message[0]+"成功<br></html>");
 			label_message.setText(messages);
 		} else if (message[0].equals("跨行转账")) {
-			String messages = "<html>{0}成功<br>{0}：{1}元<br>收取手续费：{4}元<br>转账目标：{3}<br>您当前可用余额：{2}";
+			String messages = "<html>{0}：{1}元<br>收取手续费：{4}元<br>转账目标：{3}<br>您当前可用余额：{2}";
 			messages = messages.replace("{0}", message[0]);
 			messages = messages.replace("{1}", message[1]);
 			messages = messages.replace("{2}", message[2]);
 			messages = messages.replace("{3}", message[3]);
 			messages = messages.replace("{4}", message[4]);
+			label_message_head.setText("<html>"+message[0]+"成功<br></html>");
 			label_message.setText(messages);
 		}
 	}
@@ -120,6 +124,13 @@ public class MessageFrame {
 		countdownLabel.setBounds(1020, 61, 55, 53);
 		frameMessage.getContentPane().add(countdownLabel);
 
+		label_message_head = new JLabel();
+		label_message_head.setForeground(new Color(0, 128, 0));
+		label_message_head.setFont(new Font("幼圆", Font.BOLD, 48));
+		label_message_head.setHorizontalAlignment(SwingConstants.CENTER);
+		label_message_head.setBounds(287, 200, 504, 94);
+		frameMessage.getContentPane().add(label_message_head);
+		
 		label_message = new JLabel();
 		label_message.setForeground(new Color(255, 255, 255));
 		label_message.setFont(new Font("幼圆", Font.BOLD, 24));

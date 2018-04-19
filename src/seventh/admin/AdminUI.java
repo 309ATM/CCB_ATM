@@ -634,7 +634,7 @@ public class AdminUI {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JDateChooser dateChoose = new JDateChooser();
-
+			//TODO 查询默认今天
 			if (e.getSource() == btn_begin) {
 				dateChoose.showDateChooser();
 				date[0] = dateChoose.getDateFormat("yyyy-MM-dd");
@@ -716,15 +716,6 @@ public class AdminUI {
 			} else if (idCard.length() != 18) {
 				JOptionPane.showMessageDialog(null, "身份证号码长度不正确", "错误", JOptionPane.ERROR_MESSAGE);
 			} else {
-				// // TODO 更改密码框
-				// String password = JOptionPane.showInputDialog(null, "请设置密码", "提示",
-				// JOptionPane.INFORMATION_MESSAGE);
-				// String confirmPassword = null;
-				// // 如果用户取消输入密码，则不弹出确认密码的输入框
-				// if (password != null) {
-				// confirmPassword = JOptionPane.showInputDialog(null, "请再次输入密码", "提示",
-				// JOptionPane.INFORMATION_MESSAGE);
-				// }
 				Long[] password = showPasswordDialog("请输入密码");
 				if (password[0] == 0) {
 					Long[] confirmPassword = showPasswordDialog("请确认密码");
@@ -957,7 +948,6 @@ public class AdminUI {
 					if (jSM.showJSM()) {
 						// 对输入信息的合法性作判断
 						jSM.ConfirmChange();
-						// TODO 提醒输入密码，用户没有密码，可以使用短信动态密码验证
 						// 调用数据库修改信息的方法，将新的数据写入数据库
 						try {
 							String[] info2 = jSM.info;

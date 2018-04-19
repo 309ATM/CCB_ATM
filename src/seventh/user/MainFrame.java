@@ -227,6 +227,8 @@ public class MainFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			historyFrame.getFrameHistory().setVisible(true);
+			// 默认查询一个月交易记录
+			historyFrame.WriteData(1);
 			// 开始倒计时，停止当前窗口倒计时
 			historyFrame.startCountdown();
 			stopCountdown();
