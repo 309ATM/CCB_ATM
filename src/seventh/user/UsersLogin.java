@@ -147,7 +147,7 @@ public class UsersLogin {
 							if (loginCount < 51) {
 								// 如果登陆失败次数小于3，判断密码
 								if (accountDAO.checkPawd(Long.parseLong(card), Long.parseLong(pawd))) {
-									newLoginTime = today + (char) (0);
+									newLoginTime = today + (char) (48);
 									BankAccout.getInstance().getAccountDAO().setLoginTime(Long.parseLong(card),
 											newLoginTime);
 									// 如果账号密码正确，就获取账户状态
