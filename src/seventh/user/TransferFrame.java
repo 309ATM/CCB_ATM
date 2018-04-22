@@ -16,6 +16,7 @@ import seventh.until.ATMButton;
 import seventh.until.CountdownThread;
 import seventh.until.NumLengthLimit;
 import seventh.until.NumLimit;
+import seventh.until.NumLimitAndDot;
 
 import java.awt.Color;
 import javax.swing.SwingConstants;
@@ -112,7 +113,7 @@ public class TransferFrame {
 		textField_money.setFont(new Font("Î¢ÈíÑÅºÚ Light", Font.PLAIN, 40));
 		textField_money.setBounds(321, 284, 451, 53);
 		frameTransfer.getContentPane().add(textField_money);
-		textField_money.addKeyListener(new NumLimit());
+		textField_money.addKeyListener(new NumLimitAndDot());
 		textField_money.setDocument(new NumLengthLimit(18));
 
 		btn_transfer = new ATMButton("<html><center>×ªÕË<br>Transfer</center></html>");
