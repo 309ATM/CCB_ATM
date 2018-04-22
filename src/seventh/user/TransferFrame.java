@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -24,6 +26,14 @@ import javax.swing.SwingConstants;
 /** 
  * ATM转账功能
  * 
+ */
+/**
+ * @author Admin
+ *
+ */
+/**
+ * @author Admin
+ *
  */
 public class TransferFrame {
 
@@ -113,7 +123,11 @@ public class TransferFrame {
 		textField_money.setFont(new Font("微软雅黑 Light", Font.PLAIN, 40));
 		textField_money.setBounds(321, 284, 451, 53);
 		frameTransfer.getContentPane().add(textField_money);
+<<<<<<< HEAD
 		textField_money.addKeyListener(new NumLimitAndDot());
+=======
+		textField_money.addKeyListener(new NumLimit2());
+>>>>>>> a82ed67d13a4ef5645d8087405e1bc7eda5db275
 		textField_money.setDocument(new NumLengthLimit(18));
 
 		btn_transfer = new ATMButton("<html><center>转账<br>Transfer</center></html>");
@@ -364,6 +378,31 @@ public class TransferFrame {
 		}
 	}
 
+	/** 设置转账金额栏只能输入数字和小数点
+	 * @author Jachin
+	 *
+	 */
+	public class NumLimit2 implements KeyListener{
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+		}
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			int keyChar = e.getKeyChar();
+			if ((keyChar >= KeyEvent.VK_0 && keyChar <= KeyEvent.VK_9) || keyChar == 46) {
+			} else {
+				e.consume(); // 关键，屏蔽掉非法输入
+			}
+		}
+
+	}
+	
 	/** 退出按钮事件监听器
 	 * @author Jachin
 	 *
