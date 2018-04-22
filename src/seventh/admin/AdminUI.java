@@ -101,10 +101,9 @@ public class AdminUI {
 	 * Create the application.
 	 */
 	public AdminUI() {
-		initialize();
 		date = new String[2];
-		date[0] = "";
-		date[1] = "";
+		InitialDate();
+		initialize();
 	}
 
 	/**
@@ -462,13 +461,13 @@ public class AdminUI {
 		lblEnd.setBounds(632, 30, 72, 40);
 		panel_queryHistory.add(lblEnd);
 
-		btn_begin = new JButton("选择日期");
+		btn_begin = new JButton(date[0]);
 		btn_begin.setFont(new Font("微软雅黑", Font.PLAIN, 18));
 		btn_begin.addActionListener(new getDate());
 		btn_begin.setBounds(444, 30, 155, 40);
 		panel_queryHistory.add(btn_begin);
 
-		btn_end = new JButton("选择日期");
+		btn_end = new JButton(date[1]);
 		btn_end.setFont(new Font("微软雅黑", Font.PLAIN, 18));
 		btn_end.addActionListener(new getDate());
 		btn_end.setBounds(711, 30, 160, 40);
@@ -675,6 +674,24 @@ public class AdminUI {
 
 	}
 
+	/**
+	 * 初始化日期 ，时间为上一个月到今天
+	 */
+	public void InitialDate(){
+		Date dNow = new Date(); // 当前时间
+		Date dBefore = new Date();
+		Calendar calendar = Calendar.getInstance(); // 得到日历
+		dNow = calendar.getTime();
+		calendar.setTime(dNow);// 把当前时间赋给日历
+		calendar.add(calendar.MONTH, -1); // 设置为前month月
+		dBefore = calendar.getTime(); // 得到前3月的时间
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // HH:mm:ss");
+																	// //设置时间格式
+		date[0] = sdf.format(dBefore);
+		date[1] = sdf.format(dNow);
+	}
+	
+	
 	/**
 	 * 开户功能监听器
 	 */
